@@ -8,6 +8,16 @@ A full-stack Airbnb clone with AI-powered travel planning.
 - **Backend**: Node.js + Express + MySQL
 - **AI Agent**: Python FastAPI + Langchain + Ollama (Local AI)
 
+## Tech Design
+
+![Architecture Diagram](architecture-diagram.png)
+
+The system follows a three-tier architecture:
+- **Frontend & Browser**: React-based user interface
+- **Backend**: Node.js server and Python FastAPI for AI capabilities
+- **Smart Agents**: Llama (local AI) and Tavily integration for intelligent features
+- **Database**: MySQL for data persistence
+
 ## Project Structure
 
 ```
