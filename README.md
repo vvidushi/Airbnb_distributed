@@ -10,7 +10,7 @@ A full-stack Airbnb clone with AI-powered travel planning.
 
 ## Tech Design
 
-![Architecture Diagram](architecture-diagram.png)
+![Architecture Diagram](design/Tech_design.png)
 
 The system follows a three-tier architecture:
 - **Frontend & Browser**: React-based user interface
