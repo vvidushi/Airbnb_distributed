@@ -164,5 +164,8 @@ After running the seed script, you can login with:
 
 ## Contributors
 
-- Developed for Lab 1 Assignment
+- Vidushi Verma
+- Shristi Kumar
+
+Developed for Lab 1 Assignment
 
