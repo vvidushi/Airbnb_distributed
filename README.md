@@ -18,6 +18,26 @@ The system follows a three-tier architecture:
 - **Smart Agents**: Llama (local AI) and Tavily integration for intelligent features
 - **Database**: MySQL for data persistence
 
+## Workflow
+
+![Workflow Diagram](design/airbnb-workflowdrawio.png)
+
+### Traveler Workflow
+1. **Search & Browse**: Search properties by location, dates, and guests
+2. **View Details**: View property information and photos
+3. **Book Property**: Submit booking request (status: PENDING)
+4. **Await Confirmation**: Owner reviews and accepts/declines the request
+5. **Complete Stay**: Once accepted, complete the stay
+6. **Post-Stay**: Leave a review and get AI travel planning recommendations
+
+### Owner Workflow
+1. **Add Property**: Create new property listing
+2. **Upload Photos**: Add property images
+3. **Publish**: Make property available for bookings
+4. **Receive Requests**: Get notified of booking requests
+5. **Review & Decide**: Accept or decline booking requests
+6. **Process Payment**: Complete payment for accepted bookings
+
 ## Project Structure
 
 ```
