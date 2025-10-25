@@ -1,0 +1,74 @@
+# --- OS / Editors ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/*.json   # keep specific workspace files if you want
+
+# --- Node / React ---
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+dist/
+build/
+.cache/
+*.tsbuildinfo
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+ruff_cache/
+.ipynb_checkpoints/
+
+# Virtual envs
+.venv/
+venv/
+ENV/
+
+# --- Env & secrets ---
+.env
+.env.*
+*.env
+*.key
+*.pem
+
+# --- Logs & runtime ---
+*.log
+logs/
+coverage/
+htmlcov/
+*.sqlite3
+celerybeat-schedule
+instance/
+
+# --- Packaging / artifacts ---
+dist/
+build/
+site/
+.coverage
+coverage.xml
+*.coverage
+*.spec
+
+# --- Frontend tools ---
+.eslintcache
+.stylelintcache
+
+# --- Docker / Compose (if used) ---
+docker-data/
+*.pid
+
+# --- Misc project ---
+tmp/
+.cache/
+output/
