@@ -4,7 +4,7 @@ echo "🔧 First Time Setup for Airbnb App"
 echo "=================================="
 echo ""
 
-PROJECT_DIR="/Users/gouravdhama/Desktop/Airbnb"
+PROJECT_DIR="<folder>/Airbnb"
 cd "$PROJECT_DIR"
 
 # Check if Ollama is installed

@@ -34,7 +34,7 @@ ollama serve
 ### Step 4: Start AI Agent
 ```bash
 # In a NEW terminal
-cd /Users/gouravdhama/Desktop/Airbnb/ai-agent
+cd <folder>/Airbnb/ai-agent
 
 # Activate virtual environment
 source venv/bin/activate
