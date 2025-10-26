@@ -76,4 +76,5 @@ tmp/
 output/
 
 # --- Presentation files ---
-PRESENTATION_GUIDE.md
+./PRESENTATION_GUIDE.md
+
