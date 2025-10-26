@@ -54,7 +54,28 @@ airbnb/
 - Python (v3.9+)
 - MySQL (v8+)
 
-## Setup Instructions
+## 🚀 Quick Start
+
+**New to the project?** Check out the **[run-guide](./run-guide/)** folder for all setup and running instructions!
+
+### One-Command Start
+```bash
+cd run-guide
+./start-all.sh
+```
+
+### Manual Setup
+See **[run-guide/START_HERE.md](./run-guide/START_HERE.md)** for detailed instructions.
+
+## 📚 Documentation
+
+All setup guides, documentation, and scripts are organized in the **[run-guide](./run-guide/)** folder:
+- Setup instructions
+- Running guides  
+- AI configuration
+- Project structure details
+
+## Detailed Setup Instructions
 
 ### 1. Database Setup
 

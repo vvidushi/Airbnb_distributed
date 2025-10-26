@@ -59,6 +59,8 @@ site/
 coverage.xml
 *.coverage
 *.spec
+.idea/
+frontend/node_modules/
 
 # --- Frontend tools ---
 .eslintcache
@@ -72,3 +74,7 @@ docker-data/
 tmp/
 .cache/
 output/
+
+# --- Presentation files ---
+./PRESENTATION_GUIDE.md
+
