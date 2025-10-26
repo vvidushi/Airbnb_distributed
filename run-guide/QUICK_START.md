@@ -5,7 +5,7 @@
 Just run this one command:
 
 ```bash
-cd /Users/gouravdhama/Desktop/Airbnb
+cd <folder>/Airbnb
 ./start-all.sh
 ```
 
@@ -19,13 +19,13 @@ If the automatic script doesn't work, open 4 separate terminals:
 
 ### Terminal 1: Backend
 ```bash
-cd /Users/gouravdhama/Desktop/Airbnb/backend
+cd <folder>/Airbnb/backend
 npm run dev
 ```
 
 ### Terminal 2: Frontend
 ```bash
-cd /Users/gouravdhama/Desktop/Airbnb/frontend
+cd <folder>/Airbnb/frontend
 npm start
 ```
 
@@ -36,7 +36,7 @@ ollama serve
 
 ### Terminal 4: AI Agent
 ```bash
-cd /Users/gouravdhama/Desktop/Airbnb/ai-agent
+cd <folder>/Airbnb/ai-agent
 source venv/bin/activate
 python app/main.py
 ```

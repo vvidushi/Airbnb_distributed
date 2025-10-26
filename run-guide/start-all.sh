@@ -4,7 +4,7 @@ echo "🚀 Starting Airbnb Application..."
 echo ""
 
 # Get the project directory
-PROJECT_DIR="/Users/gouravdhama/Desktop/Airbnb"
+PROJECT_DIR="<folder>/Airbnb"
 
 # Open Terminal and run all services in separate tabs
 osascript <<EOF

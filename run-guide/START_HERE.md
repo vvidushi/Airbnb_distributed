@@ -3,7 +3,7 @@
 ## 🚀 To Start the App (Just One Command!)
 
 ```bash
-cd /Users/gouravdhama/Desktop/Airbnb
+cd <folder>/Airbnb
 ./start-all.sh
 ```
 
