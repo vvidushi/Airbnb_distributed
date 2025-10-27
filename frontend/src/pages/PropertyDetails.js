@@ -67,7 +67,7 @@ const PropertyDetails = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-light flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>
             </div>
         );
@@ -75,7 +75,7 @@ const PropertyDetails = () => {
 
     if (!property) {
         return (
-            <div className="min-h-screen bg-gray-light flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Property not found</div>
             </div>
         );
@@ -85,7 +85,7 @@ const PropertyDetails = () => {
     const totalPrice = calculateTotalPrice();
 
     return (
-        <div className="min-h-screen bg-gray-light py-8">
+        <div className="min-h-screen py-8">
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl font-bold text-dark mb-4">{property.property_name}</h1>
                 
@@ -102,7 +102,7 @@ const PropertyDetails = () => {
                             <ImageCarousel
                                 images={property.images || []}
                                 alt={property.property_name}
-                                className="w-full h-96 object-contain bg-gray-100"
+                                className="w-full h-96 object-contain"
                                 showDots={true}
                                 showArrows={true}
                             />

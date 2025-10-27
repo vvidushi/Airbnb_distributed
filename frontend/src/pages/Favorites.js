@@ -32,14 +32,14 @@ const Favorites = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-light flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-light py-8">
+        <div className="min-h-screen py-8">
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl font-bold text-dark mb-8">My Favorites</h1>
 

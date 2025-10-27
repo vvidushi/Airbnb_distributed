@@ -77,7 +77,7 @@ const Profile = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-light flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>
             </div>
         );
@@ -86,7 +86,7 @@ const Profile = () => {
     const countries = ['United States', 'Canada', 'United Kingdom', 'Australia', 'India', 'Germany', 'France', 'Japan', 'Other'];
 
     return (
-        <div className="min-h-screen bg-gray-light py-8">
+        <div className="min-h-screen py-8">
             <div className="container mx-auto px-4 max-w-3xl">
                 <h1 className="text-4xl font-bold text-dark mb-8">My Profile</h1>
 
@@ -154,7 +154,7 @@ const Profile = () => {
                                     type="email"
                                     value={profile.email}
                                     disabled
-                                    className="w-full px-4 py-2 border border-gray rounded-lg bg-gray-light cursor-not-allowed"
+                                    className="w-full px-4 py-2 border border-gray rounded-lg cursor-not-allowed"
                                 />
                             </div>
 

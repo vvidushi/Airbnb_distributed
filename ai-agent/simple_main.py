@@ -105,7 +105,23 @@ async def generate_travel_plan(request: dict):
     # Handle trip/booking queries with dynamic booking details
     # Skip if it's a travel planning query (e.g., "can you plan trip to bali")
     is_planning_query = "plan" in query_lower and "trip" in query_lower
-    is_booking_query = any(word in query_lower for word in ["my trip", "my booking", "my travel", "show my", "existing trip", "existing booking", "how many trip", "how many booking"])
+    is_booking_query = any(word in query_lower for word in [
+        "my trip", "my booking", "my travel", "my upcoming", 
+        "show my", "existing trip", "existing booking", 
+        "how many trip", "how many booking",
+        "upcoming trip", "upcoming booking", "upcoming travel",
+        "tell my trip", "tell my booking"
+    ]) or any(phrase in query_lower for phrase in [
+        "tell me about my", "can you tell my", "what are my", "show my"
+    ]) or any(term in query_lower for term in [
+        "cancelled", "pending", "accepted", "all trips"
+    ])
+    
+    # Debug: Log what we detected
+    if is_booking_query:
+        print(f"📋 Detected booking query: '{query}'")
+    if is_planning_query:
+        print(f"📅 Detected planning query: '{query}'")
     
     # Only handle as booking if it's truly asking about existing trips/bookings
     if is_booking_query and not is_planning_query:
@@ -118,6 +134,12 @@ async def generate_travel_plan(request: dict):
             count = len(filtered)
             if count == 0:
                 return {"response": "You don't have any cancelled trips."}
+            if count == 1:
+                b = filtered[0]
+                location = b.get("location") or b.get("city", "your destination")
+                start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
+                end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
+                return {"response": f"You have 1 cancelled trip to {location} from {start} to {end}."}
             return {"response": f"You have {count} cancelled trip(s). Check 'My Trips' for details."}
         
         elif "accepted" in query_lower:
@@ -138,27 +160,56 @@ async def generate_travel_plan(request: dict):
             count = len(filtered)
             if count == 0:
                 return {"response": "You don't have any pending trips."}
+            if count == 1:
+                b = filtered[0]
+                location = b.get("location") or b.get("city", "your destination")
+                start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
+                end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
+                return {"response": f"You have 1 pending trip to {location} from {start} to {end}. Waiting for owner approval."}
             return {"response": f"You have {count} pending trip(s). Waiting for owner approval."}
         
-        elif "how many" in query_lower:
-            # Count all statuses
+        elif "how many" in query_lower or "upcoming" in query_lower or "all" in query_lower:
+            # Count all statuses and show summary
             accepted = len([b for b in bookings if b.get("status") == "accepted"])
             pending = len([b for b in bookings if b.get("status") == "pending"])
             cancelled = len([b for b in bookings if b.get("status") == "cancelled"])
             
-            return {"response": f"You have {len(bookings)} total trips: {accepted} accepted, {pending} pending, {cancelled} cancelled."}
+            summary = f"You have {len(bookings)} total trip(s): {accepted} accepted, {pending} pending, {cancelled} cancelled."
+            
+            # Show details for accepted trips (most relevant)
+            if accepted > 0:
+                trip_details = "\n\nYour upcoming trip(s):\n"
+                accepted_trips = [b for b in bookings if b.get("status") == "accepted"][:3]
+                for b in accepted_trips:
+                    location = b.get("location") or b.get("city", "destination")
+                    start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
+                    end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
+                    trip_details += f"• {location} ({start} to {end})\n"
+                summary += trip_details
+            
+            return {"response": summary}
         
         else:
-            # Show recent trips
-            latest = bookings[0]
-            location = latest.get("location") or latest.get("city", "your destination")
-            start_date = latest.get("start_date", "")[:10] if latest.get("start_date") else "N/A"
-            end_date = latest.get("end_date", "")[:10] if latest.get("end_date") else "N/A"
+            # Show recent trips (default - shows all statuses summary)
+            accepted = len([b for b in bookings if b.get("status") == "accepted"])
+            pending = len([b for b in bookings if b.get("status") == "pending"])
+            cancelled = len([b for b in bookings if b.get("status") == "cancelled"])
             
-            if len(bookings) == 1:
-                return {"response": f"You have 1 trip to {location} from {start_date} to {end_date}. I can help plan activities for your trip!"}
-            else:
-                return {"response": f"You have {len(bookings)} trips. Your most recent is in {location} from {start_date} to {end_date}. Check 'My Trips' for all details!"}
+            response = f"You have {len(bookings)} trip(s): {accepted} accepted, {pending} pending, {cancelled} cancelled."
+            
+            # Show details of most recent accepted trip
+            accepted_trips = [b for b in bookings if b.get("status") == "accepted"]
+            if accepted_trips:
+                latest = accepted_trips[0]
+                location = latest.get("location") or latest.get("city", "your destination")
+                start_date = latest.get("start_date", "")[:10] if latest.get("start_date") else "N/A"
+                end_date = latest.get("end_date", "")[:10] if latest.get("end_date") else "N/A"
+                response += f"\n\nYour upcoming trip: {location} ({start_date} to {end_date})"
+            
+            if len(bookings) > 1:
+                response += f"\nCheck 'My Trips' for all details!"
+            
+            return {"response": response}
     
     # Handle greetings (but avoid matching "good weather" as greeting)
     # Only match if it's clearly a greeting phrase
@@ -245,4 +296,4 @@ Format as a practical travel guide with specific recommendations."""
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)# Uvicorn is an ASGI server that runs your FastAPI application. 

@@ -50,7 +50,7 @@ const Signup = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-light flex items-center justify-center px-4 py-8">
+        <div className="min-h-screen flex items-center justify-center px-4 py-8">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
                 <h2 className="text-3xl font-bold text-dark mb-6 text-center">Join Airbnb</h2>
 

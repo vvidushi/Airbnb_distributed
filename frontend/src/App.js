@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
+import backdropImage from './travel_backdrop.jpeg';
 
 // Auth pages
 import Login from './pages/Login';
@@ -25,7 +26,14 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div 
+          className="App" 
+          style={{
+            backgroundColor: '#fce7f3',
+            minHeight: '100vh',
+            position: 'relative'
+          }}
+        >
           <Navbar />
           <Routes>
             {/* Public routes */}

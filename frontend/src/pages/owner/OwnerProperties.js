@@ -36,14 +36,14 @@ const OwnerProperties = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-light flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-light py-8">
+        <div className="min-h-screen py-8">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-4xl font-bold text-dark">My Properties</h1>

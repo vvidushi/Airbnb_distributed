@@ -31,7 +31,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-light flex items-center justify-center px-4">
+        <div className="min-h-screen flex items-center justify-center px-4">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
                 <h2 className="text-3xl font-bold text-dark mb-6 text-center">Login to Airbnb</h2>
 
@@ -86,7 +86,7 @@ const Login = () => {
                     </Link>
                 </p>
 
-                <div className="mt-6 p-4 bg-gray-light rounded-lg">
+                <div className="mt-6 p-4 rounded-lg">
                     <p className="text-sm text-gray-dark mb-2 font-semibold">Test Accounts:</p>
                     <p className="text-xs text-gray-dark">Traveler: traveler@test.com / password123</p>
                     <p className="text-xs text-gray-dark">Owner: owner@test.com / password123</p>
