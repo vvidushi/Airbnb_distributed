@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getPropertyById, createBooking } from '../services/api';
 import DatePicker from 'react-datepicker';
 import { FaBed, FaBath, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
+import ImageCarousel from '../components/ImageCarousel';
 
 const PropertyDetails = () => {
     const { id } = useParams();
@@ -98,15 +99,12 @@ const PropertyDetails = () => {
                     <div className="lg:col-span-2">
                         {/* Images */}
                         <div className="bg-white rounded-lg overflow-hidden mb-6">
-                            <img
-                                src={(() => {
-                                    if (!property.images || property.images.length === 0) return 'https://via.placeholder.com/800x400';
-                                    const img = property.images[0];
-                                    return (img.startsWith('http://') || img.startsWith('https://')) ? img : `/uploads/${img}`;
-                                })()}
+                            <ImageCarousel
+                                images={property.images || []}
                                 alt={property.property_name}
-                                className="w-full h-96 object-cover"
-                                onError={(e) => { e.target.src = 'https://via.placeholder.com/800x400' }}
+                                className="w-full h-96 object-contain bg-gray-100"
+                                showDots={true}
+                                showArrows={true}
                             />
                         </div>
 

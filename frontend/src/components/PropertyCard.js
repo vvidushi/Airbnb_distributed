@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaBed, FaBath, FaUsers, FaHeart, FaRegHeart } from 'react-icons/fa';
+import ImageCarousel from './ImageCarousel';
 
 const PropertyCard = ({ property, onFavoriteToggle, isFavorite }) => {
     const navigate = useNavigate();
@@ -14,37 +15,24 @@ const PropertyCard = ({ property, onFavoriteToggle, isFavorite }) => {
         onFavoriteToggle && onFavoriteToggle(property.id);
     };
 
-    const getImageUrl = () => {
-        if (!property.images || property.images.length === 0) {
-            return 'https://via.placeholder.com/400x300?text=No+Image';
-        }
-        const imageUrl = property.images[0];
-        // Check if it's an external URL
-        if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {
-            return imageUrl;
-        }
-        // Otherwise it's a local upload
-        return `/uploads/${imageUrl}`;
-    };
-    
-    const imageUrl = getImageUrl();
-
     return (
         <div 
             className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
             onClick={handleCardClick}
         >
             <div className="relative h-48 bg-gray-200">
-                <img 
-                    src={imageUrl} 
+                <ImageCarousel
+                    images={property.images || []}
                     alt={property.property_name}
                     className="w-full h-full object-cover"
-                    onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=No+Image' }}
+                    showDots={true}
+                    showArrows={true}
+                    isCard={true}
                 />
                 {onFavoriteToggle && (
                     <button
                         onClick={handleFavoriteClick}
-                        className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition"
+                        className="absolute top-2 right-2 bg-white p-2 rounded-full shadow-md hover:bg-gray-100 transition z-10"
                     >
                         {isFavorite ? (
                             <FaHeart className="text-primary text-xl" />
