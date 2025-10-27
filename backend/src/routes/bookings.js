@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const bookingController = require('../controllers/bookingController');
 const { isAuthenticated, isTraveler, isOwner } = require('../middleware/auth');
+const internalAuth = require('../middleware/internalAuth');
 
 /**
  * @swagger
@@ -114,6 +115,12 @@ router.put('/:id/accept', isAuthenticated, isOwner, bookingController.acceptBook
  *         description: Booking cancelled successfully
  */
 router.put('/:id/cancel', isAuthenticated, bookingController.cancelBooking);
+
+/**
+ * Internal API: Get traveler bookings by userId (for AI Agent)
+ * Requires API key authentication
+ */
+router.get('/internal/traveler', internalAuth, bookingController.getTravelerBookingsInternal);
 
 module.exports = router;
 

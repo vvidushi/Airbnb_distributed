@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaRobot, FaTimes, FaPaperPlane } from 'react-icons/fa';
+import { useAuth } from '../context/AuthContext';
 
 const AIAssistant = () => {
+    const { user } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState('');
@@ -18,7 +20,14 @@ const AIAssistant = () => {
 
         try {
             const response = await axios.post('http://localhost:8000/api/ai/plan', {
-                query: input
+                query: input,
+                userId: user?.id,
+                userName: user?.name
+            }, {
+                withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             const aiMessage = { role: 'assistant', content: response.data.response };
