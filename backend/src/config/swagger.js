@@ -25,10 +25,12 @@ const options = {
             }
         }
     },
-    apis: ['./src/routes/*.js'],
+    apis: ['./src/routes/*.js'],//Only paths matching ./src/routes/*.js are scanned.
+
 };
 
-const swaggerSpec = swaggerJsdoc(options);
+const swaggerSpec = swaggerJsdoc(options);//Library scans those files and extracts @swagger comments
+
 
 module.exports = swaggerSpec;
 

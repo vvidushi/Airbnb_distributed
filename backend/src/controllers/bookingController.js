@@ -79,6 +79,28 @@ exports.getTravelerBookings = async (req, res) => {
     }
 };
 
+// Internal API: Get traveler bookings by userId (for AI Agent)
+// Includes ALL statuses (accepted, pending, cancelled) for AI agent to handle
+exports.getTravelerBookingsInternal = async (req, res) => {
+    try {
+        const travelerId = req.internalUserId;
+        const [bookings] = await db.query(
+            `SELECT b.*, p.property_name, p.location, p.city, p.images, u.name as owner_name, u.phone as owner_phone
+            FROM bookings b
+            JOIN properties p ON b.property_id = p.id
+            JOIN users u ON p.owner_id = u.id
+            WHERE b.traveler_id = ?
+            ORDER BY b.created_at DESC`,
+            [travelerId]
+        );
+
+        res.json(bookings);
+    } catch (error) {
+        console.error('Get traveler bookings internal error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
 // Get owner's bookings (for their properties)
 exports.getOwnerBookings = async (req, res) => {
     try {

@@ -1,8 +1,58 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import requests
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI(title="Airbnb AI Agent", version="1.0.0")
+
+# Tavily setup (for web search - live local context)
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+USE_TAVILY = bool(TAVILY_API_KEY)
+
+if USE_TAVILY:
+    try:
+        from tavily import TavilyClient
+        tavily_client = TavilyClient(api_key=TAVILY_API_KEY)
+        print("✅ Tavily initialized (web search enabled)")
+    except Exception as e:
+        print(f"⚠️ Tavily not available: {e}")
+        USE_TAVILY = False
+        tavily_client = None
+else:
+    tavily_client = None
+    print("ℹ️ Tavily API key not set. Using basic recommendations only.")
+
+# Ollama setup (check if running)
+def is_ollama_running():
+    try:
+        response = requests.get("http://localhost:11434/api/tags", timeout=1)
+        return response.status_code == 200
+    except:
+        return False
+
+USE_OLLAMA = is_ollama_running()
+
+if USE_OLLAMA:
+    try:
+        from langchain_ollama import OllamaLLM
+        llm = OllamaLLM(
+            model="llama2",
+            base_url="http://localhost:11434",
+            temperature=0.7
+        )
+        print("✅ Ollama initialized (llama2)")
+    except Exception as e:
+        print(f"⚠️ Ollama error: {e}. Using rule-based responses only.")
+        USE_OLLAMA = False
+        llm = None
+else:
+    llm = None
+    print("ℹ️ Ollama not running. Using rule-based responses only.")
 
 # CORS middleware
 app.add_middleware(
@@ -13,72 +63,185 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# Backend API URL
+BACKEND_URL = "http://localhost:5001"
+INTERNAL_API_KEY = "airbnb_internal_key_2024"  # Must match backend .env
+
 @app.get("/health")
 async def health_check():
     return {"status": "OK", "message": "AI Agent is running"}
 
 @app.post("/api/ai/plan")
 async def generate_travel_plan(request: dict):
-    """Generate a simple travel plan"""
-    query = request.get("query", "Unknown destination").lower().strip()
+    """Generate travel assistant responses with booking context"""
+    query = request.get("query", "Unknown destination").strip()
+    userId = request.get("userId")
     
-    # Handle greetings and casual conversation
-    if any(greeting in query for greeting in ["hi", "hello", "hey", "good morning", "good afternoon", "good evening"]):
-        response_text = "Hello! I'm your AI Travel Assistant. How can I help you plan your next adventure? I can help with:\n\n• Travel itineraries for any destination\n• Restaurant and activity recommendations\n• Packing lists and travel tips\n• Day-by-day trip planning\n\nWhat would you like to know?"
+    # Fetch user's bookings dynamically from backend API
+    bookings = []
     
-    elif any(help_word in query for help_word in ["help", "what can you do", "how can you help"]):
-        response_text = "I'm here to help you plan amazing trips! Here's what I can do:\n\n🗺️ **Travel Planning**: Create detailed itineraries for any destination\n🍽️ **Food & Activities**: Recommend restaurants, attractions, and experiences\n📋 **Travel Tips**: Provide packing lists, cultural advice, and practical tips\n📅 **Day Planning**: Organize your schedule hour by hour\n\nJust tell me where you're going or what you need help with!"
+    if userId:
+        try:
+            # Use internal API with API key authentication
+            headers = {"x-internal-api-key": INTERNAL_API_KEY}
+            backend_response = requests.get(
+                f"{BACKEND_URL}/api/bookings/internal/traveler",
+                headers=headers,
+                params={"userId": userId},
+                timeout=2
+            )
+            if backend_response.status_code == 200:
+                bookings = backend_response.json()
+                if bookings and len(bookings) > 0:
+                    print(f"📅 Fetched {len(bookings)} bookings for user {userId}")
+            else:
+                print(f"⚠️ Could not fetch bookings: HTTP {backend_response.status_code}")
+        except Exception as e:
+            print(f"⚠️ Could not fetch bookings: {e}")
     
-    elif any(thanks_word in query for thanks_word in ["thank", "thanks", "appreciate"]):
-        response_text = "You're very welcome! I'm always here to help with your travel planning. Feel free to ask me anything about your upcoming trips or destinations you're curious about! 😊"
+    # Simple rule-based responses for reliability
+    query_lower = query.lower()
     
-    # Handle specific destination queries FIRST (more specific)
-    elif "paris" in query:
-        response_text = "Here's a great 3-day Paris itinerary:\n\nDay 1: Visit the Eiffel Tower, explore Montmartre, and enjoy dinner in a local bistro.\n\nDay 2: Tour the Louvre Museum, walk along the Seine, and visit Notre-Dame.\n\nDay 3: Explore the Latin Quarter, visit Sainte-Chapelle, and shop at local markets.\n\nRecommendations: Try croissants at local bakeries, visit the Musée d'Orsay, and take a Seine river cruise!"
+    # Handle trip/booking queries with dynamic booking details
+    # Skip if it's a travel planning query (e.g., "can you plan trip to bali")
+    is_planning_query = "plan" in query_lower and "trip" in query_lower
+    is_booking_query = any(word in query_lower for word in ["my trip", "my booking", "my travel", "show my", "existing trip", "existing booking", "how many trip", "how many booking"])
     
-    elif "tokyo" in query:
-        response_text = "Here's an amazing Tokyo travel plan:\n\nDay 1: Explore Senso-ji Temple in Asakusa, visit Tokyo Skytree, and try street food.\n\nDay 2: Visit Meiji Shrine, explore Harajuku district, and experience Shibuya crossing.\n\nDay 3: Tour the Imperial Palace, visit Tsukiji Fish Market, and enjoy sushi.\n\nRecommendations: Try ramen, visit teamLab Borderless, and experience a traditional tea ceremony!"
-    
-    elif "london" in query:
-        response_text = "Here's a fantastic London itinerary:\n\nDay 1: Visit the Tower of London, walk across Tower Bridge, and explore Borough Market.\n\nDay 2: Tour Westminster Abbey, see Big Ben, and visit the British Museum.\n\nDay 3: Explore Camden Market, visit the London Eye, and enjoy afternoon tea.\n\nRecommendations: Try fish and chips, visit the Tate Modern, and take a Thames river cruise!"
-    
-    elif "rome" in query:
-        response_text = "Here's a wonderful Rome itinerary:\n\nDay 1: Visit the Colosseum, explore the Roman Forum, and walk through Trastevere.\n\nDay 2: Tour the Vatican Museums, see St. Peter's Basilica, and visit the Pantheon.\n\nDay 3: Explore the Spanish Steps, visit the Trevi Fountain, and enjoy authentic Italian cuisine.\n\nRecommendations: Try authentic gelato, visit the Borghese Gallery, and take a food tour!"
-    
-    elif "barcelona" in query:
-        response_text = "Here's an exciting Barcelona itinerary:\n\nDay 1: Visit Sagrada Familia, explore Park Güell, and walk down Las Ramblas.\n\nDay 2: Tour the Gothic Quarter, visit Casa Batlló, and enjoy tapas.\n\nDay 3: Relax at Barceloneta Beach, visit Montjuïc, and experience the nightlife.\n\nRecommendations: Try paella, visit the Picasso Museum, and watch a flamenco show!"
-    
-    # Handle location/best destination requests
-    elif any(loc_word in query for loc_word in ["best location", "best destination", "where to go", "top destination", "popular destination"]):
-        response_text = "Here are some of the best travel destinations based on different interests:\n\n🏛️ **Cultural & History**: Rome, Athens, Cairo, Kyoto\n🏖️ **Beaches & Relaxation**: Maldives, Bali, Santorini, Caribbean\n🏔️ **Adventure & Nature**: New Zealand, Iceland, Patagonia, Nepal\n🏙️ **Modern Cities**: Tokyo, Singapore, Dubai, New York\n🍷 **Food & Wine**: Paris, Tuscany, Barcelona, Napa Valley\n\nWhat type of experience are you looking for? I can give more specific recommendations!"
-    
-    # Handle recommendation requests (more general)
-    elif any(rec_word in query for rec_word in ["recommendation", "recommend", "suggest", "suggestion"]):
-        if any(dest_word in query for dest_word in ["paris", "tokyo", "london", "rome", "barcelona", "amsterdam", "berlin", "prague", "vienna", "budapest"]):
-            # Extract destination and provide specific recommendations
-            dest = next((d for d in ["paris", "tokyo", "london", "rome", "barcelona", "amsterdam", "berlin", "prague", "vienna", "budapest"] if d in query), "this destination")
-            response_text = f"Here are my top recommendations for {dest.title()}:\n\n🏛️ **Must-See Attractions**: Visit iconic landmarks and cultural sites\n🍽️ **Local Cuisine**: Try authentic restaurants and street food\n🎭 **Cultural Experiences**: Museums, galleries, and local events\n🛍️ **Shopping**: Local markets and unique boutiques\n🚶 **Walking Tours**: Explore neighborhoods and hidden gems\n\nWould you like specific recommendations for any of these categories?"
+    # Only handle as booking if it's truly asking about existing trips/bookings
+    if is_booking_query and not is_planning_query:
+        if not bookings or len(bookings) == 0:
+            return {"response": "You don't have any bookings yet. Browse properties to make a reservation!"}
+        
+        # Filter by status if requested
+        if "cancelled" in query_lower or "cancel" in query_lower:
+            filtered = [b for b in bookings if b.get("status") == "cancelled"]
+            count = len(filtered)
+            if count == 0:
+                return {"response": "You don't have any cancelled trips."}
+            return {"response": f"You have {count} cancelled trip(s). Check 'My Trips' for details."}
+        
+        elif "accepted" in query_lower:
+            filtered = [b for b in bookings if b.get("status") == "accepted"]
+            count = len(filtered)
+            if count == 0:
+                return {"response": "You don't have any accepted trips yet."}
+            if count == 1:
+                b = filtered[0]
+                location = b.get("location") or b.get("city", "your destination")
+                start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
+                end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
+                return {"response": f"You have 1 accepted trip to {location} from {start} to {end}!"}
+            return {"response": f"You have {count} accepted trip(s). Check 'My Trips' for details."}
+        
+        elif "pending" in query_lower:
+            filtered = [b for b in bookings if b.get("status") == "pending"]
+            count = len(filtered)
+            if count == 0:
+                return {"response": "You don't have any pending trips."}
+            return {"response": f"You have {count} pending trip(s). Waiting for owner approval."}
+        
+        elif "how many" in query_lower:
+            # Count all statuses
+            accepted = len([b for b in bookings if b.get("status") == "accepted"])
+            pending = len([b for b in bookings if b.get("status") == "pending"])
+            cancelled = len([b for b in bookings if b.get("status") == "cancelled"])
+            
+            return {"response": f"You have {len(bookings)} total trips: {accepted} accepted, {pending} pending, {cancelled} cancelled."}
+        
         else:
-            response_text = "I'd love to give you recommendations! To provide the most helpful suggestions, could you tell me:\n\n• Which destination you're interested in?\n• What type of recommendations you need (restaurants, attractions, activities)?\n• Your travel style (budget, luxury, adventure, cultural)?\n\nFor example: 'Recommend restaurants in Paris' or 'Suggest activities in Tokyo'"
+            # Show recent trips
+            latest = bookings[0]
+            location = latest.get("location") or latest.get("city", "your destination")
+            start_date = latest.get("start_date", "")[:10] if latest.get("start_date") else "N/A"
+            end_date = latest.get("end_date", "")[:10] if latest.get("end_date") else "N/A"
+            
+            if len(bookings) == 1:
+                return {"response": f"You have 1 trip to {location} from {start_date} to {end_date}. I can help plan activities for your trip!"}
+            else:
+                return {"response": f"You have {len(bookings)} trips. Your most recent is in {location} from {start_date} to {end_date}. Check 'My Trips' for all details!"}
     
+    # Handle greetings (but avoid matching "good weather" as greeting)
+    # Only match if it's clearly a greeting phrase
+    is_greeting = query_lower in ["hi", "hello", "hey"] or query_lower in ["good morning", "good afternoon"] or query_lower.startswith("hi ") or query_lower.startswith("hello ") or query_lower.startswith("hey ")
+    if is_greeting:
+        return {"response": "Hi! I'm your AI travel assistant. I can help you with travel planning, recommendations, and activity suggestions!"}
     
-    # Handle general travel questions
-    elif any(travel_word in query for travel_word in ["travel", "trip", "vacation", "holiday", "destination", "visit", "go to"]):
-        response_text = f"I'd love to help you plan your trip! For '{query}', I can create a detailed itinerary with:\n\n• Day-by-day activities and attractions\n• Restaurant recommendations\n• Transportation tips\n• Cultural insights\n• Budget-friendly options\n\nCould you tell me more about your destination, travel dates, and interests? This will help me give you the most personalized recommendations!"
+    # For general queries (recommendations, travel advice, etc.), use Ollama if available
+    # For booking-specific queries, we've already handled above
     
-    # Handle packing questions
-    elif any(pack_word in query for pack_word in ["pack", "packing", "what to bring", "luggage", "clothes"]):
-        response_text = "Great question! Here's a general packing checklist:\n\n👕 **Clothing**: Weather-appropriate clothes, comfortable shoes, layers\n🧴 **Toiletries**: Travel-sized essentials, medications, sunscreen\n📱 **Electronics**: Phone charger, adapter, camera\n📄 **Documents**: Passport, tickets, travel insurance\n🎒 **Essentials**: Money, credit cards, emergency contacts\n\nFor specific destinations, I can give more detailed packing advice!"
+    # Try Ollama (with optional Tavily for live data)
+    if USE_OLLAMA and llm:
+        try:
+            # Prepare context with user's bookings
+            context = ""
+            if bookings:
+                context = f" User has {len(bookings)} upcoming booking(s). Recent trip: {bookings[0].get('city', 'N/A')}"
+            
+            # Use Tavily for web search if available
+            web_data = ""
+            if USE_TAVILY and tavily_client:
+                try:
+                    # Use query as-is for Tavily (don't append location)
+                    search_query = query
+                    
+                    # Search Tavily for live local context
+                    results = tavily_client.search(search_query, max_results=3)
+                    if results and results.get('results'):
+                        web_data = "\n\nLive local information:\n"
+                        for r in results['results'][:2]:
+                            web_data += f"- {r.get('title', '')}: {r.get('content', '')[:150]}...\n"
+                    print(f"🔍 Tavily search completed for: {search_query[:60]}")
+                except Exception as e:
+                    print(f"⚠️ Tavily search error: {e}")
+            
+            # Create prompt for Ollama with web data
+            # Enhanced for lab requirements: day-by-day plans, activity cards, restaurant recs, packing checklist
+            prompt = f"""You are a helpful AI travel assistant for an Airbnb-like platform.
+{context}
+
+User query: {query}
+{web_data}
+
+Based on the above, provide:
+1. A day-by-day plan (morning/afternoon/evening activities)
+2. Activity cards (specific places to visit with titles, locations, duration)
+3. Restaurant recommendations (if applicable)
+4. Packing checklist (weather-aware if weather data provided)
+
+Format as a practical travel guide with specific recommendations."""
+            
+            # Call Ollama using invoke method
+            ai_response = llm.invoke(prompt)
+            print(f"🦙 Ollama (llama2) response: {ai_response[:50]}...")
+            
+            # Limit response length for chat (increased to 1000 characters)
+            if len(ai_response) > 1000:
+                ai_response = ai_response[:997] + "..."
+            
+            return {"response": ai_response.strip()}
+            
+        except Exception as e:
+            print(f"⚠️ Ollama error: {e}. Falling back to rule-based response.")
+            return {
+                "response": (
+                    "Sorry, I'm having trouble with my AI brain right now. "
+                    "But I can still help! Try asking about:\n"
+                    "• Your trips and bookings\n"
+                    "• How many cancelled/accepted trips you have\n"
+                    "• Or just say hi! 👋"
+                )
+            }
     
-    # Handle budget questions
-    elif any(budget_word in query for budget_word in ["budget", "cheap", "expensive", "cost", "money", "price"]):
-        response_text = "I can help with budget planning! Here are some tips:\n\n💰 **Budget-Friendly Options**:\n• Stay in hostels or budget hotels\n• Eat at local markets and street food\n• Use public transportation\n• Look for free attractions and walking tours\n\n💎 **Splurge-Worthy Experiences**:\n• Fine dining restaurants\n• Guided tours and experiences\n• Luxury accommodations\n• Unique activities\n\nWhat's your budget range and destination? I can give more specific advice!"
-    
-    else:
-        response_text = f"I'm your AI Travel Assistant! I specialize in helping with travel planning, itineraries, and destination recommendations.\n\nFor your query '{query}', I can help you with:\n\n• Creating detailed travel plans\n• Suggesting activities and attractions\n• Recommending restaurants and local experiences\n• Providing travel tips and advice\n\nWhat specific destination or travel question can I help you with today?"
-    
+    # Helpful fallback message for unknown queries
     return {
-        "response": response_text
+        "response": (
+            "Sorry, I didn't understand that. 🤔\n\n"
+            "I can help you with:\n"
+            "• Checking your trips and bookings\n"
+            "• Counting your accepted/pending/cancelled trips\n"
+            "• Travel recommendations and advice\n\n"
+            "What would you like to ask?"
+        )
     }
 
 if __name__ == "__main__":

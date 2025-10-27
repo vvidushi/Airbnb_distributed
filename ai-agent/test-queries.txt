@@ -1,0 +1,48 @@
+Test Queries for AI Agent - Lab Requirements Demonstration
+===========================================================
+
+# Basic Functionality Tests
+1. "hi" - Simple greeting
+2. "how many trips?" - Booking count
+3. "show my trips" - List bookings
+
+# Lab Requirement Tests - NLU Support
+4. "we're in Santa Monica, vegan, no long hikes, two kids" 
+   → Should: Use booking context, filter for vegan, child-friendly, no hikes
+
+# Lab Requirement Tests - Day-by-Day Planning  
+5. "can you plan my trip to Bali in December?"
+   → Should: Generate day-by-day plan with morning/afternoon/evening blocks
+
+# Lab Requirement Tests - Activity Cards
+6. "what activities should I do in Tokyo?"
+   → Should: Provide activity cards with titles, locations, duration
+
+# Lab Requirement Tests - Restaurant Recommendations
+7. "vegetarian restaurants in Paris"
+   → Should: Filter restaurants for dietary needs
+
+# Lab Requirement Tests - Packing Checklist
+8. "what should I pack for my trip to Delhi?"
+   → Should: Weather-aware packing checklist
+
+# Lab Requirement Tests - Live Local Context
+9. "current weather in New York"
+   → Should: Use Tavily for real-time data
+
+10. "events happening in Los Angeles this weekend"
+   → Should: Use Tavily for current events
+
+# Complex Queries (Multiple Lab Requirements)
+11. "plan a 3-day trip to Rome, vegetarian restaurants, wheelchair accessible attractions"
+   → Should: Day-by-day plan + filtered restaurants + accessibility info
+
+12. "what to do in Mumbai with kids, budget-friendly, monsoon season"
+   → Should: Child-friendly activities, budget considerations, weather-aware
+
+
+How to Test:
+curl -X POST http://localhost:8000/api/ai/plan \
+  -H "Content-Type: application/json" \
+  -d '{"query": "YOUR_QUERY_HERE", "userId": 5}'
+
