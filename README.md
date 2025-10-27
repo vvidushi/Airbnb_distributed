@@ -1,5 +1,4 @@
 # Airbnb Prototype
-
 A full-stack Airbnb clone with AI-powered travel planning.
 
 ## Tech Stack
@@ -19,8 +18,10 @@ The system follows a three-tier architecture:
 - **Database**: MySQL for data persistence
 
 ## Workflow
+Please note, we have built a three tier structure in an addition to the Agentic AI. Our project encompasses Frontend, Backend, Database and Smart Agent also been depicted by the workflow diagram as given below:
 
-![Workflow Diagram](design/airbnb-workflowdrawio.png)
+![Workflow Diagram](design/airbnb-workflowdrawio.png) 
+
 
 ### Traveler Workflow
 1. **Search & Browse**: Search properties by location, dates, and guests
