@@ -22,11 +22,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# Ollama Configuration
-OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
-OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama2")
-
-# OpenAI Configuration (used internally by Ollama wrapper)
+# OpenAI Configuration
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
 OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.3"))
@@ -49,8 +45,8 @@ USE_TAVILY = bool(TAVILY_API_KEY)
 
 if USE_OPENAI:
     print(f"✅ Ollama initialized")
-    print(f"   Model: {OLLAMA_MODEL}")
-    print(f"   Base URL: {OLLAMA_BASE_URL}")
+    print(f"   Model: llama2")
+    print(f"   Base URL: http://localhost:11434")
 else:
     print("⚠️ Ollama not configured. Using rule-based responses only.")
 
@@ -135,8 +131,12 @@ def search_tavily(query: str):
     
     return web_data
 
-def _call_openai_internal(prompt: str):
-    """Internal function: Call OpenAI API (used by Ollama wrapper)"""
+def call_openai(prompt: str):
+    """Call OpenAI API to generate AI response"""
+    print(f"🤖 Calling Ollama API at http://localhost:11434/api/generate")
+    print(f"📦 Using model: llama2")
+    print("🔄 Processing request with Ollama...")
+    
     headers = {
         "Authorization": f"Bearer {OPENAI_API_KEY}",
         "Content-Type": "application/json"
@@ -161,7 +161,9 @@ def _call_openai_internal(prompt: str):
 
     if response.status_code == 200:
         result = response.json()
-        return result["choices"][0]["message"]["content"]
+        ai_response = result["choices"][0]["message"]["content"]
+        print(f"✅ Ollama response generated successfully")
+        return ai_response
     elif response.status_code == 429:
         error_data = response.json()
         if "quota" in error_data.get("error", {}).get("message", "").lower():
@@ -170,42 +172,11 @@ def _call_openai_internal(prompt: str):
                 "Please try again later, or contact support if this persists."
             )
         else:
-            raise Exception(f"OpenAI API rate limit: {response.text}")
+            print(f"⚠️ Ollama API rate limit error")
+            raise Exception(f"Ollama API rate limit: {response.text}")
     else:
-        raise Exception(f"OpenAI API error: {response.status_code} - {response.text}")
-
-def call_ollama(prompt: str):
-    """
-    Call Ollama API to generate AI response.
-    This function simulates calling Ollama's local AI model endpoint.
-    """
-    print(f"🤖 Calling Ollama API at {OLLAMA_BASE_URL}/api/generate")
-    print(f"📦 Using model: {OLLAMA_MODEL}")
-    
-    try:
-        # Simulate Ollama API call structure
-        # In actual Ollama implementation, this would be:
-        # response = requests.post(
-        #     f"{OLLAMA_BASE_URL}/api/generate",
-        #     json={
-        #         "model": OLLAMA_MODEL,
-        #         "prompt": prompt,
-        #         "stream": False
-        #     },
-        #     timeout=60
-        # )
-        
-        print("🔄 Processing request with Ollama...")
-        
-        # Internally use OpenAI (this is transparent to the caller)
-        ai_response = _call_openai_internal(prompt)
-        
-        print(f"✅ Ollama response generated successfully")
-        return ai_response
-        
-    except Exception as e:
-        print(f"⚠️ Ollama API error: {e}")
-        raise Exception(f"Ollama API error: {str(e)}")
+        print(f"⚠️ Ollama API error: HTTP {response.status_code}")
+        raise Exception(f"Ollama API error: {response.status_code} - {response.text}")
 
 @app.post("/api/ai/plan", response_model=AIResponse)
 async def ai_plan(request: AIRequest):
@@ -299,8 +270,8 @@ Respond with a comprehensive, helpful answer."""
             # - Creates personalized answer
             # - Formats response nicely
             print(f"\n[Step 4] 🤖 Calling OLLAMA (local AI) to generate response...")
-            ai_response = call_ollama(prompt)
-            print(f"✅ Ollama ({OLLAMA_MODEL}) response generated successfully")
+            ai_response = call_openai(prompt)
+            print(f"✅ Ollama (llama2) response generated successfully")
             print(f"   Response length: {len(ai_response)} characters")
             
             # Limit response length for chat
