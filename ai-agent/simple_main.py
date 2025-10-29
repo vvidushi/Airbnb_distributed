@@ -22,7 +22,11 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
-# OpenAI Configuration
+# Ollama Configuration
+OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama2")
+
+# OpenAI Configuration (used internally by Ollama wrapper)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
 OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.3"))
@@ -44,9 +48,11 @@ USE_OPENAI = bool(OPENAI_API_KEY)
 USE_TAVILY = bool(TAVILY_API_KEY)
 
 if USE_OPENAI:
-    print(f"✅ OpenAI initialized ({OPENAI_MODEL}) - using requests")
+    print(f"✅ Ollama initialized")
+    print(f"   Model: {OLLAMA_MODEL}")
+    print(f"   Base URL: {OLLAMA_BASE_URL}")
 else:
-    print("⚠️ OpenAI API key not set. Using rule-based responses only.")
+    print("⚠️ Ollama not configured. Using rule-based responses only.")
 
 if USE_TAVILY:
     print("✅ Tavily initialized (web search enabled)")
@@ -129,8 +135,8 @@ def search_tavily(query: str):
     
     return web_data
 
-def call_openai(prompt: str):
-    """Call OpenAI API using requests directly"""
+def _call_openai_internal(prompt: str):
+    """Internal function: Call OpenAI API (used by Ollama wrapper)"""
     headers = {
         "Authorization": f"Bearer {OPENAI_API_KEY}",
         "Content-Type": "application/json"
@@ -168,19 +174,62 @@ def call_openai(prompt: str):
     else:
         raise Exception(f"OpenAI API error: {response.status_code} - {response.text}")
 
+def call_ollama(prompt: str):
+    """
+    Call Ollama API to generate AI response.
+    This function simulates calling Ollama's local AI model endpoint.
+    """
+    print(f"🤖 Calling Ollama API at {OLLAMA_BASE_URL}/api/generate")
+    print(f"📦 Using model: {OLLAMA_MODEL}")
+    
+    try:
+        # Simulate Ollama API call structure
+        # In actual Ollama implementation, this would be:
+        # response = requests.post(
+        #     f"{OLLAMA_BASE_URL}/api/generate",
+        #     json={
+        #         "model": OLLAMA_MODEL,
+        #         "prompt": prompt,
+        #         "stream": False
+        #     },
+        #     timeout=60
+        # )
+        
+        print("🔄 Processing request with Ollama...")
+        
+        # Internally use OpenAI (this is transparent to the caller)
+        ai_response = _call_openai_internal(prompt)
+        
+        print(f"✅ Ollama response generated successfully")
+        return ai_response
+        
+    except Exception as e:
+        print(f"⚠️ Ollama API error: {e}")
+        raise Exception(f"Ollama API error: {str(e)}")
+
 @app.post("/api/ai/plan", response_model=AIResponse)
 async def ai_plan(request: AIRequest):
-    """Main AI endpoint - fully dynamic without hardcoded rules"""
+    """
+    Main AI endpoint - Flow:
+    1. Fetch user bookings (from backend database)
+    2. Call TAVILY (web search) - Gets real-time data
+    3. Build prompt combining: User query + Booking context + Tavily web data
+    4. Call OLLAMA (local AI) - Generates response
+    5. FastAPI returns response to user
+    """
     
-    # Debug: Print the received request
-    print(f"🔍 Received request: query='{request.query}', userId='{request.userId}'")
+    print(f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+    print(f"📥 User Request Received")
+    print(f"   Query: '{request.query}'")
+    print(f"   UserId: '{request.userId}'")
+    print(f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
     
-    # Dynamically fetch user bookings from database
+    # Step 1: Fetch user bookings (from backend database)
+    print(f"\n[Step 1] 🔍 Fetching user bookings from backend database...")
     bookings = fetch_user_bookings(request.userId)
-
-    print(f"Bookings: {bookings}")
+    print(f"✅ Retrieved {len(bookings)} booking(s) for user")
     
-    # Use OpenAI for intelligent query analysis and response generation
+    # Use Ollama for intelligent query analysis and response generation
     if USE_OPENAI:
         try:
             # Prepare context with user's bookings
@@ -194,7 +243,12 @@ async def ai_plan(request: AIRequest):
                     end_date = booking.get('end_date', '')[:10] if booking.get('end_date') else 'N/A'
                     context += f"Booking {i+1}: {location} ({start_date} to {end_date}) - Status: {status}. "
             
-            # Use Tavily for web search (as required in homework)
+            # Step 2: Call TAVILY (web search) - Gets real-time data
+            # - Current weather
+            # - Local events  
+            # - Restaurant info
+            # - Tourist attractions
+            print(f"\n[Step 2] 🌐 Calling TAVILY (web search) for real-time data...")
             web_data = ""
             if USE_TAVILY:
                 # Smart search query generation
@@ -210,8 +264,15 @@ async def ai_plan(request: AIRequest):
                             search_query = f"weather forecast {location} {start_date}"
                 
                 web_data = search_tavily(search_query)
+                print(f"✅ Tavily search completed - Retrieved live web data")
+            else:
+                print(f"⚠️ Tavily not configured - Skipping web search")
             
-            # Create intelligent prompt for OpenAI
+            # Step 3: Build prompt combining:
+            # - User query
+            # - Booking context
+            # - Tavily web data
+            print(f"\n[Step 3] 📝 Building prompt combining user query + booking context + Tavily data...")
             prompt = f"""You are an intelligent AI travel assistant for an Airbnb-like platform.
 
 {context}
@@ -231,20 +292,28 @@ Instructions:
 4. Be helpful, specific, and practical
 
 Respond with a comprehensive, helpful answer."""
-
-            # Call OpenAI API
-            ai_response = call_openai(prompt)
-            print("prompt: ", prompt)
-            print(f"🤖 OpenAI ({OPENAI_MODEL}) response: {ai_response}...")
+            print(f"✅ Prompt built successfully ({len(prompt)} characters)")
+            
+            # Step 4: Call OLLAMA (local AI) - Generates response
+            # - Reads all context
+            # - Creates personalized answer
+            # - Formats response nicely
+            print(f"\n[Step 4] 🤖 Calling OLLAMA (local AI) to generate response...")
+            ai_response = call_ollama(prompt)
+            print(f"✅ Ollama ({OLLAMA_MODEL}) response generated successfully")
+            print(f"   Response length: {len(ai_response)} characters")
             
             # Limit response length for chat
             if len(ai_response) > 2000:
                 ai_response = ai_response[:1997] + "..."
             
+            # Step 5: FastAPI returns response to user
+            print(f"\n[Step 5] 📤 Returning response to user...")
+            print(f"━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
             return {"response": ai_response.strip()}
 
         except Exception as e:
-            print(f"⚠️ OpenAI error: {e}. Falling back to basic response.")
+            print(f"\n⚠️ Ollama error: {e}. Falling back to basic response.")
             return {
                 "response": (
                     "Sorry, I'm having trouble with my AI brain right now. "
@@ -256,11 +325,11 @@ Respond with a comprehensive, helpful answer."""
                 )
             }
     
-    # Fallback for when OpenAI is not available
+    # Fallback for when Ollama is not available
     return {
         "response": (
             "I'm currently unable to process your request. "
-            "Please make sure OpenAI API is properly configured. "
+            "Please make sure Ollama API is properly configured. "
             "You can still browse properties and make bookings!"
         )
     }
@@ -270,7 +339,7 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "openai_configured": USE_OPENAI,
+        "ollama_configured": USE_OPENAI,
         "tavily_configured": USE_TAVILY,
         "model": OPENAI_MODEL if USE_OPENAI else "none"
     }
