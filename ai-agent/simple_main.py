@@ -1,299 +1,279 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
-import requests
+from typing import Optional
 import os
+import requests
+from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from dotenv import load_dotenv
+import uvicorn
 
 # Load environment variables
 load_dotenv()
 
-app = FastAPI(title="Airbnb AI Agent", version="1.0.0")
+# Initialize FastAPI app
+app = FastAPI(title="AI Travel Assistant", version="1.0.0")
 
-# Tavily setup (for web search - live local context)
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
-USE_TAVILY = bool(TAVILY_API_KEY)
-
-if USE_TAVILY:
-    try:
-        from tavily import TavilyClient
-        tavily_client = TavilyClient(api_key=TAVILY_API_KEY)
-        print("✅ Tavily initialized (web search enabled)")
-    except Exception as e:
-        print(f"⚠️ Tavily not available: {e}")
-        USE_TAVILY = False
-        tavily_client = None
-else:
-    tavily_client = None
-    print("ℹ️ Tavily API key not set. Using basic recommendations only.")
-
-# Ollama setup (check if running)
-def is_ollama_running():
-    try:
-        response = requests.get("http://localhost:11434/api/tags", timeout=1)
-        return response.status_code == 200
-    except:
-        return False
-
-USE_OLLAMA = is_ollama_running()
-
-if USE_OLLAMA:
-    try:
-        from langchain_ollama import OllamaLLM
-        llm = OllamaLLM(
-            model="llama2",
-            base_url="http://localhost:11434",
-            temperature=0.7
-        )
-        print("✅ Ollama initialized (llama2)")
-    except Exception as e:
-        print(f"⚠️ Ollama error: {e}. Using rule-based responses only.")
-        USE_OLLAMA = False
-        llm = None
-else:
-    llm = None
-    print("ℹ️ Ollama not running. Using rule-based responses only.")
-
-# CORS middleware
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Frontend URLs
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
 )
 
-# Backend API URL
-BACKEND_URL = "http://localhost:5001"
-INTERNAL_API_KEY = "airbnb_internal_key_2024"  # Must match backend .env
+# OpenAI Configuration
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+OPENAI_TEMPERATURE = float(os.getenv("OPENAI_TEMPERATURE", "0.3"))
+OPENAI_MAX_TOKENS = int(os.getenv("OPENAI_MAX_TOKENS", "2000"))
 
-@app.get("/health")
-async def health_check():
-    return {"status": "OK", "message": "AI Agent is running"}
+# Tavily Configuration
+TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
+TAVILY_BASE_URL = "https://api.tavily.com"
 
-@app.post("/api/ai/plan")
-async def generate_travel_plan(request: dict):
-    """Generate travel assistant responses with booking context"""
-    query = request.get("query", "Unknown destination").strip()
-    userId = request.get("userId")
+# Backend Configuration
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:5001")
+INTERNAL_API_KEY = os.getenv("INTERNAL_API_KEY", "airbnb_internal_key_2024")
+
+# Debug: Print the API key being used
+print(f"🔑 Internal API Key: {INTERNAL_API_KEY}")
+
+# Initialize services
+USE_OPENAI = bool(OPENAI_API_KEY)
+USE_TAVILY = bool(TAVILY_API_KEY)
+
+if USE_OPENAI:
+    print(f"✅ OpenAI initialized ({OPENAI_MODEL}) - using requests")
+else:
+    print("⚠️ OpenAI API key not set. Using rule-based responses only.")
+
+if USE_TAVILY:
+    print("✅ Tavily initialized (web search enabled)")
+else:
+    print("⚠️ Tavily API key not set. Web search disabled.")
+
+# Request/Response Models
+class AIRequest(BaseModel):
+    query: str
+    userId: Optional[str] = None  # Make userId optional
     
-    # Fetch user's bookings dynamically from backend API
+    class Config:
+        # Allow extra fields to be ignored
+        extra = "ignore"
+
+class AIResponse(BaseModel):
+    response: str
+
+def fetch_user_bookings(user_id: str = None):
+    """Dynamically fetch user bookings from backend database"""
     bookings = []
+    if not user_id:
+        return bookings  # Return empty list if no user ID
     
-    if userId:
-        try:
-            # Use internal API with API key authentication
-            headers = {"x-internal-api-key": INTERNAL_API_KEY}
-            backend_response = requests.get(
-                f"{BACKEND_URL}/api/bookings/internal/traveler",
-                headers=headers,
-                params={"userId": userId},
-                timeout=2
-            )
-            if backend_response.status_code == 200:
-                bookings = backend_response.json()
-                if bookings and len(bookings) > 0:
-                    print(f"📅 Fetched {len(bookings)} bookings for user {userId}")
-            else:
-                print(f"⚠️ Could not fetch bookings: HTTP {backend_response.status_code}")
-        except Exception as e:
-            print(f"⚠️ Could not fetch bookings: {e}")
-    
-    # Simple rule-based responses for reliability
-    query_lower = query.lower()
-    
-    # Handle trip/booking queries with dynamic booking details
-    # Skip if it's a travel planning query (e.g., "can you plan trip to bali")
-    is_planning_query = "plan" in query_lower and "trip" in query_lower
-    is_booking_query = any(word in query_lower for word in [
-        "my trip", "my booking", "my travel", "my upcoming", 
-        "show my", "existing trip", "existing booking", 
-        "how many trip", "how many booking",
-        "upcoming trip", "upcoming booking", "upcoming travel",
-        "tell my trip", "tell my booking"
-    ]) or any(phrase in query_lower for phrase in [
-        "tell me about my", "can you tell my", "what are my", "show my"
-    ]) or any(term in query_lower for term in [
-        "cancelled", "pending", "accepted", "all trips"
-    ])
-    
-    # Debug: Log what we detected
-    if is_booking_query:
-        print(f"📋 Detected booking query: '{query}'")
-    if is_planning_query:
-        print(f"📅 Detected planning query: '{query}'")
-    
-    # Only handle as booking if it's truly asking about existing trips/bookings
-    if is_booking_query and not is_planning_query:
-        if not bookings or len(bookings) == 0:
-            return {"response": "You don't have any bookings yet. Browse properties to make a reservation!"}
+    try:
+        headers = {
+            "x-internal-api-key": INTERNAL_API_KEY
+        }
+        print(f"🔑 Using API key: {INTERNAL_API_KEY[:10]}...")
+        print(f"🌐 Requesting: {BACKEND_URL}/api/bookings/internal/traveler?userId={user_id}")
+        backend_response = requests.get(
+            f"{BACKEND_URL}/api/bookings/internal/traveler",
+            params={"userId": user_id},
+            headers=headers,
+            timeout=5
+        )
         
-        # Filter by status if requested
-        if "cancelled" in query_lower or "cancel" in query_lower:
-            filtered = [b for b in bookings if b.get("status") == "cancelled"]
-            count = len(filtered)
-            if count == 0:
-                return {"response": "You don't have any cancelled trips."}
-            if count == 1:
-                b = filtered[0]
-                location = b.get("location") or b.get("city", "your destination")
-                start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
-                end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
-                return {"response": f"You have 1 cancelled trip to {location} from {start} to {end}."}
-            return {"response": f"You have {count} cancelled trip(s). Check 'My Trips' for details."}
-        
-        elif "accepted" in query_lower:
-            filtered = [b for b in bookings if b.get("status") == "accepted"]
-            count = len(filtered)
-            if count == 0:
-                return {"response": "You don't have any accepted trips yet."}
-            if count == 1:
-                b = filtered[0]
-                location = b.get("location") or b.get("city", "your destination")
-                start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
-                end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
-                return {"response": f"You have 1 accepted trip to {location} from {start} to {end}!"}
-            return {"response": f"You have {count} accepted trip(s). Check 'My Trips' for details."}
-        
-        elif "pending" in query_lower:
-            filtered = [b for b in bookings if b.get("status") == "pending"]
-            count = len(filtered)
-            if count == 0:
-                return {"response": "You don't have any pending trips."}
-            if count == 1:
-                b = filtered[0]
-                location = b.get("location") or b.get("city", "your destination")
-                start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
-                end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
-                return {"response": f"You have 1 pending trip to {location} from {start} to {end}. Waiting for owner approval."}
-            return {"response": f"You have {count} pending trip(s). Waiting for owner approval."}
-        
-        elif "how many" in query_lower or "upcoming" in query_lower or "all" in query_lower:
-            # Count all statuses and show summary
-            accepted = len([b for b in bookings if b.get("status") == "accepted"])
-            pending = len([b for b in bookings if b.get("status") == "pending"])
-            cancelled = len([b for b in bookings if b.get("status") == "cancelled"])
-            
-            summary = f"You have {len(bookings)} total trip(s): {accepted} accepted, {pending} pending, {cancelled} cancelled."
-            
-            # Show details for accepted trips (most relevant)
-            if accepted > 0:
-                trip_details = "\n\nYour upcoming trip(s):\n"
-                accepted_trips = [b for b in bookings if b.get("status") == "accepted"][:3]
-                for b in accepted_trips:
-                    location = b.get("location") or b.get("city", "destination")
-                    start = b.get("start_date", "")[:10] if b.get("start_date") else "N/A"
-                    end = b.get("end_date", "")[:10] if b.get("end_date") else "N/A"
-                    trip_details += f"• {location} ({start} to {end})\n"
-                summary += trip_details
-            
-            return {"response": summary}
-        
+        if backend_response.status_code == 200:
+            bookings = backend_response.json()
+            print(f"📅 Fetched {len(bookings)} bookings for user {user_id}")
         else:
-            # Show recent trips (default - shows all statuses summary)
-            accepted = len([b for b in bookings if b.get("status") == "accepted"])
-            pending = len([b for b in bookings if b.get("status") == "pending"])
-            cancelled = len([b for b in bookings if b.get("status") == "cancelled"])
-            
-            response = f"You have {len(bookings)} trip(s): {accepted} accepted, {pending} pending, {cancelled} cancelled."
-            
-            # Show details of most recent accepted trip
-            accepted_trips = [b for b in bookings if b.get("status") == "accepted"]
-            if accepted_trips:
-                latest = accepted_trips[0]
-                location = latest.get("location") or latest.get("city", "your destination")
-                start_date = latest.get("start_date", "")[:10] if latest.get("start_date") else "N/A"
-                end_date = latest.get("end_date", "")[:10] if latest.get("end_date") else "N/A"
-                response += f"\n\nYour upcoming trip: {location} ({start_date} to {end_date})"
-            
-            if len(bookings) > 1:
-                response += f"\nCheck 'My Trips' for all details!"
-            
-            return {"response": response}
+            print(f"⚠️ Could not fetch bookings: HTTP {backend_response.status_code}")
+    except Exception as e:
+        print(f"⚠️ Could not fetch bookings: {e}")
     
-    # Handle greetings (but avoid matching "good weather" as greeting)
-    # Only match if it's clearly a greeting phrase
-    is_greeting = query_lower in ["hi", "hello", "hey"] or query_lower in ["good morning", "good afternoon"] or query_lower.startswith("hi ") or query_lower.startswith("hello ") or query_lower.startswith("hey ")
-    if is_greeting:
-        return {"response": "Hi! I'm your AI travel assistant. I can help you with travel planning, recommendations, and activity suggestions!"}
+    return bookings
+
+def search_tavily(query: str):
+    """Use Tavily for web search as required in homework"""
+    web_data = ""
+    try:
+        headers = {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {TAVILY_API_KEY}"
+        }
+        
+        data = {
+            "query": query,
+            "max_results": 5
+        }
+        
+        response = requests.post(
+            f"{TAVILY_BASE_URL}/search",
+            headers=headers,
+            json=data,
+            timeout=10
+        )
+        
+        if response.status_code == 200:
+            results = response.json()
+            if results and results.get('results'):
+                web_data = "\n\nLive web information:\n"
+                for r in results['results']:
+                    web_data += f"- {r.get('title', '')}: {r.get('content', '')[:200]}...\n"
+            print(f"🔍 Tavily search completed for: {query[:60]}")
+        else:
+            print(f"⚠️ Tavily search error: {response.status_code}")
+    except Exception as e:
+        print(f"⚠️ Tavily search error: {e}")
     
-    # For general queries (recommendations, travel advice, etc.), use Ollama if available
-    # For booking-specific queries, we've already handled above
+    return web_data
+
+def call_openai(prompt: str):
+    """Call OpenAI API using requests directly"""
+    headers = {
+        "Authorization": f"Bearer {OPENAI_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "model": OPENAI_MODEL,
+        "messages": [
+            {"role": "system", "content": "You are an intelligent AI travel assistant for an Airbnb-like platform."},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": OPENAI_TEMPERATURE,
+        "max_tokens": OPENAI_MAX_TOKENS
+    }
+
+    response = requests.post(
+        "https://api.openai.com/v1/chat/completions",
+        headers=headers,
+        json=data,
+        timeout=30
+    )
+
+    if response.status_code == 200:
+        result = response.json()
+        return result["choices"][0]["message"]["content"]
+    elif response.status_code == 429:
+        error_data = response.json()
+        if "quota" in error_data.get("error", {}).get("message", "").lower():
+            return (
+                "I'm currently experiencing high demand and my quota has been exceeded. "
+                "Please try again later, or contact support if this persists."
+            )
+        else:
+            raise Exception(f"OpenAI API rate limit: {response.text}")
+    else:
+        raise Exception(f"OpenAI API error: {response.status_code} - {response.text}")
+
+@app.post("/api/ai/plan", response_model=AIResponse)
+async def ai_plan(request: AIRequest):
+    """Main AI endpoint - fully dynamic without hardcoded rules"""
     
-    # Try Ollama (with optional Tavily for live data)
-    if USE_OLLAMA and llm:
+    # Debug: Print the received request
+    print(f"🔍 Received request: query='{request.query}', userId='{request.userId}'")
+    
+    # Dynamically fetch user bookings from database
+    bookings = fetch_user_bookings(request.userId)
+
+    print(f"Bookings: {bookings}")
+    
+    # Use OpenAI for intelligent query analysis and response generation
+    if USE_OPENAI:
         try:
             # Prepare context with user's bookings
             context = ""
             if bookings:
-                context = f" User has {len(bookings)} upcoming booking(s). Recent trip: {bookings[0].get('city', 'N/A')}"
+                context = f"User has {len(bookings)} booking(s). "
+                for i, booking in enumerate(bookings):  
+                    location = booking.get('location') or booking.get('city', 'destination')
+                    status = booking.get('status', 'unknown')
+                    start_date = booking.get('start_date', '')[:10] if booking.get('start_date') else 'N/A'
+                    end_date = booking.get('end_date', '')[:10] if booking.get('end_date') else 'N/A'
+                    context += f"Booking {i+1}: {location} ({start_date} to {end_date}) - Status: {status}. "
             
-            # Use Tavily for web search if available
+            # Use Tavily for web search (as required in homework)
             web_data = ""
-            if USE_TAVILY and tavily_client:
-                try:
-                    # Use query as-is for Tavily (don't append location)
-                    search_query = query
-                    
-                    # Search Tavily for live local context
-                    results = tavily_client.search(search_query, max_results=3)
-                    if results and results.get('results'):
-                        web_data = "\n\nLive local information:\n"
-                        for r in results['results'][:2]:
-                            web_data += f"- {r.get('title', '')}: {r.get('content', '')[:150]}...\n"
-                    print(f"🔍 Tavily search completed for: {search_query[:60]}")
-                except Exception as e:
-                    print(f"⚠️ Tavily search error: {e}")
+            if USE_TAVILY:
+                # Smart search query generation
+                search_query = request.query
+                
+                # Enhance search for travel-related queries
+                if any(word in request.query.lower() for word in ["weather", "forecast", "temperature"]):
+                    if bookings:
+                        upcoming_trip = bookings[0]
+                        location = upcoming_trip.get('location') or upcoming_trip.get('city', '')
+                        start_date = upcoming_trip.get('start_date', '')[:10] if upcoming_trip.get('start_date') else ''
+                        if location and start_date:
+                            search_query = f"weather forecast {location} {start_date}"
+                
+                web_data = search_tavily(search_query)
             
-            # Create prompt for Ollama with web data
-            # Enhanced for lab requirements: day-by-day plans, activity cards, restaurant recs, packing checklist
-            prompt = f"""You are a helpful AI travel assistant for an Airbnb-like platform.
+            # Create intelligent prompt for OpenAI
+            prompt = f"""You are an intelligent AI travel assistant for an Airbnb-like platform.
+
 {context}
 
-User query: {query}
+User query: {request.query}
 {web_data}
 
-Based on the above, provide:
-1. A day-by-day plan (morning/afternoon/evening activities)
-2. Activity cards (specific places to visit with titles, locations, duration)
-3. Restaurant recommendations (if applicable)
-4. Packing checklist (weather-aware if weather data provided)
+Instructions:
+1. If the user is asking about their trips/bookings, provide specific information using the booking data above
+2. If the user is asking for travel planning/recommendations, provide detailed day-by-day plans with:
+   - Morning/afternoon/evening activities
+   - Specific locations with addresses
+   - Duration estimates
+   - Restaurant recommendations
+   - Packing checklists (weather-aware if weather data provided)
+3. Use the live web information above to enhance your responses
+4. Be helpful, specific, and practical
 
-Format as a practical travel guide with specific recommendations."""
+Respond with a comprehensive, helpful answer."""
+
+            # Call OpenAI API
+            ai_response = call_openai(prompt)
+            print("prompt: ", prompt)
+            print(f"🤖 OpenAI ({OPENAI_MODEL}) response: {ai_response}...")
             
-            # Call Ollama using invoke method
-            ai_response = llm.invoke(prompt)
-            print(f"🦙 Ollama (llama2) response: {ai_response[:50]}...")
-            
-            # Limit response length for chat (increased to 1000 characters)
-            if len(ai_response) > 1000:
-                ai_response = ai_response[:997] + "..."
+            # Limit response length for chat
+            if len(ai_response) > 2000:
+                ai_response = ai_response[:1997] + "..."
             
             return {"response": ai_response.strip()}
-            
+
         except Exception as e:
-            print(f"⚠️ Ollama error: {e}. Falling back to rule-based response.")
+            print(f"⚠️ OpenAI error: {e}. Falling back to basic response.")
             return {
                 "response": (
                     "Sorry, I'm having trouble with my AI brain right now. "
                     "But I can still help! Try asking about:\n"
                     "• Your trips and bookings\n"
-                    "• How many cancelled/accepted trips you have\n"
+                    "• Travel planning and recommendations\n"
+                    "• Weather information\n"
                     "• Or just say hi! 👋"
                 )
             }
     
-    # Helpful fallback message for unknown queries
+    # Fallback for when OpenAI is not available
     return {
         "response": (
-            "Sorry, I didn't understand that. 🤔\n\n"
-            "I can help you with:\n"
-            "• Checking your trips and bookings\n"
-            "• Counting your accepted/pending/cancelled trips\n"
-            "• Travel recommendations and advice\n\n"
-            "What would you like to ask?"
+            "I'm currently unable to process your request. "
+            "Please make sure OpenAI API is properly configured. "
+            "You can still browse properties and make bookings!"
         )
     }
 
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "openai_configured": USE_OPENAI,
+        "tavily_configured": USE_TAVILY,
+        "model": OPENAI_MODEL if USE_OPENAI else "none"
+    }
+
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)# Uvicorn is an ASGI server that runs your FastAPI application. 
+    uvicorn.run(app, host="0.0.0.0", port=8000)
