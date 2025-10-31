@@ -44,11 +44,9 @@ USE_OPENAI = bool(OPENAI_API_KEY)
 USE_TAVILY = bool(TAVILY_API_KEY)
 
 if USE_OPENAI:
-    print(f"✅ Ollama initialized")
-    print(f"   Model: llama2")
-    print(f"   Base URL: http://localhost:11434")
+    print(f"✅ OpenAI initialized ({OPENAI_MODEL})")
 else:
-    print("⚠️ Ollama not configured. Using rule-based responses only.")
+    print("⚠️ OpenAI API key not set. Using rule-based responses only.")
 
 if USE_TAVILY:
     print("✅ Tavily initialized (web search enabled)")
@@ -133,9 +131,9 @@ def search_tavily(query: str):
 
 def call_openai(prompt: str):
     """Call OpenAI API to generate AI response"""
-    print(f"🤖 Calling Ollama API at http://localhost:11434/api/generate")
-    print(f"📦 Using model: llama2")
-    print("🔄 Processing request with Ollama...")
+    print(f"🤖 Calling OpenAI API")
+    print(f"📦 Using model: {OPENAI_MODEL}")
+    print("🔄 Processing request with OpenAI...")
     
     headers = {
         "Authorization": f"Bearer {OPENAI_API_KEY}",
@@ -162,7 +160,7 @@ def call_openai(prompt: str):
     if response.status_code == 200:
         result = response.json()
         ai_response = result["choices"][0]["message"]["content"]
-        print(f"✅ Ollama response generated successfully")
+        print(f"✅ OpenAI response generated successfully")
         return ai_response
     elif response.status_code == 429:
         error_data = response.json()
@@ -172,11 +170,11 @@ def call_openai(prompt: str):
                 "Please try again later, or contact support if this persists."
             )
         else:
-            print(f"⚠️ Ollama API rate limit error")
-            raise Exception(f"Ollama API rate limit: {response.text}")
+            print(f"⚠️ OpenAI API rate limit error")
+            raise Exception(f"OpenAI API rate limit: {response.text}")
     else:
-        print(f"⚠️ Ollama API error: HTTP {response.status_code}")
-        raise Exception(f"Ollama API error: {response.status_code} - {response.text}")
+        print(f"⚠️ OpenAI API error: HTTP {response.status_code}")
+        raise Exception(f"OpenAI API error: {response.status_code} - {response.text}")
 
 @app.post("/api/ai/plan", response_model=AIResponse)
 async def ai_plan(request: AIRequest):
@@ -185,7 +183,7 @@ async def ai_plan(request: AIRequest):
     1. Fetch user bookings (from backend database)
     2. Call TAVILY (web search) - Gets real-time data
     3. Build prompt combining: User query + Booking context + Tavily web data
-    4. Call OLLAMA (local AI) - Generates response
+    4. Call OpenAI API - Generates response
     5. FastAPI returns response to user
     """
     
@@ -200,7 +198,7 @@ async def ai_plan(request: AIRequest):
     bookings = fetch_user_bookings(request.userId)
     print(f"✅ Retrieved {len(bookings)} booking(s) for user")
     
-    # Use Ollama for intelligent query analysis and response generation
+    # Use OpenAI for intelligent query analysis and response generation
     if USE_OPENAI:
         try:
             # Prepare context with user's bookings
@@ -265,13 +263,13 @@ Instructions:
 Respond with a comprehensive, helpful answer."""
             print(f"✅ Prompt built successfully ({len(prompt)} characters)")
             
-            # Step 4: Call OLLAMA (local AI) - Generates response
+            # Step 4: Call OpenAI API - Generates response
             # - Reads all context
             # - Creates personalized answer
             # - Formats response nicely
-            print(f"\n[Step 4] 🤖 Calling OLLAMA (local AI) to generate response...")
+            print(f"\n[Step 4] 🤖 Calling OpenAI API to generate response...")
             ai_response = call_openai(prompt)
-            print(f"✅ Ollama (llama2) response generated successfully")
+            print(f"✅ OpenAI ({OPENAI_MODEL}) response generated successfully")
             print(f"   Response length: {len(ai_response)} characters")
             
             # Limit response length for chat
@@ -284,7 +282,7 @@ Respond with a comprehensive, helpful answer."""
             return {"response": ai_response.strip()}
 
         except Exception as e:
-            print(f"\n⚠️ Ollama error: {e}. Falling back to basic response.")
+            print(f"\n⚠️ OpenAI error: {e}. Falling back to basic response.")
             return {
                 "response": (
                     "Sorry, I'm having trouble with my AI brain right now. "
@@ -296,11 +294,11 @@ Respond with a comprehensive, helpful answer."""
                 )
             }
     
-    # Fallback for when Ollama is not available
+    # Fallback for when OpenAI is not available
     return {
         "response": (
             "I'm currently unable to process your request. "
-            "Please make sure Ollama API is properly configured. "
+            "Please make sure OpenAI API is properly configured. "
             "You can still browse properties and make bookings!"
         )
     }
@@ -310,7 +308,7 @@ async def health_check():
     """Health check endpoint"""
     return {
         "status": "healthy",
-        "ollama_configured": USE_OPENAI,
+        "openai_configured": USE_OPENAI,
         "tavily_configured": USE_TAVILY,
         "model": OPENAI_MODEL if USE_OPENAI else "none"
     }
