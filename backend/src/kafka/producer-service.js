@@ -38,10 +38,22 @@ app.use(session({
 }));
 
 // Authentication middleware
+// NOTE: For lab/demo purposes, also allow a demo user ID via header/query
+// so that Kafka flows can be tested easily with curl without full auth.
 const isAuthenticated = (req, res, next) => {
+    // Normal session-based auth (when used behind the real frontend)
     if (req.session && req.session.userId) {
         return next();
     }
+
+    // Demo override for lab testing: X-Demo-User-Id or ?demoUserId
+    const demoUserId = req.headers['x-demo-user-id'] || req.query.demoUserId;
+    if (demoUserId) {
+        req.session = req.session || {};
+        req.session.userId = parseInt(demoUserId, 10);
+        return next();
+    }
+
     return res.status(401).json({ message: 'Not authenticated' });
 };
 
@@ -68,9 +80,10 @@ app.post('/api/bookings', isAuthenticated, async (req, res) => {
         }
 
         // Create booking in database with PENDING status
+        // NOTE: DB schema uses num_guests (not guests)
         const [result] = await connection.execute(
             `INSERT INTO bookings 
-            (property_id, traveler_id, start_date, end_date, guests, total_price, status, created_at) 
+            (property_id, traveler_id, start_date, end_date, num_guests, total_price, status, created_at) 
             VALUES (?, ?, ?, ?, ?, ?, 'pending', NOW())`,
             [property_id, traveler_id, start_date, end_date, guests, total_price]
         );
@@ -79,7 +92,7 @@ app.post('/api/bookings', isAuthenticated, async (req, res) => {
 
         // Get booking details for Kafka event
         const [bookings] = await connection.execute(
-            `SELECT b.*, p.property_name, p.owner_id, u.full_name as traveler_name, u.email as traveler_email
+            `SELECT b.*, p.property_name, p.owner_id, u.name as traveler_name, u.email as traveler_email
              FROM bookings b
              JOIN properties p ON b.property_id = p.id
              JOIN users u ON b.traveler_id = u.id
@@ -156,7 +169,7 @@ app.put('/api/bookings/:id/status', isAuthenticated, async (req, res) => {
 
         // Get booking details
         const [bookings] = await connection.execute(
-            `SELECT b.*, p.owner_id, p.property_name, u.full_name as traveler_name, u.email as traveler_email
+            `SELECT b.*, p.owner_id, p.property_name, u.name as traveler_name, u.email as traveler_email
              FROM bookings b
              JOIN properties p ON b.property_id = p.id
              JOIN users u ON b.traveler_id = u.id

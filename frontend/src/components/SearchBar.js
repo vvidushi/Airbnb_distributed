@@ -88,7 +88,9 @@ const SearchBar = ({ onSearch }) => {
                             className="w-full px-4 py-2 border border-gray rounded-lg focus:outline-none focus:border-primary"
                         >
                             {[1, 2, 3, 4, 5, 6, 7, 8].map(num => (
-                                <option key={num} value={num}>{num} Guest{num > 1 ? 's' : ''}</option>
+                                <option key={num} value={num}>
+                                    {num}{num === 8 ? '+ ' : ' '}Guest{num > 1 ? 's' : ''}
+                                </option>
                             ))}
                         </select>
                     </div>

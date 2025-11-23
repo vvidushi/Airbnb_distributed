@@ -6,6 +6,7 @@ import ConfirmModal from '../../components/ConfirmModal';
 
 const OwnerProperties = () => {
     const [properties, setProperties] = useState([]);
+    const [activeTab, setActiveTab] = useState('active'); // 'active' | 'unlisted'
     const [loading, setLoading] = useState(true);
     const [confirmModal, setConfirmModal] = useState({
         isOpen: false,
@@ -73,7 +74,8 @@ const OwnerProperties = () => {
             onConfirm: async () => {
                 try {
                     await unlistProperty(id);
-                    setProperties(prev => prev.filter(p => p.id !== id));
+                    // Reload properties so updated status is reflected
+                    await loadProperties();
                 } catch (error) {
                     console.error('Error unlisting property:', error);
                     alert('Failed to unlist property');
@@ -105,6 +107,12 @@ const OwnerProperties = () => {
         );
     }
 
+    // Split properties by status for clearer sections
+    const activeAndSnoozed = properties.filter(
+        (p) => p.status === 'active' || p.status === 'snoozed' || !p.status
+    );
+    const unlisted = properties.filter((p) => p.status === 'unlisted');
+
     return (
         <div className="min-h-screen py-8">
             <ConfirmModal
@@ -118,7 +126,7 @@ const OwnerProperties = () => {
             />
 
             <div className="container mx-auto px-4">
-                <div className="flex justify-between items-center mb-8">
+                <div className="flex justify-between items-center mb-6">
                     <h1 className="text-4xl font-bold text-dark">My Properties</h1>
                     <Link
                         to="/owner/properties/new"
@@ -129,7 +137,35 @@ const OwnerProperties = () => {
                     </Link>
                 </div>
 
-                {properties.length === 0 ? (
+                {/* Tabs */}
+                <div className="mb-6 border-b border-gray-200">
+                    <nav className="-mb-px flex space-x-6">
+                        <button
+                            onClick={() => setActiveTab('active')}
+                            className={`pb-2 text-sm font-medium border-b-2 ${
+                                activeTab === 'active'
+                                    ? 'border-primary text-primary'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            }`}
+                        >
+                            My Properties
+                        </button>
+                        <button
+                            onClick={() => setActiveTab('unlisted')}
+                            className={`pb-2 text-sm font-medium border-b-2 ${
+                                activeTab === 'unlisted'
+                                    ? 'border-primary text-primary'
+                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                            }`}
+                        >
+                            Unlisted
+                        </button>
+                    </nav>
+                </div>
+
+                {/* Active / Snoozed tab */}
+                {activeTab === 'active' && (
+                properties.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-md p-8 text-center">
                         <p className="text-xl text-gray-dark mb-4">You haven't added any properties yet</p>
                         <Link
@@ -142,7 +178,7 @@ const OwnerProperties = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {properties.map(property => (
+                        {activeAndSnoozed.map(property => (
                             <div key={property.id} className="bg-white rounded-lg shadow-md overflow-hidden">
                                 <div className="h-48 bg-gray-200">
                                     <img
@@ -220,6 +256,60 @@ const OwnerProperties = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                ))}
+
+                {/* Unlisted tab */}
+                {activeTab === 'unlisted' && (
+                    <div>
+                        {unlisted.length === 0 ? (
+                            <div className="bg-white rounded-lg shadow-md p-8 text-center">
+                                <p className="text-xl text-gray-dark mb-2">
+                                    You don't have any unlisted properties.
+                                </p>
+                            </div>
+                        ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {unlisted.map((property) => (
+                                <div key={property.id} className="bg-white rounded-lg shadow-md overflow-hidden">
+                                    <div className="h-48 bg-gray-200">
+                                        <img
+                                            src={(() => {
+                                                if (!property.images || property.images.length === 0)
+                                                    return 'https://via.placeholder.com/400x300';
+                                                const img = property.images[0];
+                                                return (img.startsWith('http://') || img.startsWith('https://'))
+                                                    ? img
+                                                    : `/uploads/${img}`;
+                                            })()}
+                                            alt={property.property_name}
+                                            className="w-full h-full object-cover"
+                                            onError={(e) => {
+                                                e.target.src = 'https://via.placeholder.com/400x300';
+                                            }}
+                                        />
+                                    </div>
+                                    <div className="p-4">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="text-xl font-semibold text-dark truncate flex-1">
+                                                {property.property_name}
+                                            </h3>
+                                            {getStatusBadge(property.status)}
+                                        </div>
+                                        <p className="text-gray-dark mb-2">
+                                            {property.city}, {property.country}
+                                        </p>
+                                        <div className="mb-4">
+                                            <span className="text-2xl font-bold text-dark">
+                                                ${property.price_per_night}
+                                            </span>
+                                            <span className="text-sm text-gray-dark">/night</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        )}
                     </div>
                 )}
             </div>

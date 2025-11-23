@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   # Zookeeper for Kafka
@@ -48,13 +48,14 @@ services:
     image: mysql:8.0
     container_name: airbnb-mysql
     environment:
-      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ROOT_PASSWORD: "root"
       MYSQL_DATABASE: airbnb_db
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "no"
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./database/0-init-root-user.sql:/docker-entrypoint-initdb.d/0-init-root-user.sql
       - ./database/schema.sql:/docker-entrypoint-initdb.d/1-schema.sql
       - ./database/seed.sql:/docker-entrypoint-initdb.d/2-seed.sql
     healthcheck:
@@ -92,14 +93,15 @@ services:
       dockerfile: Dockerfile
     container_name: airbnb-backend
     ports:
-      - "5000:5000"
+      - "5001:5000"
     environment:
       NODE_ENV: development
       PORT: 5000
       DB_HOST: mysql
       DB_PORT: 3306
+      # Use root user to match MySQL container config and seed scripts
       DB_USER: root
-      DB_PASSWORD: ""
+      DB_PASSWORD: "root"
       DB_NAME: airbnb_db
       SESSION_SECRET: airbnb_secret_key_dev
       INTERNAL_API_KEY: airbnb_internal_key_2024
@@ -128,14 +130,15 @@ services:
     container_name: airbnb-kafka-producer
     command: ["node", "src/kafka/producer-service.js"]
     ports:
-      - "5001:5001"
+      - "5002:5001"
     environment:
       NODE_ENV: development
       PRODUCER_PORT: 5001
       DB_HOST: mysql
       DB_PORT: 3306
+      # Match backend DB credentials
       DB_USER: root
-      DB_PASSWORD: ""
+      DB_PASSWORD: "root"
       DB_NAME: airbnb_db
       SESSION_SECRET: airbnb_secret_key_dev
       KAFKA_BROKER: kafka:9092
@@ -162,8 +165,9 @@ services:
       NODE_ENV: development
       DB_HOST: mysql
       DB_PORT: 3306
+      # Match backend DB credentials
       DB_USER: root
-      DB_PASSWORD: ""
+      DB_PASSWORD: "root"
       DB_NAME: airbnb_db
       KAFKA_BROKER: kafka:9092
     depends_on:

@@ -35,7 +35,8 @@ const LoginRedux = () => {
     // Redirect if already authenticated
     useEffect(() => {
         if (isAuthenticated && userRole) {
-            const redirectPath = userRole === 'traveler' ? '/dashboard' : '/owner/dashboard';
+            // Redirect to Redux-integrated dashboard
+            const redirectPath = userRole === 'traveler' ? '/dashboard-redux' : '/owner/dashboard';
             navigate(redirectPath);
         }
     }, [isAuthenticated, userRole, navigate]);

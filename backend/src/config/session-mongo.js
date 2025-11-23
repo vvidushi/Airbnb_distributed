@@ -12,12 +12,11 @@ const sessionConfig = {
     store: MongoStore.create({
         mongoUrl: MONGODB_URI,
         collectionName: 'sessions',
-        ttl: 24 * 60 * 60, // 1 day in seconds
-        autoRemove: 'native', // Auto remove expired sessions
-        touchAfter: 24 * 3600, // Lazy session update (24 hours)
-        crypto: {
-            secret: process.env.SESSION_SECRET || 'airbnb_secret_key_2024'
-        }
+        ttl: 24 * 60 * 60,       // 1 day in seconds
+        autoRemove: 'native',    // Auto remove expired sessions
+        touchAfter: 24 * 3600    // Lazy session update (24 hours)
+        // Note: crypto option removed to avoid connect-mongo v5 errors.
+        // For the lab, it's enough that sessions are stored in MongoDB.
     }),
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds

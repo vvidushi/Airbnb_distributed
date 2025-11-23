@@ -5,12 +5,9 @@ const MONGODB_URI = process.env.MONGODB_URI ||
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(MONGODB_URI, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            serverSelectionTimeoutMS: 5000,
-            socketTimeoutMS: 45000,
-        });
+        // Newer versions of Mongoose no longer require/use the legacy
+        // useNewUrlParser / useUnifiedTopology options.
+        await mongoose.connect(MONGODB_URI);
         console.log('✅ MongoDB Connected successfully');
         console.log(`📊 Database: ${mongoose.connection.name}`);
     } catch (error) {

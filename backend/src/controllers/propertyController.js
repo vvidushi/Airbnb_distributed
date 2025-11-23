@@ -1,5 +1,17 @@
 const db = require('../config/database');
 
+// Helper to safely parse JSON fields (e.g., images, amenities)
+const safeParseJson = (value, fallback = []) => {
+    if (!value) return fallback;
+    if (Array.isArray(value)) return value;
+    try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : fallback;
+    } catch {
+        return fallback;
+    }
+};
+
 // Get all properties (with optional search filters)
 exports.searchProperties = async (req, res) => {
     try {
@@ -9,7 +21,8 @@ exports.searchProperties = async (req, res) => {
             SELECT p.*, u.name as owner_name 
             FROM properties p 
             JOIN users u ON p.owner_id = u.id 
-            WHERE p.status = 'active'
+            WHERE 1=1
+              AND p.status = 'active'
         `;
         const params = [];
 
@@ -68,7 +81,15 @@ exports.searchProperties = async (req, res) => {
         }
 
         const [properties] = await db.query(query, params);
-        res.json(properties);
+
+        // Normalize JSON fields so frontend gets proper arrays
+        const normalized = properties.map((p) => ({
+            ...p,
+            amenities: safeParseJson(p.amenities, []),
+            images: safeParseJson(p.images, []),
+        }));
+
+        res.json(normalized);
     } catch (error) {
         console.error('Search properties error:', error);
         res.status(500).json({ error: 'Server error' });
@@ -88,7 +109,11 @@ exports.getPropertyById = async (req, res) => {
             return res.status(404).json({ error: 'Property not found' });
         }
 
-        res.json(properties[0]);
+        const property = properties[0];
+        property.amenities = safeParseJson(property.amenities, []);
+        property.images = safeParseJson(property.images, []);
+
+        res.json(property);
     } catch (error) {
         console.error('Get property error:', error);
         res.status(500).json({ error: 'Server error' });
