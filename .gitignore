@@ -75,6 +75,15 @@ tmp/
 .cache/
 output/
 
+# --- Node modules cache ---
+node_modules/.cache/
+frontend/node_modules/.cache/
+
+# --- User uploads ---
+backend/uploads/
+frontend/public/travel_backdrop.jpeg
+frontend/src/travel_backdrop.jpeg
+
 # --- Presentation files ---
 ./PRESENTATION_GUIDE.md
 
