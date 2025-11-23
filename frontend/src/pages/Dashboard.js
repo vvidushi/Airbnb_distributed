@@ -19,7 +19,9 @@ const Dashboard = () => {
     const loadProperties = async (params = {}) => {
         try {
             setLoading(true);
+            console.log('Loading properties with params:', params);
             const response = await searchProperties(params);
+            console.log('Properties loaded:', response.data.length);
             setProperties(response.data);
         } catch (error) {
             console.error('Error loading properties:', error);
@@ -58,7 +60,7 @@ const Dashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-light">
+        <div className="min-h-screen">
             <div className="container mx-auto px-4 py-8">
                 <h1 className="text-4xl font-bold text-dark mb-8">Find Your Perfect Stay</h1>
                 

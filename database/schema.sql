@@ -42,6 +42,7 @@ CREATE TABLE properties (
     images JSON DEFAULT NULL,
     available_from DATE DEFAULT NULL,
     available_to DATE DEFAULT NULL,
+    status ENUM('active', 'snoozed', 'unlisted') DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE

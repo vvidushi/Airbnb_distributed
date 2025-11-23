@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const { login } = useAuth();
@@ -31,7 +33,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-light flex items-center justify-center px-4">
+        <div className="min-h-screen flex items-center justify-center px-4">
             <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
                 <h2 className="text-3xl font-bold text-dark mb-6 text-center">Login to Airbnb</h2>
 
@@ -60,14 +62,23 @@ const Login = () => {
                         <label className="block text-sm font-medium text-gray-dark mb-2">
                             Password
                         </label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            required
-                            className="w-full px-4 py-2 border border-gray rounded-lg focus:outline-none focus:border-primary"
-                            placeholder="••••••••"
-                        />
+                        <div className="relative">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                required
+                                className="w-full px-4 py-2 pr-12 border border-gray rounded-lg focus:outline-none focus:border-primary"
+                                placeholder="••••••••"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-dark hover:text-primary transition"
+                            >
+                                {showPassword ? <FaEyeSlash size={20} /> : <FaEye size={20} />}
+                            </button>
+                        </div>
                     </div>
 
                     <button
@@ -86,7 +97,7 @@ const Login = () => {
                     </Link>
                 </p>
 
-                <div className="mt-6 p-4 bg-gray-light rounded-lg">
+                <div className="mt-6 p-4 rounded-lg">
                     <p className="text-sm text-gray-dark mb-2 font-semibold">Test Accounts:</p>
                     <p className="text-xs text-gray-dark">Traveler: traveler@test.com / password123</p>
                     <p className="text-xs text-gray-dark">Owner: owner@test.com / password123</p>

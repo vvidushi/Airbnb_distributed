@@ -1,0 +1,600 @@
+1763893540515,11,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,9
+1763893540527,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893540527,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893540528,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893540892,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893540897,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893540900,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893540902,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893541291,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893541296,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893541298,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893541300,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893541691,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893541696,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893541698,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893541699,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893542090,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893542095,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893542097,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893542099,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893542491,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893542495,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893542497,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893542498,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893542891,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893542896,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893542899,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893542901,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893543290,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893543294,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893543296,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893543297,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893543691,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893543696,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893543698,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893543699,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893544089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893544093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893544095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893544096,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893544487,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893544491,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893544493,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893544494,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893544886,1,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,1
+1763893544887,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893544888,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893544889,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893545290,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893545296,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893545298,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893545299,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893545687,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893545691,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893545693,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893545694,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893546089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893546093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893546094,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893546095,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893546490,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893546493,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893546495,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893546496,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893546890,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893546894,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893546895,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893546896,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893547290,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893547293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893547294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893547295,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893547688,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893547692,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893547694,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893547695,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893548086,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893548088,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893548089,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893548089,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893548489,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893548494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893548495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893548497,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893548886,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893548891,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893548892,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893548893,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893549291,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893549296,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893549298,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893549300,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893549690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893549695,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893549697,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893549698,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893550091,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893550094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893550095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893550096,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893550491,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893550496,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893550497,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893550499,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893550891,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893550896,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893550898,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893550899,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893551290,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893551295,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893551296,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893551297,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893551692,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893551695,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893551696,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893551698,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893552086,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893552089,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893552091,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893552092,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893552487,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893552491,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893552492,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893552494,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893552891,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893552894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893552896,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893552898,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893553291,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893553295,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893553296,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893553298,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893553692,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893553696,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893553698,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893553699,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893554091,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893554096,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893554098,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893554099,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893554491,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893554496,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893554498,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893554499,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893554890,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893554894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893554896,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893554897,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893555290,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893555293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893555294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893555295,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893555685,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893555689,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893555690,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893555692,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893556090,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893556094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893556095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893556096,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893556489,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893556493,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893556494,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893556495,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893556884,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893556889,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893556891,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893556892,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893557287,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893557291,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893557292,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893557293,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893557687,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893557690,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893557691,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893557692,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893558090,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893558094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893558095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893558097,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893558490,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893558494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893558496,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893558497,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893558890,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893558894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893558896,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893558897,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893559289,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893559293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893559294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893559295,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893559690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893559694,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893559695,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893559696,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893560089,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893560097,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893560099,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893560100,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893560486,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893560490,3,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,3
+1763893560494,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893560496,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893560890,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893560895,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893560896,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893560897,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893561284,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893561289,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893561290,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893561291,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893561689,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893561694,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893561695,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893561696,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893562089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893562093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893562095,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893562096,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893562487,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893562491,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893562493,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893562494,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893562890,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893562894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893562896,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893562897,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893563288,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893563292,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893563294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893563296,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893563687,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893563691,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893563692,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893563694,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893564089,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893564094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893564095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893564097,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893564485,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893564490,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893564491,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893564492,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893564890,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893564895,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893564896,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893564898,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893565289,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893565291,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893565293,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893565293,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893565687,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893565692,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893565695,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893565697,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893566087,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893566091,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893566093,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893566094,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893566489,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893566493,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893566494,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893566495,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893566887,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893566891,2,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,2
+1763893566893,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893566895,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893567290,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893567295,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893567297,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893567299,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893567691,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893567695,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893567696,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893567698,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893568091,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893568095,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893568096,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893568097,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893568490,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893568495,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893568496,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893568497,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893568890,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893568894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893568896,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893568897,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893569290,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893569294,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893569296,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893569297,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893569689,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893569694,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893569696,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893569697,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893570090,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893570095,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893570096,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893570097,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893570488,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893570493,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893570494,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893570495,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893570889,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893570893,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893570895,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893570896,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893571289,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893571292,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893571293,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893571294,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893571690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893571694,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893571696,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893571697,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893572088,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893572092,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893572092,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893572093,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893572488,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893572492,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893572494,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893572495,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893572890,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893572894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893572895,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893572896,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893573290,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893573294,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893573295,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893573296,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893573690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893573694,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893573695,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893573696,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893574090,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893574094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893574095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893574096,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893574489,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893574493,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893574495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893574497,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893574887,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893574891,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893574892,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893574894,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893575289,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893575294,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893575295,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893575296,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893575690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893575694,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893575695,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893575696,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893576089,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893576093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893576095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893576096,2,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,2
+1763893576490,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893576494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893576496,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893576497,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893576887,1,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,1
+1763893576889,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893576890,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893576892,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893577286,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893577290,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893577291,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893577292,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893577690,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893577693,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893577695,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893577696,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893578089,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893578094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893578095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893578096,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893578489,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893578494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893578495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893578497,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893578889,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893578894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893578895,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893578896,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893579286,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893579290,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893579291,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893579292,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893579691,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893579695,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893579696,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893579697,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893580089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893580093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893580094,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893580095,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893580486,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893580489,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893580490,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893580492,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893580889,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893580893,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893580895,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893580896,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893581285,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893581288,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893581290,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893581291,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893581689,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893581693,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893581694,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893581695,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893582089,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893582092,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893582094,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893582095,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893582490,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893582494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893582495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893582496,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893582890,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893582893,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893582894,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893582894,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893583289,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893583293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893583295,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893583296,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893583684,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893583686,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893583687,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893583688,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893584090,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893584094,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893584095,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893584096,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893584490,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893584494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893584495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893584496,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893584889,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893584893,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893584894,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893584895,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893585290,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893585295,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893585296,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893585297,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893585688,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893585692,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893585693,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893585694,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893586090,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893586094,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893586095,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893586096,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893586490,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893586494,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893586495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893586496,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893586885,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893586889,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893586890,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893586891,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893587285,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893587288,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893587290,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893587291,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893587690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893587693,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893587694,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893587695,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893588089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893588092,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893588094,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893588094,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893588490,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893588495,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893588496,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893588497,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893588890,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893588894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893588895,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893588896,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893589290,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893589294,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893589295,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893589296,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893589686,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893589690,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893589691,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893589692,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893590084,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893590090,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893590091,2,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,2
+1763893590093,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893590490,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893590494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893590496,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893590497,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893590887,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893590891,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893590892,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893590893,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893591288,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893591293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893591294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893591296,2,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,2
+1763893591687,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893591691,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893591693,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893591694,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893592089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893592093,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893592094,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893592095,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893592490,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893592494,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893592495,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893592496,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893592890,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893592894,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893592895,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893592896,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893593289,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893593293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893593294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893593295,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893593684,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893593688,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893593689,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893593690,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893594089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893594093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893594094,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893594095,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893594486,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893594490,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893594492,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893594493,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893594889,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893594893,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893594894,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893594895,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893595289,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893595293,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893595294,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893595295,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893595690,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893595694,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893595695,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893595695,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893596089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893596093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893596094,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893596095,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893596490,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893596494,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893596495,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893596496,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893596884,4,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,4
+1763893596888,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893596889,2,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,2
+1763893596891,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893597286,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893597289,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893597291,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893597292,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893597690,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893597693,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893597694,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893597695,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893598091,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893598096,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893598098,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893598099,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893598491,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893598494,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893598494,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893598495,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893598891,2,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,2
+1763893598894,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893598895,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893598895,1,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,1
+1763893599290,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893599294,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893599295,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893599296,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893599689,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893599693,0,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,0
+1763893599694,0,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,0
+1763893599695,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0
+1763893600089,3,01 - Login,403,Forbidden,false,71,1,1,http://localhost:5000/api/auth/login,3
+1763893600093,1,02 - Search Properties,403,Forbidden,false,71,1,1,http://localhost:5000/api/properties/search?locationLos+Angeles,1
+1763893600094,1,03 - Create Booking,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings,1
+1763893600095,0,04 - Get My Bookings,403,Forbidden,false,71,1,1,http://localhost:5000/api/bookings/traveler,0

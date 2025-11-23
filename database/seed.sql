@@ -1,12 +1,12 @@
 -- Seed data for testing
--- Note: Passwords are 'password123' hashed with bcrypt
+-- Note: Passwords are 'password123' hashed with bcrypt (10 rounds)
 
 -- Insert test users (travelers and owners)
 INSERT INTO users (name, email, password_hash, role, phone, about_me, city, country, languages, gender) VALUES
-('John Traveler', 'traveler@test.com', '$2b$10$rKz4YqZ4YqZ4YqZ4YqZ4YuO7aB8dHZXCjTJ0vZ4YqZ4YqZ4YqZ4Yq', 'traveler', '123-456-7890', 'Love to travel and explore new places!', 'New York', 'United States', 'English, Spanish', 'Male'),
-('Sarah Owner', 'owner@test.com', '$2b$10$rKz4YqZ4YqZ4YqZ4YqZ4YuO7aB8dHZXCjTJ0vZ4YqZ4YqZ4YqZ4Yq', 'owner', '098-765-4321', 'Property owner with multiple listings.', 'Los Angeles', 'United States', 'English', 'Female'),
-('Mike Explorer', 'mike@test.com', '$2b$10$rKz4YqZ4YqZ4YqZ4YqZ4YuO7aB8dHZXCjTJ0vZ4YqZ4YqZ4YqZ4Yq', 'traveler', '555-123-4567', 'Adventure seeker and foodie.', 'Chicago', 'United States', 'English', 'Male'),
-('Emma Host', 'emma@test.com', '$2b$10$rKz4YqZ4YqZ4YqZ4YqZ4YuO7aB8dHZXCjTJ0vZ4YqZ4YqZ4YqZ4Yq', 'owner', '555-987-6543', 'Hosting since 2020.', 'Miami', 'United States', 'English, French', 'Female');
+('John Traveler', 'traveler@test.com', '$2a$10$twh3rbwoRaVUrvvpfsCF.eqi0ai3HNWtgUlXIBuem0QG97qpWVb6m', 'traveler', '123-456-7890', 'Love to travel and explore new places!', 'New York', 'United States', 'English, Spanish', 'Male'),
+('Sarah Owner', 'owner@test.com', '$2a$10$twh3rbwoRaVUrvvpfsCF.eqi0ai3HNWtgUlXIBuem0QG97qpWVb6m', 'owner', '098-765-4321', 'Property owner with multiple listings.', 'Los Angeles', 'United States', 'English', 'Female'),
+('Mike Explorer', 'mike@test.com', '$2a$10$twh3rbwoRaVUrvvpfsCF.eqi0ai3HNWtgUlXIBuem0QG97qpWVb6m', 'traveler', '555-123-4567', 'Adventure seeker and foodie.', 'Chicago', 'United States', 'English', 'Male'),
+('Emma Host', 'emma@test.com', '$2a$10$twh3rbwoRaVUrvvpfsCF.eqi0ai3HNWtgUlXIBuem0QG97qpWVb6m', 'owner', '555-987-6543', 'Hosting since 2020.', 'Miami', 'United States', 'English, French', 'Female');
 
 -- Insert test properties
 INSERT INTO properties (owner_id, property_name, property_type, description, location, city, country, price_per_night, bedrooms, bathrooms, max_guests, amenities, images) VALUES

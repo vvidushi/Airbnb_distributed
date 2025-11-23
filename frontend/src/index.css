@@ -16,6 +16,7 @@ code {
     monospace;
 }
 
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -50,5 +51,10 @@ code {
 .react-datepicker__input-container input:focus {
   outline: none;
   border-color: #FF385C;
+}
+
+/* Ensure datepicker popper sits above cards/wishlist hearts */
+.react-datepicker-popper {
+  z-index: 9999 !important;
 }
 

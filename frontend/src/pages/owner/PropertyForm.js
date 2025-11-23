@@ -135,7 +135,7 @@ const PropertyForm = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-light py-8">
+        <div className="min-h-screen py-8">
             <div className="container mx-auto px-4 max-w-3xl">
                 <h1 className="text-4xl font-bold text-dark mb-8">
                     {isEdit ? 'Edit Property' : 'Add New Property'}

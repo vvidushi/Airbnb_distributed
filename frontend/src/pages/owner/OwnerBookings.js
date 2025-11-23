@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { getOwnerBookings, acceptBooking, cancelBooking } from '../../services/api';
 import { FaCalendar, FaUsers, FaEnvelope, FaPhone } from 'react-icons/fa';
 
 const OwnerBookings = () => {
+    const location = useLocation();
     const [bookings, setBookings] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [filter, setFilter] = useState('all');
+    const [filter, setFilter] = useState(location.state?.filter || 'all');
 
     useEffect(() => {
         loadBookings();
@@ -60,58 +62,58 @@ const OwnerBookings = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen bg-gray-light flex items-center justify-center">
+            <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>
             </div>
         );
     }
 
     return (
-        <div className="min-h-screen bg-gray-light py-8">
+        <div className="min-h-screen py-8">
             <div className="container mx-auto px-4">
                 <h1 className="text-4xl font-bold text-dark mb-8">Booking Requests</h1>
 
                 {/* Filter buttons */}
-                <div className="flex space-x-4 mb-8">
+                <div className="flex flex-wrap gap-4 mb-8">
                     <button
                         onClick={() => setFilter('all')}
-                        className={`px-6 py-2 rounded-lg transition ${
+                        className={`px-6 py-2 rounded-lg transition font-semibold ${
                             filter === 'all' 
-                                ? 'bg-primary text-white' 
-                                : 'bg-white text-gray-dark hover:bg-gray'
+                                ? 'bg-primary text-white shadow-md' 
+                                : 'bg-white text-gray-dark hover:bg-gray-100 border border-gray'
                         }`}
                     >
-                        All
+                        All ({bookings.length})
                     </button>
                     <button
                         onClick={() => setFilter('pending')}
-                        className={`px-6 py-2 rounded-lg transition ${
+                        className={`px-6 py-2 rounded-lg transition font-semibold ${
                             filter === 'pending' 
-                                ? 'bg-primary text-white' 
-                                : 'bg-white text-gray-dark hover:bg-gray'
+                                ? 'bg-yellow-500 text-white shadow-md' 
+                                : 'bg-white text-gray-dark hover:bg-gray-100 border border-gray'
                         }`}
                     >
-                        Pending
+                        Pending ({bookings.filter(b => b.status === 'pending').length})
                     </button>
                     <button
                         onClick={() => setFilter('accepted')}
-                        className={`px-6 py-2 rounded-lg transition ${
+                        className={`px-6 py-2 rounded-lg transition font-semibold ${
                             filter === 'accepted' 
-                                ? 'bg-primary text-white' 
-                                : 'bg-white text-gray-dark hover:bg-gray'
+                                ? 'bg-green-500 text-white shadow-md' 
+                                : 'bg-white text-gray-dark hover:bg-gray-100 border border-gray'
                         }`}
                     >
-                        Accepted
+                        Accepted ({bookings.filter(b => b.status === 'accepted').length})
                     </button>
                     <button
                         onClick={() => setFilter('cancelled')}
-                        className={`px-6 py-2 rounded-lg transition ${
+                        className={`px-6 py-2 rounded-lg transition font-semibold ${
                             filter === 'cancelled' 
-                                ? 'bg-primary text-white' 
-                                : 'bg-white text-gray-dark hover:bg-gray'
+                                ? 'bg-red-500 text-white shadow-md' 
+                                : 'bg-white text-gray-dark hover:bg-gray-100 border border-gray'
                         }`}
                     >
-                        Cancelled
+                        Cancelled ({bookings.filter(b => b.status === 'cancelled').length})
                     </button>
                 </div>
 

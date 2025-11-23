@@ -22,16 +22,10 @@ tell application "Terminal"
     do script "cd '$PROJECT_DIR/frontend' && echo '⚛️  Starting Frontend...' && npm start" in front window
     delay 2
     
-    -- Tab 3: Ollama
+    -- Tab 3: AI Agent
     tell application "System Events" to keystroke "t" using command down
     delay 1
-    do script "echo '🤖 Starting Ollama AI Server...' && ollama serve" in front window
-    delay 2
-    
-    -- Tab 4: AI Agent
-    tell application "System Events" to keystroke "t" using command down
-    delay 1
-    do script "cd '$PROJECT_DIR/ai-agent' && source venv/bin/activate && echo '🧠 Starting AI Agent...' && python app/main.py" in front window
+    do script "cd '$PROJECT_DIR/ai-agent' && source venv/bin/activate && echo '🧠 Starting AI Agent (OpenAI)...' && python app/main.py" in front window
     
 end tell
 

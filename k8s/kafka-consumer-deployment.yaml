@@ -1,0 +1,51 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kafka-consumer-config
+  namespace: airbnb-lab
+data:
+  KAFKA_BROKER: kafka-service:9092
+  DB_HOST: mysql-service
+  DB_PORT: "3306"
+  DB_NAME: airbnb_db
+  DB_USER: root
+  NODE_ENV: production
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+  namespace: airbnb-lab
+  labels:
+    app: kafka-consumer
+    service: consumer
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+        service: consumer
+    spec:
+      containers:
+      - name: kafka-consumer
+        image: airbnb-backend:latest
+        imagePullPolicy: IfNotPresent
+        command: ["node", "src/kafka/consumer-service.js"]
+        envFrom:
+        - configMapRef:
+            name: kafka-consumer-config
+        env:
+        - name: DB_PASSWORD
+          value: ""
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "200m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+

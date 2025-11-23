@@ -5,8 +5,11 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
-const sessionConfig = require('./config/session');
+// Use MongoDB-backed session store for Lab 2 (Part 3)
+// This will store Express sessions in MongoDB instead of MySQL
+const sessionConfig = require('./config/session-mongo');
 const swaggerSpec = require('./config/swagger');
+const { connectDB } = require('./config/mongodb');
 const errorHandler = require('./middleware/errorHandler');
 
 // Import routes
@@ -22,7 +25,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors({
     origin: [
         process.env.FRONTEND_URL || 'http://localhost:3000',
-        'http://localhost:5001'  // Allow Swagger UI to make requests
+        // Allow local React dev server (often runs on 3000 or 3001)
+        'http://localhost:3001',
+        // Allow Swagger UI to make requests
+        'http://localhost:5001'
     ],
     credentials: true
 }));
@@ -30,8 +36,11 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Session middleware
-app.use(session(sessionConfig));//// This code just SETS UP the configuration
+// Connect to MongoDB (for models, analytics, and lab documentation)
+connectDB();
+
+// Session middleware (stored in MongoDB)
+app.use(session(sessionConfig));
 
 // Serve uploaded files statically
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));

@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
         }
 
         // Hash password
-        const passwordHash = await bcrypt.hash(password, 10);
+        const passwordHash = await bcrypt.hash(password, 10);//10 salt
 
         // Insert user
         const [result] = await db.query(

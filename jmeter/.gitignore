@@ -1,0 +1,21 @@
+# JMeter results and reports
+results/*.jtl
+results/*.csv
+reports/*
+!reports/.gitkeep
+
+# JMeter logs
+jmeter.log
+*.log
+
+# Python cache
+scripts/__pycache__/
+*.pyc
+
+# macOS
+.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+
