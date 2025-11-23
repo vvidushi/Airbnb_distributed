@@ -172,6 +172,8 @@ router.put('/:id', isAuthenticated, isOwner, propertyController.updateProperty);
  *         description: Property deleted successfully
  */
 router.delete('/:id', isAuthenticated, isOwner, propertyController.deleteProperty);
+router.patch('/:id/snooze', isAuthenticated, isOwner, propertyController.snoozeProperty);
+router.patch('/:id/unlist', isAuthenticated, isOwner, propertyController.unlistProperty);
 
 /**
  * @swagger

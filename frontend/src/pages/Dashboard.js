@@ -19,7 +19,9 @@ const Dashboard = () => {
     const loadProperties = async (params = {}) => {
         try {
             setLoading(true);
+            console.log('Loading properties with params:', params);
             const response = await searchProperties(params);
+            console.log('Properties loaded:', response.data.length);
             setProperties(response.data);
         } catch (error) {
             console.error('Error loading properties:', error);

@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getOwnerProperties, deleteProperty } from '../../services/api';
-import { FaEdit, FaTrash, FaPlus, FaBed, FaBath } from 'react-icons/fa';
+import { getOwnerProperties, snoozeProperty, unlistProperty } from '../../services/api';
+import { FaEdit, FaPlus, FaBed, FaBath, FaPause, FaPlay, FaBan } from 'react-icons/fa';
+import ConfirmModal from '../../components/ConfirmModal';
 
 const OwnerProperties = () => {
     const [properties, setProperties] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [confirmModal, setConfirmModal] = useState({
+        isOpen: false,
+        title: '',
+        message: '',
+        onConfirm: () => {},
+        type: 'warning',
+        confirmText: 'Confirm',
+    });
 
     useEffect(() => {
         loadProperties();
@@ -22,15 +31,69 @@ const OwnerProperties = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this property?')) return;
+    const handleSnooze = (id) => {
+        const property = properties.find(p => p.id === id);
+        if (!property) return;
 
-        try {
-            await deleteProperty(id);
-            setProperties(properties.filter(p => p.id !== id));
-        } catch (error) {
-            console.error('Error deleting property:', error);
-            alert('Failed to delete property');
+        const isSnoozed = property.status === 'snoozed';
+
+        setConfirmModal({
+            isOpen: true,
+            title: isSnoozed ? 'Reactivate listing?' : 'Snooze listing?',
+            message: isSnoozed
+                ? 'This will make your place visible to guests again on the site.'
+                : 'This will temporarily hide your place from guests. Perfect for renovations or taking a break.',
+            confirmText: isSnoozed ? 'Reactivate' : 'Snooze',
+            type: isSnoozed ? 'success' : 'warning',
+            onConfirm: async () => {
+                try {
+                    await snoozeProperty(id);
+                    await loadProperties();
+                } catch (error) {
+                    console.error('Error updating property status:', error);
+                    alert('Failed to update property status');
+                } finally {
+                    setConfirmModal((prev) => ({ ...prev, isOpen: false }));
+                }
+            },
+        });
+    };
+
+    const handleUnlist = (id) => {
+        const property = properties.find(p => p.id === id);
+        if (!property) return;
+
+        setConfirmModal({
+            isOpen: true,
+            title: 'Unlist this place?',
+            message:
+                'This will remove your place from all search results and prevent new bookings. You can keep the data for your records.',
+            confirmText: 'Unlist property',
+            type: 'danger',
+            onConfirm: async () => {
+                try {
+                    await unlistProperty(id);
+                    setProperties(prev => prev.filter(p => p.id !== id));
+                } catch (error) {
+                    console.error('Error unlisting property:', error);
+                    alert('Failed to unlist property');
+                } finally {
+                    setConfirmModal((prev) => ({ ...prev, isOpen: false }));
+                }
+            },
+        });
+    };
+
+    const getStatusBadge = (status) => {
+        switch(status) {
+            case 'active':
+                return <span className="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>;
+            case 'snoozed':
+                return <span className="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded-full">Snoozed</span>;
+            case 'unlisted':
+                return <span className="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">Unlisted</span>;
+            default:
+                return null;
         }
     };
 
@@ -44,6 +107,16 @@ const OwnerProperties = () => {
 
     return (
         <div className="min-h-screen py-8">
+            <ConfirmModal
+                isOpen={confirmModal.isOpen}
+                title={confirmModal.title}
+                message={confirmModal.message}
+                confirmText={confirmModal.confirmText}
+                type={confirmModal.type}
+                onConfirm={confirmModal.onConfirm}
+                onClose={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+            />
+
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center mb-8">
                     <h1 className="text-4xl font-bold text-dark">My Properties</h1>
@@ -85,9 +158,12 @@ const OwnerProperties = () => {
                                 </div>
 
                                 <div className="p-4">
-                                    <h3 className="text-xl font-semibold text-dark mb-2 truncate">
-                                        {property.property_name}
-                                    </h3>
+                                    <div className="flex justify-between items-start mb-2">
+                                        <h3 className="text-xl font-semibold text-dark truncate flex-1">
+                                            {property.property_name}
+                                        </h3>
+                                        {getStatusBadge(property.status)}
+                                    </div>
                                     
                                     <p className="text-gray-dark mb-2">
                                         {property.city}, {property.country}
@@ -112,19 +188,33 @@ const OwnerProperties = () => {
                                         <span className="text-sm text-gray-dark">/night</span>
                                     </div>
 
-                                    <div className="flex space-x-2">
-                                        <Link
-                                            to={`/owner/properties/edit/${property.id}`}
-                                            className="flex-1 flex items-center justify-center space-x-2 bg-secondary text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
-                                        >
-                                            <FaEdit />
-                                            <span>Edit</span>
-                                        </Link>
+                                    <div className="space-y-2">
+                                        <div className="flex space-x-2">
+                                            <Link
+                                                to={`/owner/properties/edit/${property.id}`}
+                                                className="flex-1 flex items-center justify-center space-x-2 bg-secondary text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition"
+                                            >
+                                                <FaEdit />
+                                                <span>Edit</span>
+                                            </Link>
+                                            <button
+                                                onClick={() => handleSnooze(property.id)}
+                                                className={`flex items-center justify-center space-x-2 px-4 py-2 rounded-lg transition ${
+                                                    property.status === 'snoozed' 
+                                                        ? 'bg-green-500 text-white hover:bg-green-600' 
+                                                        : 'bg-yellow-500 text-white hover:bg-yellow-600'
+                                                }`}
+                                                title={property.status === 'snoozed' ? 'Reactivate' : 'Snooze'}
+                                            >
+                                                {property.status === 'snoozed' ? <FaPlay /> : <FaPause />}
+                                            </button>
+                                        </div>
                                         <button
-                                            onClick={() => handleDelete(property.id)}
-                                            className="flex items-center justify-center space-x-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
+                                            onClick={() => handleUnlist(property.id)}
+                                            className="w-full flex items-center justify-center space-x-2 bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
                                         >
-                                            <FaTrash />
+                                            <FaBan />
+                                            <span>Unlist Property</span>
                                         </button>
                                     </div>
                                 </div>

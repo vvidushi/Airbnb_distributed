@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getProfile, updateProfile, uploadProfilePicture } from '../services/api';
+import { useAuth } from '../context/AuthContext';
 import { FaCamera } from 'react-icons/fa';
 
 const Profile = () => {
+    const navigate = useNavigate();
+    const { user, checkAuth } = useAuth();
     const [profile, setProfile] = useState({
         name: '',
         email: '',
@@ -34,24 +38,57 @@ const Profile = () => {
     };
 
     const handleChange = (e) => {
-        setProfile({
-            ...profile,
-            [e.target.name]: e.target.value
-        });
+        const { name, value } = e.target;
+        
+        // Only allow numbers for phone
+        if (name === 'phone') {
+            const phoneValue = value.replace(/[^0-9]/g, '');
+            setProfile({
+                ...profile,
+                [name]: phoneValue
+            });
+        } else {
+            setProfile({
+                ...profile,
+                [name]: value
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setSuccess('');
+
+        // Validate required fields
+        if (!profile.name || !profile.email) {
+            setError('Name and Email are required fields');
+            return;
+        }
+
+        // Validate phone number if provided
+        if (profile.phone && (profile.phone.length < 10 || profile.phone.length > 15)) {
+            setError('Phone number must be between 10-15 digits');
+            return;
+        }
+
         setSaving(true);
 
         try {
             await updateProfile(profile);
+            await checkAuth(); // Refresh user data in context
             setSuccess('Profile updated successfully!');
+            
+            // Redirect to dashboard after 1 second
+            setTimeout(() => {
+                if (user?.role === 'owner') {
+                    navigate('/owner/dashboard');
+                } else {
+                    navigate('/dashboard');
+                }
+            }, 1000);
         } catch (err) {
             setError('Failed to update profile');
-        } finally {
             setSaving(false);
         }
     };
@@ -69,6 +106,7 @@ const Profile = () => {
                 ...profile,
                 profile_pic: response.data.filename
             });
+            await checkAuth(); // Refresh user data to update navbar
             setSuccess('Profile picture uploaded successfully!');
         } catch (error) {
             setError('Failed to upload profile picture');
@@ -135,27 +173,30 @@ const Profile = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label className="block text-sm font-medium text-gray-dark mb-2">
-                                    Full Name
+                                    Full Name <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="text"
                                     name="name"
                                     value={profile.name}
                                     onChange={handleChange}
+                                    required
                                     className="w-full px-4 py-2 border border-gray rounded-lg focus:outline-none focus:border-primary"
+                                    placeholder="Enter your full name"
                                 />
                             </div>
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-dark mb-2">
-                                    Email
+                                    Email <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     type="email"
                                     value={profile.email}
                                     disabled
-                                    className="w-full px-4 py-2 border border-gray rounded-lg cursor-not-allowed"
+                                    className="w-full px-4 py-2 border border-gray rounded-lg bg-gray-100 cursor-not-allowed text-gray-600"
                                 />
+                                <p className="text-xs text-gray-dark mt-1">Email cannot be changed</p>
                             </div>
 
                             <div>
@@ -167,8 +208,13 @@ const Profile = () => {
                                     name="phone"
                                     value={profile.phone || ''}
                                     onChange={handleChange}
+                                    pattern="[0-9]*"
+                                    inputMode="numeric"
+                                    maxLength="15"
                                     className="w-full px-4 py-2 border border-gray rounded-lg focus:outline-none focus:border-primary"
+                                    placeholder="e.g., 1234567890"
                                 />
+                                <p className="text-xs text-gray-dark mt-1">Numbers only (10-15 digits)</p>
                             </div>
 
                             <div>

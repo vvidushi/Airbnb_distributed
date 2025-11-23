@@ -3,13 +3,13 @@ const db = require('../config/database');
 // Get all properties (with optional search filters)
 exports.searchProperties = async (req, res) => {
     try {
-        const { location, startDate, endDate, guests } = req.query;
+        const { location, startDate, endDate, guests, minPrice, maxPrice, sortBy } = req.query;
 
         let query = `
             SELECT p.*, u.name as owner_name 
             FROM properties p 
             JOIN users u ON p.owner_id = u.id 
-            WHERE 1=1
+            WHERE p.status = 'active'
         `;
         const params = [];
 
@@ -26,6 +26,17 @@ exports.searchProperties = async (req, res) => {
             params.push(parseInt(guests));
         }
 
+        // Filter by price range
+        if (minPrice) {
+            query += ' AND p.price_per_night >= ?';
+            params.push(parseFloat(minPrice));
+        }
+
+        if (maxPrice) {
+            query += ' AND p.price_per_night <= ?';
+            params.push(parseFloat(maxPrice));
+        }
+
         // Filter by availability (check if property is not booked for the requested dates)
         if (startDate && endDate) {
             query += `
@@ -38,7 +49,23 @@ exports.searchProperties = async (req, res) => {
             params.push(startDate, endDate);
         }
 
-        query += ' ORDER BY p.created_at DESC';
+        // Sorting
+        switch(sortBy) {
+            case 'price_low':
+                query += ' ORDER BY p.price_per_night ASC';
+                break;
+            case 'price_high':
+                query += ' ORDER BY p.price_per_night DESC';
+                break;
+            case 'newest':
+                query += ' ORDER BY p.created_at DESC';
+                break;
+            case 'rating':
+                query += ' ORDER BY p.created_at DESC'; // Can be changed to rating when implemented
+                break;
+            default:
+                query += ' ORDER BY p.created_at DESC';
+        }
 
         const [properties] = await db.query(query, params);
         res.json(properties);
@@ -166,8 +193,36 @@ exports.updateProperty = async (req, res) => {
     }
 };
 
-// Delete property (Owner only)
-exports.deleteProperty = async (req, res) => {
+// Snooze property (Owner only) - Temporarily make unavailable
+exports.snoozeProperty = async (req, res) => {
+    try {
+        const ownerId = req.session.userId;
+        const { id } = req.params;
+
+        // Check ownership
+        const [properties] = await db.query('SELECT owner_id, status FROM properties WHERE id = ?', [id]);
+        if (properties.length === 0) {
+            return res.status(404).json({ error: 'Property not found' });
+        }
+        if (properties[0].owner_id !== ownerId) {
+            return res.status(403).json({ error: 'Not authorized' });
+        }
+
+        const newStatus = properties[0].status === 'snoozed' ? 'active' : 'snoozed';
+        await db.query('UPDATE properties SET status = ? WHERE id = ?', [newStatus, id]);
+        
+        res.json({ 
+            message: newStatus === 'snoozed' ? 'Property snoozed successfully' : 'Property reactivated successfully',
+            status: newStatus
+        });
+    } catch (error) {
+        console.error('Snooze property error:', error);
+        res.status(500).json({ error: 'Server error' });
+    }
+};
+
+// Unlist property (Owner only) - Permanently remove from listings
+exports.unlistProperty = async (req, res) => {
     try {
         const ownerId = req.session.userId;
         const { id } = req.params;
@@ -178,15 +233,22 @@ exports.deleteProperty = async (req, res) => {
             return res.status(404).json({ error: 'Property not found' });
         }
         if (properties[0].owner_id !== ownerId) {
-            return res.status(403).json({ error: 'Not authorized to delete this property' });
+            return res.status(403).json({ error: 'Not authorized' });
         }
 
-        await db.query('DELETE FROM properties WHERE id = ?', [id]);
-        res.json({ message: 'Property deleted successfully' });
+        // Mark as unlisted instead of deleting
+        await db.query('UPDATE properties SET status = ? WHERE id = ?', ['unlisted', id]);
+        res.json({ message: 'Property unlisted successfully' });
     } catch (error) {
-        console.error('Delete property error:', error);
+        console.error('Unlist property error:', error);
         res.status(500).json({ error: 'Server error' });
     }
+};
+
+// Delete property (Owner only) - Keep for backwards compatibility
+exports.deleteProperty = async (req, res) => {
+    // Just call unlist instead
+    return exports.unlistProperty(req, res);
 };
 
 // Get owner's properties

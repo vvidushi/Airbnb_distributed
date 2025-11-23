@@ -1,39 +1,100 @@
-# 🚀 Run Guide - Airbnb Application
+# Airbnb App - Quick Run Guide
 
-This folder contains all the documentation and scripts needed to set up and run the Airbnb application.
+## Prerequisites
+- Node.js, Python 3.9+, MySQL installed
+- OpenAI API key: https://platform.openai.com/api-keys
+- Tavily API key: https://tavily.com/
 
-## 📚 Quick Navigation
+---
 
-### 🎯 **Start Here**
-- **[START_HERE.md](./START_HERE.md)** - The main entry point with one-command startup
-- **[QUICK_START.md](./QUICK_START.md)** - Quick setup and manual start instructions
+## 1. Database Setup
 
-### 🔧 **Setup & Configuration**
-- **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** - Detailed setup instructions
-- **[first-time-setup.sh](./first-time-setup.sh)** - Automated first-time setup script
-- **[setup.sh](./setup.sh)** - Main setup script
+```bash
+mysql -u root -p
+CREATE DATABASE airbnb_db;
+exit;
 
-### 🚀 **Running the Application**
-- **[start-all.sh](./start-all.sh)** - Start all services automatically (recommended)
-- **[start.sh](./start.sh)** - Basic start script
+mysql -u root -p airbnb_db < database/schema.sql
+mysql -u root -p airbnb_db < database/seed.sql
+```
 
-### 🤖 **AI Features**
-- **[AI_MODEL_INFO.md](./AI_MODEL_INFO.md)** - AI model information and configuration
-- **[HYBRID_MODE_SETUP.md](./HYBRID_MODE_SETUP.md)** - Hybrid mode setup instructions
-- **[OLLAMA_SETUP.md](./OLLAMA_SETUP.md)** - Ollama AI setup guide
+---
 
-### 📋 **Project Information**
-- **[PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md)** - Project architecture overview
-- **[IMPLEMENTATION_SUMMARY.md](./IMPLEMENTATION_SUMMARY.md)** - Implementation details and features
+## 2. Backend Setup
 
-## ⚡ Quick Start
+```bash
+cd backend
+npm install
+cp env.example .env
+# Edit .env with your MySQL credentials
+npm run dev
+```
 
-1. **First time?** Run: `./first-time-setup.sh`
-2. **Start the app:** Run: `./start-all.sh`
-3. **Access:** http://localhost:3000
+**Runs on:** http://localhost:5000
 
-## 📖 Need Help?
+---
 
-- Check **[START_HERE.md](./START_HERE.md)** for the simplest way to get started
-- See **[QUICK_START.md](./QUICK_START.md)** for manual setup if automatic scripts don't work
-- Read **[SETUP_GUIDE.md](./SETUP_GUIDE.md)** for detailed configuration options
+## 3. Frontend Setup
+
+```bash
+cd frontend
+npm install
+cp env.example .env
+npm start
+```
+
+**Runs on:** http://localhost:3000
+
+---
+
+## 4. AI Agent Setup
+
+```bash
+cd ai-agent
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cp env.example .env
+```
+
+**Edit `ai-agent/.env` with:**
+```env
+OPENAI_API_KEY=sk-your-key-here
+TAVILY_API_KEY=your-tavily-key-here
+DB_PASSWORD=your-mysql-password
+```
+
+**Run:**
+```bash
+python app/main.py
+```
+
+**Runs on:** http://localhost:8000
+
+---
+
+## Auto Start (macOS)
+
+```bash
+cd run-guide
+./start-all.sh
+```
+
+---
+
+## Test Accounts
+
+| Role     | Email              | Password   | Status      |
+|----------|--------------------|-----------|-------------|
+| Traveler | `traveler@test.com` | `password123` | ✅ Working |
+| Traveler | `mike@test.com`     | `password123` | ✅ Working |
+| Owner    | `owner@test.com`    | `password123` | ✅ Working |
+| Owner    | `emma@test.com`     | `password123` | ✅ Working |
+
+---
+
+## API Docs
+
+- Backend: http://localhost:5000/api-docs
+- AI Agent: http://localhost:8000/docs
+

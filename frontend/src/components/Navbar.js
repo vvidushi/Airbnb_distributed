@@ -53,7 +53,18 @@ const Navbar = () => {
                             )}
 
                             <Link to="/profile" className="flex items-center space-x-2 text-gray-dark hover:text-primary transition">
-                                <FaUser />
+                                {user.profile_pic ? (
+                                    <img 
+                                        src={`/uploads/${user.profile_pic}`} 
+                                        alt={user.name}
+                                        className="w-8 h-8 rounded-full object-cover border-2 border-gray"
+                                        onError={(e) => {
+                                            e.target.style.display = 'none';
+                                            e.target.nextSibling.style.display = 'inline';
+                                        }}
+                                    />
+                                ) : null}
+                                {!user.profile_pic && <FaUser />}
                                 <span>{user.name}</span>
                             </Link>
 

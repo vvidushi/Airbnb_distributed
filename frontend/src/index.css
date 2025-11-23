@@ -53,3 +53,8 @@ code {
   border-color: #FF385C;
 }
 
+/* Ensure datepicker popper sits above cards/wishlist hearts */
+.react-datepicker-popper {
+  z-index: 9999 !important;
+}
+

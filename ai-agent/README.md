@@ -3,15 +3,16 @@
 ## What's Installed
 
 - ✅ **FastAPI** - REST API server
-- ✅ **Ollama** - Local LLM (llama2)
+- ✅ **OpenAI** - GPT-3.5-turbo for intelligent responses
 - ✅ **Tavily** - Web search for live local context
 - ✅ **Langchain** - AI integration
 
 ## Quick Start
 
 ```bash
-# 1. Start Ollama
-ollama serve &
+# 1. Configure your API keys in .env
+cp env.example .env
+# Add OPENAI_API_KEY and TAVILY_API_KEY
 
 # 2. Run the agent
 cd ai-agent
@@ -26,7 +27,7 @@ User Query: "restaurants in Paris"
     ↓
 Tavily searches web → Gets live restaurant data
     ↓
-Ollama generates personalized response
+OpenAI (GPT-3.5-turbo) generates personalized response
     ↓
 Returns: AI-powered recommendation with real data
 ```
@@ -40,7 +41,7 @@ bash verify-setup.sh
 ## Lab Requirements Met
 
 ✅ Python FastAPI  
-✅ Langchain (via Ollama)  
+✅ Langchain (via OpenAI)  
 ✅ Tavily for web searches  
 ✅ Live local context (weather, POIs, events)  
 ✅ Day-by-day plans  

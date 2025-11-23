@@ -29,6 +29,7 @@ const OwnerDashboard = () => {
 
     const pendingBookings = bookings.filter(b => b.status === 'pending');
     const acceptedBookings = bookings.filter(b => b.status === 'accepted');
+    const cancelledBookings = bookings.filter(b => b.status === 'cancelled');
 
     if (loading) {
         return (
@@ -44,8 +45,11 @@ const OwnerDashboard = () => {
                 <h1 className="text-4xl font-bold text-dark mb-8">Owner Dashboard</h1>
 
                 {/* Stats Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div className="bg-white rounded-lg shadow-md p-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <Link 
+                        to="/owner/properties"
+                        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer transform hover:scale-105"
+                    >
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-gray-dark text-sm">Total Properties</p>
@@ -53,9 +57,13 @@ const OwnerDashboard = () => {
                             </div>
                             <FaHome className="text-4xl text-primary" />
                         </div>
-                    </div>
+                    </Link>
 
-                    <div className="bg-white rounded-lg shadow-md p-6">
+                    <Link 
+                        to="/owner/bookings"
+                        state={{ filter: 'pending' }}
+                        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer transform hover:scale-105"
+                    >
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-gray-dark text-sm">Pending Requests</p>
@@ -63,9 +71,13 @@ const OwnerDashboard = () => {
                             </div>
                             <FaClock className="text-4xl text-yellow-500" />
                         </div>
-                    </div>
+                    </Link>
 
-                    <div className="bg-white rounded-lg shadow-md p-6">
+                    <Link 
+                        to="/owner/bookings"
+                        state={{ filter: 'accepted' }}
+                        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer transform hover:scale-105"
+                    >
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-gray-dark text-sm">Accepted Bookings</p>
@@ -73,7 +85,21 @@ const OwnerDashboard = () => {
                             </div>
                             <FaCalendarCheck className="text-4xl text-green-500" />
                         </div>
-                    </div>
+                    </Link>
+
+                    <Link 
+                        to="/owner/bookings"
+                        state={{ filter: 'cancelled' }}
+                        className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer transform hover:scale-105"
+                    >
+                        <div className="flex items-center justify-between">
+                            <div>
+                                <p className="text-gray-dark text-sm">Cancelled Bookings</p>
+                                <p className="text-3xl font-bold text-dark">{cancelledBookings.length}</p>
+                            </div>
+                            <FaClock className="text-4xl text-red-500" />
+                        </div>
+                    </Link>
                 </div>
 
                 {/* Quick Actions */}

@@ -1,0 +1,44 @@
+const mongoose = require('mongoose');
+
+const MONGODB_URI = process.env.MONGODB_URI || 
+    `mongodb://${process.env.MONGO_USER || 'admin'}:${process.env.MONGO_PASSWORD || 'airbnb_mongo_2024'}@${process.env.MONGO_HOST || 'localhost'}:${process.env.MONGO_PORT || '27017'}/${process.env.MONGO_DATABASE || 'airbnb_db'}?authSource=admin`;
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 5000,
+            socketTimeoutMS: 45000,
+        });
+        console.log('✅ MongoDB Connected successfully');
+        console.log(`📊 Database: ${mongoose.connection.name}`);
+    } catch (error) {
+        console.error('❌ MongoDB connection error:', error);
+        // Don't exit process, allow app to run with MySQL fallback
+        console.log('⚠️  Continuing with MySQL as primary database');
+    }
+};
+
+// Handle connection events
+mongoose.connection.on('connected', () => {
+    console.log('📡 MongoDB connection established');
+});
+
+mongoose.connection.on('error', (err) => {
+    console.error('❌ MongoDB connection error:', err);
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('📴 MongoDB disconnected');
+});
+
+// Graceful shutdown
+process.on('SIGINT', async () => {
+    await mongoose.connection.close();
+    console.log('MongoDB connection closed through app termination');
+    process.exit(0);
+});
+
+module.exports = { connectDB, mongoose };
+

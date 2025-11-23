@@ -11,6 +11,8 @@ export const getPropertyById = (id) => api.get(`/properties/${id}`);
 export const createProperty = (data) => api.post('/properties', data);
 export const updateProperty = (id, data) => api.put(`/properties/${id}`, data);
 export const deleteProperty = (id) => api.delete(`/properties/${id}`);
+export const snoozeProperty = (id) => api.patch(`/properties/${id}/snooze`);
+export const unlistProperty = (id) => api.patch(`/properties/${id}/unlist`);
 export const getOwnerProperties = () => api.get('/properties/owner/my-properties');
 export const uploadPropertyImages = (formData) => api.post('/properties/upload-images', formData, {
     headers: { 'Content-Type': 'multipart/form-data' }

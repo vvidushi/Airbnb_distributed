@@ -4,9 +4,14 @@ A full-stack Airbnb clone with AI-powered travel planning.
 
 ## Tech Stack
 
-- **Frontend**: React + TailwindCSS
-- **Backend**: Node.js + Express + MySQL
-- **AI Agent**: Python FastAPI + Langchain + Ollama (Local AI)
+- **Frontend**: React + TailwindCSS + Redux Toolkit
+- **Backend**: Node.js + Express + Mongoose
+- **Database**: MongoDB (Primary), MySQL (Legacy support)
+- **Message Queue**: Apache Kafka (for asynchronous messaging)
+- **AI Agent**: Python FastAPI + Langchain + OpenAI
+- **Orchestration**: Docker + Kubernetes
+- **Session Store**: MongoDB (connect-mongo)
+- **State Management**: Redux with Redux Toolkit
 
 ## Tech Design
 
@@ -15,7 +20,7 @@ A full-stack Airbnb clone with AI-powered travel planning.
 The system follows a three-tier architecture:
 - **Frontend & Browser**: React-based user interface
 - **Backend**: Node.js server and Python FastAPI for AI capabilities
-- **Smart Agents**: Llama (local AI) and Tavily integration for intelligent features
+- **Smart Agents**: OpenAI (GPT-3.5-turbo) and Tavily integration for intelligent features
 - **Database**: MySQL for data persistence
 
 ## Workflow
@@ -58,14 +63,25 @@ airbnb/
 
 **New to the project?** Check out the **[run-guide](./run-guide/)** folder for all setup and running instructions!
 
-### One-Command Start
+### Docker & Kubernetes (Lab 2)
+```bash
+# Automated deployment to Kubernetes
+./deploy.sh
+
+# Or use Docker Compose for local testing
+docker-compose up -d
+```
+
+See **[Guide/DOCKER_KUBERNETES.md](./Guide/DOCKER_KUBERNETES.md)** for complete Docker and Kubernetes setup.
+
+### One-Command Start (Development)
 ```bash
 cd run-guide
 ./start-all.sh
 ```
 
 ### Manual Setup
-See **[run-guide/START_HERE.md](./run-guide/START_HERE.md)** for detailed instructions.
+See **[run-guide/README.md](./run-guide/README.md)** for detailed instructions.
 
 ## 📚 Documentation
 
@@ -74,6 +90,15 @@ All setup guides, documentation, and scripts are organized in the **[run-guide](
 - Running guides  
 - AI configuration
 - Project structure details
+
+### Lab 2 Documentation
+
+- **[Guide/LAB2_REPORT.md](./Guide/LAB2_REPORT.md)** - 📊 **Complete Lab 2 Submission Report**
+- **[Guide/DOCKER_KUBERNETES.md](./Guide/DOCKER_KUBERNETES.md)** - Docker & Kubernetes setup (Part 1)
+- **[Guide/KAFKA_SETUP.md](./Guide/KAFKA_SETUP.md)** - Kafka asynchronous messaging (Part 2)
+- **[Guide/MONGODB_REDUX_SETUP.md](./Guide/MONGODB_REDUX_SETUP.md)** - MongoDB & Redux integration (Parts 3 & 4)
+- **[Guide/JMETER_TESTING.md](./Guide/JMETER_TESTING.md)** - JMeter performance testing (Part 5)
+- **[Guide/PART2_VERIFICATION.md](./Guide/PART2_VERIFICATION.md)** - Part 2 verification checklist
 
 ## Detailed Setup Instructions
 
@@ -113,33 +138,24 @@ npm start
 
 Frontend will run on `http://localhost:3000`
 
-### 4. AI Agent Setup (Ollama - Local/Offline)
+### 4. AI Agent Setup (OpenAI)
 
 ```bash
-# Install Ollama first
-# macOS: brew install ollama
-# Linux: curl -fsSL https://ollama.com/install.sh | sh
-# Windows: Download from https://ollama.com/download
-
-# Download AI model
-ollama pull llama2
-
-# Start Ollama (keep running in separate terminal)
-ollama serve
-
-# Setup AI agent (in new terminal)
 cd ai-agent
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 cp env.example .env
-# Edit .env with your MySQL credentials (no API keys needed!)
+# Edit .env with:
+#   - Your MySQL credentials
+#   - OPENAI_API_KEY (get from https://platform.openai.com/api-keys)
+#   - TAVILY_API_KEY (get from https://tavily.com/)
 uvicorn app.main:app --reload --port 8000
 ```
 
 AI Agent will run on `http://localhost:8000`
 
-**Note:** Uses Ollama (local, free, offline AI) - No API keys required!
+**Note:** Requires OpenAI API key. Get yours at https://platform.openai.com/api-keys
 
 ## API Documentation
 
@@ -149,8 +165,13 @@ AI Agent will run on `http://localhost:8000`
 ## Default Users
 
 After running the seed script, you can login with:
-- **Traveler**: traveler@test.com / password123
-- **Owner**: owner@test.com / password123
+
+| Role     | Email              | Password   | Status      |
+|----------|--------------------|-----------|-------------|
+| Traveler | traveler@test.com  | password123 | ✅ Working |
+| Traveler | mike@test.com      | password123 | ✅ Working |
+| Owner    | owner@test.com     | password123 | ✅ Working |
+| Owner    | emma@test.com      | password123 | ✅ Working |
 
 ## Features
 
