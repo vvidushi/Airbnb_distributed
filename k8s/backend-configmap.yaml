@@ -5,7 +5,7 @@ metadata:
   namespace: airbnb-lab
 data:
   PORT: "5000"
-  DB_HOST: mysql-service.airbnb-lab.svc.cluster.local
+  DB_HOST: mysql-service
   DB_PORT: "3306"
   DB_NAME: airbnb_db
   DB_USER: root
@@ -13,8 +13,8 @@ data:
   SESSION_SECRET: airbnb_secret_key_production_2024
   INTERNAL_API_KEY: airbnb_internal_key_2024
   FRONTEND_URL: http://frontend-service
-  KAFKA_BROKER: kafka-service.airbnb-lab.svc.cluster.local:9092
-  MONGO_HOST: mongodb-service.airbnb-lab.svc.cluster.local
+  KAFKA_BROKER: kafka-service:9092
+  MONGO_HOST: mongodb-service
   MONGO_PORT: "27017"
   MONGO_DATABASE: airbnb_db
   MONGO_USER: admin
