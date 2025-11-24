@@ -30,8 +30,11 @@
 
 - **Backend:** Running but not ready (0/1)
   - Issue: DNS resolution for `mongodb-service` failing intermittently
-  - Status: Pods restarting, connection retries in progress
-  - Fix Applied: Increased readiness probe delay to 60s
+  - Status: Pods running (not crashing), connection retries in progress
+  - Fix Applied: 
+    - Made MongoDB session store resilient to connection failures
+    - Increased readiness probe delay to 60s
+    - Session store falls back gracefully on connection errors
   
 - **Frontend:** CrashLoopBackOff
   - Issue: Nginx can't resolve `backend-service` at startup
