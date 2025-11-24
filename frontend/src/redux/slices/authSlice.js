@@ -90,6 +90,21 @@ export const updateProfile = createAsyncThunk(
     }
 );
 
+// Fetch profile details
+export const fetchProfile = createAsyncThunk(
+    'auth/fetchProfile',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/users/profile`, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to fetch profile');
+        }
+    }
+);
+
 // Slice
 const authSlice = createSlice({
     name: 'auth',
@@ -98,7 +113,10 @@ const authSlice = createSlice({
         isAuthenticated: false,
         loading: false,
         error: null,
-        jwtToken: null // JWT token for API authentication
+        jwtToken: null, // JWT token for API authentication
+        profile: null,
+        profileLoading: false,
+        profileError: null
     },
     reducers: {
         // Set JWT token (for future API calls)
@@ -150,13 +168,19 @@ const authSlice = createSlice({
                 state.error = action.payload;
             })
             // Check Auth
+            .addCase(checkAuth.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.user = action.payload;
                 state.isAuthenticated = true;
+                state.loading = false;
             })
             .addCase(checkAuth.rejected, (state) => {
                 state.user = null;
                 state.isAuthenticated = false;
+                state.loading = false;
             })
             // Logout
             .addCase(logout.fulfilled, (state) => {
@@ -167,6 +191,20 @@ const authSlice = createSlice({
             // Update Profile
             .addCase(updateProfile.fulfilled, (state, action) => {
                 state.user = action.payload;
+                state.profile = action.payload;
+            })
+            // Fetch Profile
+            .addCase(fetchProfile.pending, (state) => {
+                state.profileLoading = true;
+                state.profileError = null;
+            })
+            .addCase(fetchProfile.fulfilled, (state, action) => {
+                state.profileLoading = false;
+                state.profile = action.payload;
+            })
+            .addCase(fetchProfile.rejected, (state, action) => {
+                state.profileLoading = false;
+                state.profileError = action.payload;
             });
     }
 });
@@ -181,6 +219,9 @@ export const selectAuthLoading = (state) => state.auth.loading;
 export const selectAuthError = (state) => state.auth.error;
 export const selectUserRole = (state) => state.auth.user?.role;
 export const selectJwtToken = (state) => state.auth.jwtToken;
+export const selectUserProfile = (state) => state.auth.profile;
+export const selectUserProfileLoading = (state) => state.auth.profileLoading;
+export const selectUserProfileError = (state) => state.auth.profileError;
 
 export default authSlice.reducer;
 

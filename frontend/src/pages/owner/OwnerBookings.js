@@ -1,49 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getOwnerBookings, acceptBooking, cancelBooking } from '../../services/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaCalendar, FaUsers, FaEnvelope, FaPhone } from 'react-icons/fa';
+import {
+    fetchOwnerBookings,
+    acceptBooking,
+    cancelBooking,
+    selectOwnerBookings,
+    selectBookingsLoading,
+    selectBookingsError,
+} from '../../redux/slices/bookingsSlice';
 
 const OwnerBookings = () => {
     const location = useLocation();
-    const [bookings, setBookings] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const bookings = useSelector(selectOwnerBookings);
+    const loading = useSelector(selectBookingsLoading);
+    const error = useSelector(selectBookingsError);
     const [filter, setFilter] = useState(location.state?.filter || 'all');
 
     useEffect(() => {
-        loadBookings();
-    }, []);
-
-    const loadBookings = async () => {
-        try {
-            const response = await getOwnerBookings();
-            setBookings(response.data);
-        } catch (error) {
-            console.error('Error loading bookings:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        dispatch(fetchOwnerBookings());
+    }, [dispatch]);
 
     const handleAccept = async (bookingId) => {
-        try {
-            await acceptBooking(bookingId);
-            loadBookings();
-        } catch (error) {
-            console.error('Error accepting booking:', error);
-            alert(error.response?.data?.error || 'Failed to accept booking');
-        }
+        await dispatch(acceptBooking(bookingId));
     };
 
     const handleCancel = async (bookingId) => {
         if (!window.confirm('Are you sure you want to cancel this booking?')) return;
 
-        try {
-            await cancelBooking(bookingId);
-            loadBookings();
-        } catch (error) {
-            console.error('Error cancelling booking:', error);
-            alert('Failed to cancel booking');
-        }
+        await dispatch(cancelBooking(bookingId));
     };
 
     const getStatusColor = (status) => {
@@ -64,6 +51,16 @@ const OwnerBookings = () => {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    {error}
+                </div>
             </div>
         );
     }

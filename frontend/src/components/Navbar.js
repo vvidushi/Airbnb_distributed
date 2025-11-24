@@ -1,23 +1,27 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { logout, selectUser } from '../redux/slices/authSlice';
 
 const Navbar = () => {
-    const { user, logout } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
     const navigate = useNavigate();
 
     const handleLogout = async () => {
-        await logout();
+        await dispatch(logout());
         navigate('/login');
     };
+
+    const homePath = user ? (user.role === 'owner' ? '/owner/dashboard' : '/dashboard') : '/';
 
     return (
         <nav className="bg-white shadow-md sticky top-0 z-50">
             <div className="container mx-auto px-4">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
-                    <Link to={user?.role === 'owner' ? '/owner/dashboard' : '/dashboard'} className="flex items-center">
+                    <Link to={homePath} className="flex items-center">
                         <span className="text-2xl font-bold text-primary">Airbnb</span>
                     </Link>
 
@@ -65,7 +69,7 @@ const Navbar = () => {
                                     />
                                 ) : null}
                                 {!user.profile_pic && <FaUser />}
-                                <span>{user.name}</span>
+                                <span>{user.full_name || user.name || user.email}</span>
                             </Link>
 
                             <button

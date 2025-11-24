@@ -63,8 +63,12 @@ if ! curl -s http://localhost:5000/api/health > /dev/null 2>&1; then
     fi
 fi
 
+# Determine last user count for spacing logic
+LAST_INDEX=$((${#USER_COUNTS[@]} - 1))
+
 # Run tests for each user count
-for USERS in "${USER_COUNTS[@]}"; do
+for INDEX in "${!USER_COUNTS[@]}"; do
+    USERS=${USER_COUNTS[$INDEX]}
     echo ""
     echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
     echo -e "${YELLOW}Running test with ${USERS} concurrent users${NC}"
@@ -90,7 +94,7 @@ for USERS in "${USER_COUNTS[@]}"; do
     fi
     
     # Wait before next test
-    if [ $USERS -ne ${USER_COUNTS[-1]} ]; then
+    if [ "$INDEX" -lt "$LAST_INDEX" ]; then
         echo ""
         echo "⏳ Waiting 30 seconds before next test..."
         sleep 30

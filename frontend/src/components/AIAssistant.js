@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FaRobot, FaTimes, FaPaperPlane, FaExpand, FaCompress } from 'react-icons/fa';
-import { useAuth } from '../context/AuthContext';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../redux/slices/authSlice';
 
 const AIAssistant = () => {
-    const { user } = useAuth();
+    const user = useSelector(selectUser);
     const [isOpen, setIsOpen] = useState(false);
     const [isMaximized, setIsMaximized] = useState(false);
     const [messages, setMessages] = useState([]);

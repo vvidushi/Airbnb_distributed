@@ -1,36 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getPropertyById, createBooking } from '../services/api';
+import { useDispatch, useSelector } from 'react-redux';
 import DatePicker from 'react-datepicker';
 import { FaBed, FaBath, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
 import ImageCarousel from '../components/ImageCarousel';
+import {
+    getPropertyById,
+    selectCurrentProperty,
+    selectPropertyLoading,
+} from '../redux/slices/propertiesSlice';
+import {
+    createBooking as createBookingAction,
+    selectCreateBookingLoading,
+    selectCreateBookingError,
+} from '../redux/slices/bookingsSlice';
 
 const PropertyDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [property, setProperty] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const property = useSelector(selectCurrentProperty);
+    const loading = useSelector(selectPropertyLoading);
+    const bookingLoading = useSelector(selectCreateBookingLoading);
+    const bookingError = useSelector(selectCreateBookingError);
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [numGuests, setNumGuests] = useState(1);
-    const [bookingLoading, setBookingLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
     useEffect(() => {
-        loadProperty();
-    }, [id]);
-
-    const loadProperty = async () => {
-        try {
-            const response = await getPropertyById(id);
-            setProperty(response.data);
-        } catch (error) {
-            console.error('Error loading property:', error);
-        } finally {
-            setLoading(false);
+        if (id) {
+            dispatch(getPropertyById(id));
         }
-    };
+    }, [dispatch, id]);
 
     const calculateTotalPrice = () => {
         if (!startDate || !endDate || !property) return 0;
@@ -47,21 +50,19 @@ const PropertyDetails = () => {
             return;
         }
 
-        setBookingLoading(true);
-
         try {
-            await createBooking({
-                propertyId: parseInt(id),
-                startDate: startDate.toISOString().split('T')[0],
-                endDate: endDate.toISOString().split('T')[0],
-                numGuests: numGuests
-            });
+            await dispatch(
+                createBookingAction({
+                    propertyId: parseInt(id, 10),
+                    startDate: startDate.toISOString().split('T')[0],
+                    endDate: endDate.toISOString().split('T')[0],
+                    numGuests: numGuests
+                })
+            ).unwrap();
             setSuccess('Booking request sent successfully! Check your bookings page.');
             setTimeout(() => navigate('/bookings'), 2000);
         } catch (err) {
-            setError(err.response?.data?.error || 'Booking failed. Please try again.');
-        } finally {
-            setBookingLoading(false);
+            setError(err || 'Booking failed. Please try again.');
         }
     };
 
@@ -151,9 +152,9 @@ const PropertyDetails = () => {
                                 <span className="text-gray-dark"> / night</span>
                             </div>
 
-                            {error && (
+                            {(error || bookingError) && (
                                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-                                    {error}
+                                    {error || bookingError}
                                 </div>
                             )}
 

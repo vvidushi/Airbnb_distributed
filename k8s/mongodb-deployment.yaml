@@ -61,31 +61,32 @@ spec:
           mountPath: /data/db
         resources:
           requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
             memory: "512Mi"
             cpu: "250m"
-          limits:
-            memory: "1Gi"
-            cpu: "500m"
         livenessProbe:
           exec:
             command:
             - mongosh
+            - --quiet
             - --eval
             - "db.adminCommand('ping')"
+          initialDelaySeconds: 60
+          periodSeconds: 30
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          tcpSocket:
+            port: 27017
           initialDelaySeconds: 30
           periodSeconds: 10
-        readinessProbe:
-          exec:
-            command:
-            - mongosh
-            - --eval
-            - "db.adminCommand('ping')"
-          initialDelaySeconds: 5
-          periodSeconds: 5
+          timeoutSeconds: 5
+          failureThreshold: 3
       volumes:
       - name: mongodb-storage
-        persistentVolumeClaim:
-          claimName: mongodb-pvc
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

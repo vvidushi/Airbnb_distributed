@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { selectAuthLoading, signup } from '../redux/slices/authSlice';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -14,8 +15,8 @@ const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const { signup } = useAuth();
+    const dispatch = useDispatch();
+    const loading = useSelector(selectAuthLoading);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -40,15 +41,18 @@ const Signup = () => {
             return;
         }
 
-        setLoading(true);
-
         try {
-            await signup(formData.name, formData.email, formData.password, formData.role);
+            await dispatch(
+                signup({
+                    name: formData.name,
+                    email: formData.email,
+                    password: formData.password,
+                    role: formData.role,
+                })
+            ).unwrap();
             navigate('/login', { state: { message: 'Registration successful! Please login.' } });
         } catch (err) {
-            setError(err.response?.data?.error || 'Registration failed. Please try again.');
-        } finally {
-            setLoading(false);
+            setError(err || 'Registration failed. Please try again.');
         }
     };
 

@@ -1,33 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { getFavorites, removeFavorite } from '../services/api';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropertyCard from '../components/PropertyCard';
+import {
+    getFavorites,
+    removeFavorite,
+    selectFavorites,
+    selectFavoritesLoading,
+} from '../redux/slices/propertiesSlice';
 
 const Favorites = () => {
-    const [favorites, setFavorites] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const favorites = useSelector(selectFavorites);
+    const loading = useSelector(selectFavoritesLoading);
 
     useEffect(() => {
-        loadFavorites();
-    }, []);
-
-    const loadFavorites = async () => {
-        try {
-            const response = await getFavorites();
-            setFavorites(response.data);
-        } catch (error) {
-            console.error('Error loading favorites:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        dispatch(getFavorites());
+    }, [dispatch]);
 
     const handleRemoveFavorite = async (propertyId) => {
-        try {
-            await removeFavorite(propertyId);
-            setFavorites(favorites.filter(p => p.id !== propertyId));
-        } catch (error) {
-            console.error('Error removing favorite:', error);
-        }
+        await dispatch(removeFavorite(propertyId));
     };
 
     if (loading) {

@@ -1,37 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getOwnerProperties, getOwnerBookings } from '../../services/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaHome, FaCalendarCheck, FaClock, FaPlus } from 'react-icons/fa';
+import {
+    getOwnerProperties,
+    selectOwnerProperties,
+    selectOwnerPropertiesLoading,
+} from '../../redux/slices/propertiesSlice';
+import {
+    fetchOwnerBookings,
+    selectOwnerBookings,
+} from '../../redux/slices/bookingsSlice';
 
 const OwnerDashboard = () => {
-    const [properties, setProperties] = useState([]);
-    const [bookings, setBookings] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const properties = useSelector(selectOwnerProperties);
+    const propertiesLoading = useSelector(selectOwnerPropertiesLoading);
+    const bookings = useSelector(selectOwnerBookings);
 
     useEffect(() => {
-        loadData();
-    }, []);
-
-    const loadData = async () => {
-        try {
-            const [propertiesRes, bookingsRes] = await Promise.all([
-                getOwnerProperties(),
-                getOwnerBookings()
-            ]);
-            setProperties(propertiesRes.data);
-            setBookings(bookingsRes.data);
-        } catch (error) {
-            console.error('Error loading data:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        dispatch(getOwnerProperties());
+        dispatch(fetchOwnerBookings());
+    }, [dispatch]);
 
     const pendingBookings = bookings.filter(b => b.status === 'pending');
     const acceptedBookings = bookings.filter(b => b.status === 'accepted');
     const cancelledBookings = bookings.filter(b => b.status === 'cancelled');
 
-    if (loading) {
+    if (propertiesLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>

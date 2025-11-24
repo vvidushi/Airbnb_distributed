@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getProfile, updateProfile, uploadProfilePicture } from '../services/api';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { uploadProfilePicture } from '../services/api';
 import { FaCamera } from 'react-icons/fa';
+import {
+    fetchProfile,
+    selectUser,
+    selectUserProfile,
+    selectUserProfileLoading,
+    updateProfile as updateProfileAction,
+    checkAuth,
+} from '../redux/slices/authSlice';
 
 const Profile = () => {
     const navigate = useNavigate();
-    const { user, checkAuth } = useAuth();
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+    const profileFromStore = useSelector(selectUserProfile);
+    const profileLoading = useSelector(selectUserProfileLoading);
     const [profile, setProfile] = useState({
         name: '',
         email: '',
@@ -17,25 +28,22 @@ const Profile = () => {
         languages: '',
         gender: ''
     });
-    const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
     useEffect(() => {
-        loadProfile();
-    }, []);
+        dispatch(fetchProfile());
+    }, [dispatch]);
 
-    const loadProfile = async () => {
-        try {
-            const response = await getProfile();
-            setProfile(response.data);
-        } catch (error) {
-            console.error('Error loading profile:', error);
-        } finally {
-            setLoading(false);
+    useEffect(() => {
+        if (profileFromStore) {
+            setProfile({
+                ...profileFromStore,
+                name: profileFromStore.name || profileFromStore.full_name || '',
+            });
         }
-    };
+    }, [profileFromStore]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -75,8 +83,8 @@ const Profile = () => {
         setSaving(true);
 
         try {
-            await updateProfile(profile);
-            await checkAuth(); // Refresh user data in context
+            await dispatch(updateProfileAction(profile)).unwrap();
+            await dispatch(checkAuth());
             setSuccess('Profile updated successfully!');
             
             // Redirect to dashboard after 1 second
@@ -102,18 +110,20 @@ const Profile = () => {
 
         try {
             const response = await uploadProfilePicture(formData);
-            setProfile({
-                ...profile,
-                profile_pic: response.data.filename
-            });
-            await checkAuth(); // Refresh user data to update navbar
+            const filename = response.data.filename;
+            setProfile((prev) => ({
+                ...prev,
+                profile_pic: filename
+            }));
+            await dispatch(fetchProfile());
+            await dispatch(checkAuth());
             setSuccess('Profile picture uploaded successfully!');
         } catch (error) {
             setError('Failed to upload profile picture');
         }
     };
 
-    if (loading) {
+    if (profileLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-xl">Loading...</div>

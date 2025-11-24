@@ -1,37 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { getTravelerBookings, cancelBooking } from '../services/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaCalendar, FaUsers, FaMapMarkerAlt } from 'react-icons/fa';
+import {
+    fetchTravelerBookings,
+    cancelBooking,
+    selectTravelerBookings,
+    selectBookingsLoading,
+    selectBookingsError,
+} from '../redux/slices/bookingsSlice';
 
 const Bookings = () => {
-    const [bookings, setBookings] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const dispatch = useDispatch();
+    const bookings = useSelector(selectTravelerBookings);
+    const loading = useSelector(selectBookingsLoading);
+    const error = useSelector(selectBookingsError);
     const [filter, setFilter] = useState('all');
 
     useEffect(() => {
-        loadBookings();
-    }, []);
-
-    const loadBookings = async () => {
-        try {
-            const response = await getTravelerBookings();
-            setBookings(response.data);
-        } catch (error) {
-            console.error('Error loading bookings:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        dispatch(fetchTravelerBookings());
+    }, [dispatch]);
 
     const handleCancelBooking = async (bookingId) => {
         if (!window.confirm('Are you sure you want to cancel this booking?')) return;
 
-        try {
-            await cancelBooking(bookingId);
-            loadBookings();
-        } catch (error) {
-            console.error('Error cancelling booking:', error);
-            alert('Failed to cancel booking');
-        }
+        await dispatch(cancelBooking(bookingId));
     };
 
     const getStatusColor = (status) => {
@@ -104,6 +96,12 @@ const Bookings = () => {
                         Cancelled
                     </button>
                 </div>
+
+                {error && (
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                        {error}
+                    </div>
+                )}
 
                 {filteredBookings.length === 0 ? (
                     <div className="bg-white rounded-lg shadow-md p-8 text-center">

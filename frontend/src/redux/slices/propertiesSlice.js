@@ -107,6 +107,36 @@ export const getOwnerProperties = createAsyncThunk(
     }
 );
 
+// Snooze / reactivate property
+export const toggleSnoozeProperty = createAsyncThunk(
+    'properties/toggleSnoozeProperty',
+    async (propertyId, { rejectWithValue }) => {
+        try {
+            const response = await axios.patch(`${API_BASE_URL}/properties/${propertyId}/snooze`, {}, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to update property status');
+        }
+    }
+);
+
+// Unlist property
+export const unlistOwnerProperty = createAsyncThunk(
+    'properties/unlistOwnerProperty',
+    async (propertyId, { rejectWithValue }) => {
+        try {
+            const response = await axios.patch(`${API_BASE_URL}/properties/${propertyId}/unlist`, {}, {
+                withCredentials: true
+            });
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to unlist property');
+        }
+    }
+);
+
 // Slice
 const propertiesSlice = createSlice({
     name: 'properties',

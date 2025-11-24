@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getOwnerProperties, snoozeProperty, unlistProperty } from '../../services/api';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaEdit, FaPlus, FaBed, FaBath, FaPause, FaPlay, FaBan } from 'react-icons/fa';
 import ConfirmModal from '../../components/ConfirmModal';
+import {
+    getOwnerProperties,
+    selectOwnerProperties,
+    selectOwnerPropertiesLoading,
+    toggleSnoozeProperty,
+    unlistOwnerProperty,
+} from '../../redux/slices/propertiesSlice';
 
 const OwnerProperties = () => {
-    const [properties, setProperties] = useState([]);
+    const dispatch = useDispatch();
+    const properties = useSelector(selectOwnerProperties);
+    const loading = useSelector(selectOwnerPropertiesLoading);
     const [activeTab, setActiveTab] = useState('active'); // 'active' | 'unlisted'
-    const [loading, setLoading] = useState(true);
     const [confirmModal, setConfirmModal] = useState({
         isOpen: false,
         title: '',
@@ -18,19 +26,8 @@ const OwnerProperties = () => {
     });
 
     useEffect(() => {
-        loadProperties();
-    }, []);
-
-    const loadProperties = async () => {
-        try {
-            const response = await getOwnerProperties();
-            setProperties(response.data);
-        } catch (error) {
-            console.error('Error loading properties:', error);
-        } finally {
-            setLoading(false);
-        }
-    };
+        dispatch(getOwnerProperties());
+    }, [dispatch]);
 
     const handleSnooze = (id) => {
         const property = properties.find(p => p.id === id);
@@ -48,8 +45,8 @@ const OwnerProperties = () => {
             type: isSnoozed ? 'success' : 'warning',
             onConfirm: async () => {
                 try {
-                    await snoozeProperty(id);
-                    await loadProperties();
+                    await dispatch(toggleSnoozeProperty(id)).unwrap();
+                    await dispatch(getOwnerProperties());
                 } catch (error) {
                     console.error('Error updating property status:', error);
                     alert('Failed to update property status');
@@ -73,9 +70,9 @@ const OwnerProperties = () => {
             type: 'danger',
             onConfirm: async () => {
                 try {
-                    await unlistProperty(id);
+                    await dispatch(unlistOwnerProperty(id)).unwrap();
                     // Reload properties so updated status is reflected
-                    await loadProperties();
+                    await dispatch(getOwnerProperties());
                 } catch (error) {
                     console.error('Error unlisting property:', error);
                     alert('Failed to unlist property');

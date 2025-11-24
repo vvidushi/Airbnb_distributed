@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { useDispatch } from 'react-redux';
 import Navbar from './components/Navbar';
 import PrivateRoute from './components/PrivateRoute';
-import PrivateRouteRedux from './components/PrivateRouteRedux';
 import backgroundImage from './airbnb-background.jpg';
+import { checkAuth } from './redux/slices/authSlice';
 
 // Auth pages
 import Login from './pages/Login';
-import LoginRedux from './pages/Login-Redux-Example';
 import Signup from './pages/Signup';
 
 // Traveler pages
 import Dashboard from './pages/Dashboard';
-import DashboardRedux from './pages/Dashboard-Redux-Example';
 import PropertyDetails from './pages/PropertyDetails';
 import Bookings from './pages/Bookings';
 import Favorites from './pages/Favorites';
@@ -26,8 +24,13 @@ import OwnerBookings from './pages/owner/OwnerBookings';
 import PropertyForm from './pages/owner/PropertyForm';
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(checkAuth());
+  }, [dispatch]);
+
   return (
-    <AuthProvider>
       <Router>
         <div 
           className="App" 
@@ -45,17 +48,6 @@ function App() {
             {/* Public routes */}
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            
-            {/* Redux-integrated routes */}
-            <Route path="/login-redux-example" element={<LoginRedux />} />
-            <Route 
-              path="/dashboard-redux" 
-              element={
-                <PrivateRouteRedux role="traveler">
-                  <DashboardRedux />
-                </PrivateRouteRedux>
-              } 
-            />
 
             {/* Traveler routes (Context-based) */}
             <Route 
@@ -146,7 +138,6 @@ function App() {
           </Routes>
         </div>
       </Router>
-    </AuthProvider>
   );
 }
 

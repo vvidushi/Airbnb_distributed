@@ -1,34 +1,32 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { login, selectAuthLoading } from '../redux/slices/authSlice';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const dispatch = useDispatch();
+    const loading = useSelector(selectAuthLoading);
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
-        setLoading(true);
 
         try {
-            const response = await login(email, password);
+            const user = await dispatch(login({ email, password })).unwrap();
             // Redirect based on role
-            if (response.user.role === 'owner') {
+            if (user.role === 'owner') {
                 navigate('/owner/dashboard');
             } else {
                 navigate('/dashboard');
             }
         } catch (err) {
-            setError(err.response?.data?.error || 'Login failed. Please try again.');
-        } finally {
-            setLoading(false);
+            setError(err || 'Login failed. Please try again.');
         }
     };
 

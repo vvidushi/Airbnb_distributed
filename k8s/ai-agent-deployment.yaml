@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: ai-agent
-        image: airbnb-ai-agent:latest
+        image: 868812196149.dkr.ecr.us-east-1.amazonaws.com/airbnb/ai-agent:lab2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 8000

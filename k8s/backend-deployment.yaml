@@ -22,9 +22,16 @@ spec:
         app: backend
         service: airbnb-backend
     spec:
+      initContainers:
+      - name: wait-for-mongodb
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup mongodb-service.airbnb-lab.svc.cluster.local; do echo waiting for mongodb; sleep 2; done;']
+      - name: wait-for-mysql
+        image: busybox:1.28
+        command: ['sh', '-c', 'until nslookup mysql-service.airbnb-lab.svc.cluster.local; do echo waiting for mysql; sleep 2; done;']
       containers:
       - name: backend
-        image: airbnb-backend:latest
+        image: 868812196149.dkr.ecr.us-east-1.amazonaws.com/airbnb/backend:lab2
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5000
@@ -34,7 +41,15 @@ spec:
             name: backend-config
         env:
         - name: DB_PASSWORD
-          value: ""
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+        - name: MONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: MONGO_INITDB_ROOT_PASSWORD
         resources:
           requests:
             memory: "256Mi"

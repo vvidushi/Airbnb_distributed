@@ -1,9 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useSelector } from 'react-redux';
+import { selectIsAuthenticated, selectAuthLoading, selectUser } from '../redux/slices/authSlice';
 
 const PrivateRoute = ({ children, role }) => {
-    const { user, loading } = useAuth();
+    const isAuthenticated = useSelector(selectIsAuthenticated);
+    const loading = useSelector(selectAuthLoading);
+    const user = useSelector(selectUser);
 
     if (loading) {
         return (
@@ -13,7 +16,7 @@ const PrivateRoute = ({ children, role }) => {
         );
     }
 
-    if (!user) {
+    if (!isAuthenticated || !user) {
         return <Navigate to="/login" />;
     }
 
