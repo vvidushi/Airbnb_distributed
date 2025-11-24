@@ -70,13 +70,18 @@
 **Error Messages:**
 ```
 nginx: [emerg] host not found in upstream "backend-service" in /etc/nginx/conf.d/default.conf:14
+nginx: [emerg] host not found in resolver "kube-dns.kube-system.svc.cluster.local" in /etc/nginx/conf.d/default.conf:7
 ```
 
 **Attempted Fixes:**
 1. ✅ Updated nginx.conf to use `backend-service` instead of `backend`
-2. ✅ Added DNS resolver to nginx config
+2. ⚠️ Added DNS resolver to nginx config (resolver itself cannot be resolved)
 3. ✅ Used variables for dynamic DNS resolution in nginx
 4. ✅ Set `imagePullPolicy: Always` to ensure latest image
+
+**New Finding:**
+- Nginx resolver `kube-dns.kube-system.svc.cluster.local` cannot be resolved
+- This suggests broader DNS issues in the cluster
 
 **Root Cause:**
 - Nginx resolves DNS at startup time
