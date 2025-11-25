@@ -6,9 +6,9 @@ metadata:
   namespace: airbnb-lab
 data:
   PORT: "5000"
-  # IMPORTANT: Replace YOUR_PUBLIC_IP_HERE with your actual public IP
+  # IMPORTANT: Replace 73.241.126.204 with your actual public IP
   # Get it with: curl -s https://ifconfig.me
-  DB_HOST: "YOUR_PUBLIC_IP_HERE"
+  DB_HOST: "73.241.126.204"
   DB_PORT: "3306"
   DB_NAME: "airbnb_db"
   DB_USER: "root"
@@ -18,7 +18,7 @@ data:
   FRONTEND_URL: "http://frontend-service"
   KAFKA_BROKER: "kafka-service:9092"
   # MongoDB connection to LOCAL machine
-  MONGO_HOST: "YOUR_PUBLIC_IP_HERE"
+  MONGO_HOST: "73.241.126.204"
   MONGO_PORT: "27017"
   MONGO_DATABASE: "airbnb_db"
   MONGO_USER: "admin"
@@ -31,7 +31,7 @@ metadata:
   namespace: airbnb-lab
 data:
   PRODUCER_PORT: "5001"
-  DB_HOST: "YOUR_PUBLIC_IP_HERE"
+  DB_HOST: "73.241.126.204"
   DB_PORT: "3306"
   DB_NAME: "airbnb_db"
   DB_USER: "root"
@@ -47,7 +47,7 @@ metadata:
   name: kafka-consumer-config
   namespace: airbnb-lab
 data:
-  DB_HOST: "YOUR_PUBLIC_IP_HERE"
+  DB_HOST: "73.241.126.204"
   DB_PORT: "3306"
   DB_NAME: "airbnb_db"
   DB_USER: "root"
