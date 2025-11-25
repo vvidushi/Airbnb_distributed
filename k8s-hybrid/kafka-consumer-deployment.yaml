@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-consumer
+  namespace: airbnb-lab
+  labels:
+    app: kafka-consumer
+    service: airbnb-kafka-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-consumer
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: kafka-consumer
+        service: airbnb-kafka-consumer
+    spec:
+      containers:
+      - name: kafka-consumer
+        image: 868812196149.dkr.ecr.us-east-1.amazonaws.com/airbnb/backend:lab2
+        imagePullPolicy: IfNotPresent
+        command: ["node", "src/kafka/consumer-service.js"]
+        envFrom:
+        - configMapRef:
+            name: kafka-consumer-config
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "150m"
+          limits:
+            memory: "512Mi"
+            cpu: "400m"
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "ps aux | grep consumer-service || exit 1"
+          initialDelaySeconds: 30
+          periodSeconds: 15
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "ps aux | grep consumer-service || exit 1"
+          initialDelaySeconds: 20
+          periodSeconds: 10
+
