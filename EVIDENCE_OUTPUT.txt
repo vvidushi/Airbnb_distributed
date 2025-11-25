@@ -1,0 +1,121 @@
+==========================================
+AWS EKS Deployment Evidence
+Generated: Tue Nov 25 08:09:55 IST 2025
+==========================================
+
+1. EKS Cluster Information:
+----------------------------------------
+------------------------------------------------------------------------------------------
+|                                     DescribeCluster                                    |
++----------+-----------------------------------------------------------------------------+
+|  Endpoint|  https://8B3A05E179A090326C5D647573B98C2D.gr7.us-east-1.eks.amazonaws.com   |
+|  Name    |  airbnb-lab-cluster5                                                        |
+|  Status  |  ACTIVE                                                                     |
+|  Version |  1.32                                                                       |
++----------+-----------------------------------------------------------------------------+
+
+2. Kubernetes Nodes:
+----------------------------------------
+NAME                              STATUS   ROLES    AGE   VERSION               INTERNAL-IP       EXTERNAL-IP   OS-IMAGE                       KERNEL-VERSION                    CONTAINER-RUNTIME
+ip-192-168-103-241.ec2.internal   Ready    <none>   11h   v1.32.9-eks-ecaa3a6   192.168.103.241   <none>        Amazon Linux 2023.9.20251117   6.1.158-178.288.amzn2023.x86_64   containerd://2.1.4
+ip-192-168-114-195.ec2.internal   Ready    <none>   11h   v1.32.9-eks-ecaa3a6   192.168.114.195   <none>        Amazon Linux 2023.9.20251117   6.1.158-178.288.amzn2023.x86_64   containerd://2.1.4
+ip-192-168-68-92.ec2.internal     Ready    <none>   11h   v1.32.9-eks-ecaa3a6   192.168.68.92     <none>        Amazon Linux 2023.9.20251117   6.1.158-178.288.amzn2023.x86_64   containerd://2.1.4
+ip-192-168-70-50.ec2.internal     Ready    <none>   11h   v1.32.9-eks-ecaa3a6   192.168.70.50     <none>        Amazon Linux 2023.9.20251117   6.1.158-178.288.amzn2023.x86_64   containerd://2.1.4
+
+3. All Pods in airbnb-lab namespace:
+----------------------------------------
+NAME                              READY   STATUS             RESTARTS         AGE     IP               NODE                              NOMINATED NODE   READINESS GATES
+ai-agent-5c67c84487-smx2d         0/1     Pending            0                10h     <none>           <none>                            <none>           <none>
+ai-agent-79b4dc8f49-cx5sq         0/1     Pending            0                10h     <none>           <none>                            <none>           <none>
+backend-86b8cfc756-rbg98          0/1     CrashLoopBackOff   60 (3m14s ago)   4h37m   192.168.70.152   ip-192-168-68-92.ec2.internal     <none>           <none>
+frontend-9cb95f996-pkrgb          0/1     CrashLoopBackOff   57 (100s ago)    4h33m   192.168.88.11    ip-192-168-70-50.ec2.internal     <none>           <none>
+kafka-66c4797df4-ftzw4            0/1     CrashLoopBackOff   112 (4m8s ago)   10h     192.168.123.46   ip-192-168-103-241.ec2.internal   <none>           <none>
+kafka-consumer-5f958447c4-fqcrf   0/1     CrashLoopBackOff   92 (4m5s ago)    8h      192.168.94.128   ip-192-168-70-50.ec2.internal     <none>           <none>
+kafka-producer-647fd4dcc8-ddl68   1/1     Running            0                10h     192.168.79.33    ip-192-168-70-50.ec2.internal     <none>           <none>
+mongodb-764697c874-jtfjl          1/1     Running            0                7h41m   192.168.96.168   ip-192-168-103-241.ec2.internal   <none>           <none>
+mysql-557cdff487-5vnlw            1/1     Running            0                8h      192.168.124.98   ip-192-168-114-195.ec2.internal   <none>           <none>
+zookeeper-754896fc8d-nx5gw        1/1     Running            0                10h     192.168.74.200   ip-192-168-70-50.ec2.internal     <none>           <none>
+
+4. All Services:
+----------------------------------------
+NAME                     TYPE           CLUSTER-IP       EXTERNAL-IP                                                               PORT(S)        AGE   SELECTOR
+ai-agent-service         ClusterIP      10.100.159.73    <none>                                                                    8000/TCP       10h   app=ai-agent
+backend-service          ClusterIP      10.100.11.78     <none>                                                                    5000/TCP       10h   app=backend
+frontend-service         LoadBalancer   10.100.57.152    a3806d963061a48f59a219778f18d60f-1982025708.us-east-1.elb.amazonaws.com   80:31025/TCP   10h   app=frontend
+kafka-producer-service   ClusterIP      10.100.103.247   <none>                                                                    5001/TCP       10h   app=kafka-producer
+kafka-service            ClusterIP      10.100.188.133   <none>                                                                    9092/TCP       10h   app=kafka
+mongodb-service          ClusterIP      10.100.222.122   <none>                                                                    27017/TCP      10h   app=mongodb
+mysql-service            ClusterIP      10.100.100.103   <none>                                                                    3306/TCP       10h   app=mysql
+zookeeper-service        ClusterIP      10.100.215.161   <none>                                                                    2181/TCP       10h   app=zookeeper
+
+5. Service Endpoints:
+----------------------------------------
+NAME                     ENDPOINTS              AGE
+ai-agent-service         <none>                 10h
+backend-service                                 10h
+frontend-service                                10h
+kafka-producer-service   192.168.79.33:5001     10h
+kafka-service                                   10h
+mongodb-service          192.168.96.168:27017   10h
+mysql-service            192.168.124.98:3306    10h
+zookeeper-service        192.168.74.200:2181    10h
+
+6. ECR Repositories:
+----------------------------------------
+-------------------------------------------------------------------------------------
+|                               DescribeRepositories                                |
++-----------------+-----------------------------------------------------------------+
+|      Name       |                               URI                               |
++-----------------+-----------------------------------------------------------------+
+|  airbnb/backend |  868812196149.dkr.ecr.us-east-1.amazonaws.com/airbnb/backend    |
+|  airbnb/frontend|  868812196149.dkr.ecr.us-east-1.amazonaws.com/airbnb/frontend   |
+|  airbnb/ai-agent|  868812196149.dkr.ecr.us-east-1.amazonaws.com/airbnb/ai-agent   |
++-----------------+-----------------------------------------------------------------+
+
+7. Kafka Producer Logs (last 20 lines):
+----------------------------------------
+{"level":"WARN","timestamp":"2025-11-24T16:28:04.264Z","logger":"kafkajs","message":"KafkaJS v2.0.0 switched default partitioner. To retain the same partitioning behavior as in previous versions, create the producer with the option \"createPartitioner: Partitioners.LegacyPartitioner\". See the migration guide at https://kafka.js.org/docs/migration-guide-v2.0.0#producer-new-default-partitioner for details. Silence this warning by setting the environment variable \"KAFKAJS_NO_PARTITIONER_WARNING=1\""}
+Warning: connect.session() MemoryStore is not
+designed for a production environment, as it will leak
+memory, and will not scale past a single process.
+🚀 Kafka Producer Service running on port 5001
+📤 Publishing events to Kafka topics
+❌ Database connection failed: getaddrinfo EAI_AGAIN mysql-service
+
+8. Kafka Consumer Logs (last 20 lines):
+----------------------------------------
+  Caused by: KafkaJSConnectionError: Connection timeout
+    at Timeout.onTimeout [as _onTimeout] (/app/node_modules/kafkajs/src/network/connection.js:223:23)
+    at listOnTimeout (node:internal/timers:569:17)
+    at process.processTimers (node:internal/timers:512:7) {
+  name: 'KafkaJSNumberOfRetriesExceeded',
+  retriable: false,
+  helpUrl: undefined,
+  retryCount: 8,
+  retryTime: 30000,
+  [cause]: KafkaJSConnectionError: Connection timeout
+      at Timeout.onTimeout [as _onTimeout] (/app/node_modules/kafkajs/src/network/connection.js:223:23)
+      at listOnTimeout (node:internal/timers:569:17)
+      at process.processTimers (node:internal/timers:512:7) {
+    retriable: true,
+    helpUrl: undefined,
+    broker: 'kafka-service:9092',
+    code: undefined,
+    [cause]: undefined
+  }
+}
+
+9. Local Docker Compose Status:
+----------------------------------------
+NAME                    IMAGE                               COMMAND                  SERVICE          CREATED        STATUS                  PORTS
+airbnb-backend          airbnb_distributed-backend          "docker-entrypoint.s…"   backend          17 hours ago   Up 17 hours             0.0.0.0:5001->5000/tcp
+airbnb-kafka            confluentinc/cp-kafka:7.5.0         "/etc/confluent/dock…"   kafka            17 hours ago   Up 17 hours (healthy)   0.0.0.0:29092->9092/tcp
+airbnb-kafka-consumer   airbnb_distributed-kafka-consumer   "docker-entrypoint.s…"   kafka-consumer   17 hours ago   Up 17 hours             5000/tcp
+airbnb-kafka-producer   airbnb_distributed-kafka-producer   "docker-entrypoint.s…"   kafka-producer   17 hours ago   Up 17 hours             5000/tcp, 0.0.0.0:5002->5001/tcp
+airbnb-mongodb          mongo:7.0                           "docker-entrypoint.s…"   mongodb          17 hours ago   Up 17 hours (healthy)   0.0.0.0:27017->27017/tcp
+airbnb-mysql            mysql:8.0                           "docker-entrypoint.s…"   mysql            17 hours ago   Up 17 hours (healthy)   0.0.0.0:3306->3306/tcp, 33060/tcp
+airbnb-zookeeper        confluentinc/cp-zookeeper:7.5.0     "/etc/confluent/dock…"   zookeeper        17 hours ago   Up 17 hours (healthy)   2888/tcp, 0.0.0.0:2181->2181/tcp, 3888/tcp
+
+==========================================
+Evidence generation complete
+==========================================
