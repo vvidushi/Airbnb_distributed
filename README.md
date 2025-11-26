@@ -7,10 +7,16 @@ A full-stack Airbnb clone with AI-powered travel planning.
 - **Backend**: Node.js + Express + Mongoose
 - **Database**: MongoDB (Primary), MySQL (Legacy support)
 - **Message Queue**: Apache Kafka (for asynchronous messaging)
-- **AI Agent**: Python FastAPI + Langchain + OpenAI
+- **AI Agent**: Python FastAPI + Langchain + OpenAI + Tavily Search
 - **Orchestration**: Docker + Kubernetes
 - **Session Store**: MongoDB (connect-mongo)
 - **State Management**: Redux with Redux Toolkit
+
+### AI Stack Details
+
+- LangChain agents call OpenAI GPT models for reasoning and generation.
+- Tavily Search augments answers with fresh, citation-backed web context.
+- API keys (`OPENAI_API_KEY`, `TAVILY_API_KEY`) are required; no Ollama or other local LLM runtimes are involved.
 
 ## Tech Design
 
@@ -19,13 +25,83 @@ A full-stack Airbnb clone with AI-powered travel planning.
 The system follows a three-tier architecture:
 - **Frontend & Browser**: React-based user interface
 - **Backend**: Node.js server and Python FastAPI for AI capabilities
-- **Smart Agents**: OpenAI (GPT-3.5-turbo) and Tavily integration for intelligent features
+- **Smart Agents**: OpenAI GPT models orchestrated with Tavily search for grounded responses (no Ollama dependency)
 - **Database**: MySQL for data persistence
 
 ## Workflow
 Please note, we have built a three tier structure in an addition to the Agentic AI. Our project encompasses Frontend, Backend, Database and Smart Agent also been depicted by the workflow diagram as given below:
 
 ![Workflow Diagram](design/airbnb-workflowdrawio.png) 
+
+### End-to-End Request Flow
+
+```mermaid
+sequenceDiagram
+    participant Traveler
+    participant FE as Frontend (React)
+    participant API as Backend API (Express)
+    participant DB as MongoDB/SQLite
+    participant AI as AI Agent (FastAPI)
+    participant OpenAI as OpenAI GPT
+    participant Tavily as Tavily Search
+
+    Traveler->>FE: Query + session cookie
+    FE->>API: Fetch bookings / profile
+    API->>DB: Read traveler bookings
+    DB-->>API: Booking context
+    API-->>FE: Bookings JSON
+    FE->>AI: AI request (query + userId + token)
+    AI->>API: Internal fetch bookings (x-internal-api-key)
+    API->>DB: Lookup bookings
+    DB-->>API: Booking data
+    API-->>AI: Booking data
+    AI->>Tavily: Live search (weather, POIs)
+    AI->>OpenAI: LangChain prompt w/ context
+    OpenAI-->>AI: Travel plan text
+    Tavily-->>AI: Web snippets
+    AI-->>FE: Response payload
+    FE-->>Traveler: Render itinerary + citations
+```
+
+### Deployment / Runtime View
+
+```mermaid
+graph TB
+    subgraph Local["Local / Dev / Docker Compose"]
+        FE["frontend container\nNginx + React"]
+        BE["backend container\nNode.js + Express"]
+        AI["ai-agent container\nFastAPI"]
+        Mongo[(MongoDB)]
+        SQLite[(SQLite file volume)]
+        MySQL[(MySQL container)]
+        Kafka[(Kafka + Zookeeper)]
+    end
+
+    subgraph K8s["Kubernetes / EKS"]
+        FEk["Frontend Deployment"]
+        BEk["Backend Deployment"]
+        AIk["AI Agent Deployment"]
+        MySQLk["MySQL StatefulSet"]
+        MongoPVC["Mongo PVC / External Atlas"]
+        KafkaOps["Kafka Producer/Consumer Jobs"]
+    end
+
+    FE --> BE
+    BE --> Mongo
+    BE --> SQLite
+    BE --> MySQL
+    BE --> Kafka
+    FE --> AI
+    AI --> BE
+    AI -->|Secrets| OpenAI{{OpenAI}} & Tavily{{Tavily}}
+    FEk --> BEk
+    BEk --> MySQLk
+    BEk --> MongoPVC
+    BEk --> KafkaOps
+    FEk --> AIk
+    AIk --> BEk
+    AIk --> OpenAI & Tavily
+```
 
 
 ### Traveler Workflow
@@ -139,7 +215,7 @@ npm start
 
 Frontend will run on `http://localhost:3000`
 
-### 4. AI Agent Setup (OpenAI)
+### 4. AI Agent Setup (OpenAI + Tavily)
 
 ```bash
 cd ai-agent
@@ -151,6 +227,7 @@ cp env.example .env
 #   - Your MySQL credentials
 #   - OPENAI_API_KEY (get from https://platform.openai.com/api-keys)
 #   - TAVILY_API_KEY (get from https://tavily.com/)
+#   - (No Ollama server needed; requests go directly to OpenAI APIs)
 uvicorn app.main:app --reload --port 8000
 ```
 
