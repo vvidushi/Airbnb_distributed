@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import { login, selectAuthLoading } from '../redux/slices/authSlice';
+import { login, selectAuthLoading, selectAuthError, clearError } from '../redux/slices/authSlice';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,22 +11,41 @@ const Login = () => {
     const [error, setError] = useState('');
     const dispatch = useDispatch();
     const loading = useSelector(selectAuthLoading);
+    const reduxError = useSelector(selectAuthError);
     const navigate = useNavigate();
+
+    // Clear errors on mount
+    useEffect(() => {
+        dispatch(clearError());
+        setError('');
+    }, [dispatch]);
+
+    // Display Redux errors if they exist
+    useEffect(() => {
+        if (reduxError) {
+            setError(reduxError);
+        }
+    }, [reduxError]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+        dispatch(clearError());
 
         try {
             const user = await dispatch(login({ email, password })).unwrap();
             // Redirect based on role
-            if (user.role === 'owner') {
-                navigate('/owner/dashboard');
-            } else {
-                navigate('/dashboard');
+            if (user && user.role) {
+                if (user.role === 'owner') {
+                    navigate('/owner/dashboard');
+                } else {
+                    navigate('/dashboard');
+                }
             }
         } catch (err) {
-            setError(err || 'Login failed. Please try again.');
+            const errorMessage = typeof err === 'string' ? err : (err?.message || 'Login failed. Please try again.');
+            setError(errorMessage);
+            console.error('Login error:', err);
         }
     };
 

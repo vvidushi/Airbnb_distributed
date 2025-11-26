@@ -14,9 +14,12 @@ load_dotenv()
 app = FastAPI(title="AI Travel Assistant", version="1.0.0")
 
 # Add CORS middleware
+# Allow EC2 IP and localhost for development
+EC2_IP = os.getenv("EC2_IP", "localhost")
+FRONTEND_URL = os.getenv("FRONTEND_URL", f"http://{EC2_IP}:3000")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],  # Frontend URLs
+    allow_origins=["*"],  # Allow all origins for production/demo compatibility
     allow_credentials=True,
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers

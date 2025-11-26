@@ -33,7 +33,7 @@ const OwnerProperties = () => {
         const property = properties.find(p => p.id === id);
         if (!property) return;
 
-        const isSnoozed = property.status === 'snoozed';
+        const isSnoozed = property.status === 'inactive';
 
         setConfirmModal({
             isOpen: true,
@@ -87,7 +87,7 @@ const OwnerProperties = () => {
         switch(status) {
             case 'active':
                 return <span className="px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">Active</span>;
-            case 'snoozed':
+            case 'inactive':
                 return <span className="px-2 py-1 text-xs font-semibold bg-yellow-100 text-yellow-800 rounded-full">Snoozed</span>;
             case 'unlisted':
                 return <span className="px-2 py-1 text-xs font-semibold bg-red-100 text-red-800 rounded-full">Unlisted</span>;
@@ -106,7 +106,7 @@ const OwnerProperties = () => {
 
     // Split properties by status for clearer sections
     const activeAndSnoozed = properties.filter(
-        (p) => p.status === 'active' || p.status === 'snoozed' || !p.status
+        (p) => p.status === 'active' || p.status === 'inactive' || !p.status
     );
     const unlisted = properties.filter((p) => p.status === 'unlisted');
 
@@ -233,13 +233,13 @@ const OwnerProperties = () => {
                                             <button
                                                 onClick={() => handleSnooze(property.id)}
                                                 className={`flex items-center justify-center space-x-2 px-4 py-2 rounded-lg transition ${
-                                                    property.status === 'snoozed' 
+                                                    property.status === 'inactive' 
                                                         ? 'bg-green-500 text-white hover:bg-green-600' 
                                                         : 'bg-yellow-500 text-white hover:bg-yellow-600'
                                                 }`}
-                                                title={property.status === 'snoozed' ? 'Reactivate' : 'Snooze'}
+                                                title={property.status === 'inactive' ? 'Reactivate' : 'Snooze'}
                                             >
-                                                {property.status === 'snoozed' ? <FaPlay /> : <FaPause />}
+                                                {property.status === 'inactive' ? <FaPlay /> : <FaPause />}
                                             </button>
                                         </div>
                                         <button

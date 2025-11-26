@@ -28,7 +28,7 @@ exports.createBooking = async (req, res) => {
         const [existingBookings] = await db.query(
             `SELECT * FROM bookings 
             WHERE property_id = ? 
-            AND status = 'accepted' 
+            AND status = 'confirmed' 
             AND NOT (end_date <= ? OR start_date >= ?)`,
             [propertyId, startDate, endDate]
         );
@@ -41,10 +41,10 @@ exports.createBooking = async (req, res) => {
         const days = Math.ceil((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
         const totalPrice = days * property.price_per_night;
 
-        // Create booking
+        // Create booking (include both user_id and traveler_id for compatibility)
         const [result] = await db.query(
-            'INSERT INTO bookings (property_id, traveler_id, start_date, end_date, num_guests, total_price, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [propertyId, travelerId, startDate, endDate, numGuests, totalPrice, 'pending']
+            'INSERT INTO bookings (property_id, user_id, traveler_id, check_in, check_out, guests, start_date, end_date, num_guests, total_price, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [propertyId, travelerId, travelerId, startDate, endDate, numGuests, startDate, endDate, numGuests, totalPrice, 'pending']
         );
 
         res.status(201).json({
@@ -150,7 +150,7 @@ exports.acceptBooking = async (req, res) => {
         }
 
         // Update booking status
-        await db.query('UPDATE bookings SET status = ? WHERE id = ?', ['accepted', id]);
+        await db.query('UPDATE bookings SET status = ? WHERE id = ?', ['confirmed', id]);
 
         res.json({ message: 'Booking accepted successfully' });
     } catch (error) {

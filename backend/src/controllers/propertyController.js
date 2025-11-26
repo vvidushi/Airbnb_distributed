@@ -12,6 +12,40 @@ const safeParseJson = (value, fallback = []) => {
     }
 };
 
+// Helper to normalize image URLs to full EC2 URLs
+const normalizeImageUrls = (images, baseUrl = null) => {
+    if (!images || !Array.isArray(images)) return [];
+    const backendUrl = baseUrl || process.env.BACKEND_URL || process.env.FRONTEND_URL?.replace(':3000', ':5001') || 'http://54.81.110.183:5001';
+    
+    return images.map(img => {
+        if (!img) return img;
+        // If already a full URL, return as is
+        if (img.startsWith('http://') || img.startsWith('https://')) {
+            return img;
+        }
+        // If relative path starting with /uploads, add base URL
+        if (img.startsWith('/uploads/')) {
+            return `${backendUrl}${img}`;
+        }
+        // If just filename, add /uploads/ prefix
+        return `${backendUrl}/uploads/${img}`;
+    });
+};
+
+// Helper to process property object and normalize image URLs
+const processProperty = (property) => {
+    if (!property) return property;
+    
+    // Parse JSON fields
+    property.amenities = safeParseJson(property.amenities);
+    property.images = safeParseJson(property.images);
+    
+    // Normalize image URLs to full EC2 URLs
+    property.images = normalizeImageUrls(property.images);
+    
+    return property;
+};
+
 // Get all properties (with optional search filters)
 exports.searchProperties = async (req, res) => {
     try {
@@ -55,7 +89,7 @@ exports.searchProperties = async (req, res) => {
             query += `
                 AND p.id NOT IN (
                     SELECT property_id FROM bookings 
-                    WHERE status = 'accepted' 
+                    WHERE status = 'confirmed' 
                     AND NOT (end_date <= ? OR start_date >= ?)
                 )
             `;
@@ -82,12 +116,16 @@ exports.searchProperties = async (req, res) => {
 
         const [properties] = await db.query(query, params);
 
-        // Normalize JSON fields so frontend gets proper arrays
-        const normalized = properties.map((p) => ({
-            ...p,
-            amenities: safeParseJson(p.amenities, []),
-            images: safeParseJson(p.images, []),
-        }));
+        // Normalize JSON fields and image URLs so frontend gets proper arrays and full URLs
+        const normalized = properties.map((p) => {
+            const amenities = safeParseJson(p.amenities, []);
+            const images = normalizeImageUrls(safeParseJson(p.images, []));
+            return {
+                ...p,
+                amenities,
+                images
+            };
+        });
 
         res.json(normalized);
     } catch (error) {
@@ -111,7 +149,7 @@ exports.getPropertyById = async (req, res) => {
 
         const property = properties[0];
         property.amenities = safeParseJson(property.amenities, []);
-        property.images = safeParseJson(property.images, []);
+        property.images = normalizeImageUrls(safeParseJson(property.images, []));
 
         res.json(property);
     } catch (error) {
@@ -144,6 +182,21 @@ exports.createProperty = async (req, res) => {
             return res.status(400).json({ error: 'All required fields must be provided' });
         }
 
+        // Ensure image URLs are full URLs pointing to EC2
+        const baseUrl = process.env.BACKEND_URL || process.env.FRONTEND_URL?.replace(':3000', ':5001') || 'http://54.81.110.183:5001';
+        const processedImages = (images || []).map(img => {
+            // If it's already a full URL, keep it; otherwise make it a full URL
+            if (img.startsWith('http://') || img.startsWith('https://')) {
+                return img;
+            }
+            // If it's just a filename, add the base URL
+            if (img.startsWith('/uploads/')) {
+                return `${baseUrl}${img}`;
+            }
+            // If it's just a filename without /uploads/, add it
+            return `${baseUrl}/uploads/${img}`;
+        });
+        
         const [result] = await db.query(
             `INSERT INTO properties 
             (owner_id, property_name, property_type, description, location, city, country, 
@@ -153,7 +206,7 @@ exports.createProperty = async (req, res) => {
                 ownerId, property_name, property_type, description, location, city, country,
                 price_per_night, bedrooms, bathrooms, max_guests,
                 JSON.stringify(amenities || []),
-                JSON.stringify(images || [])
+                JSON.stringify(processedImages) // Store full URLs
             ]
         );
 
@@ -233,11 +286,11 @@ exports.snoozeProperty = async (req, res) => {
             return res.status(403).json({ error: 'Not authorized' });
         }
 
-        const newStatus = properties[0].status === 'snoozed' ? 'active' : 'snoozed';
+        const newStatus = properties[0].status === 'inactive' ? 'active' : 'inactive';
         await db.query('UPDATE properties SET status = ? WHERE id = ?', [newStatus, id]);
         
         res.json({ 
-            message: newStatus === 'snoozed' ? 'Property snoozed successfully' : 'Property reactivated successfully',
+            message: newStatus === 'inactive' ? 'Property snoozed successfully' : 'Property reactivated successfully',
             status: newStatus
         });
     } catch (error) {
@@ -281,7 +334,19 @@ exports.getOwnerProperties = async (req, res) => {
     try {
         const ownerId = req.session.userId;
         const [properties] = await db.query('SELECT * FROM properties WHERE owner_id = ? ORDER BY created_at DESC', [ownerId]);
-        res.json(properties);
+        
+        // Normalize JSON fields and image URLs
+        const normalized = properties.map((p) => {
+            const amenities = safeParseJson(p.amenities, []);
+            const images = normalizeImageUrls(safeParseJson(p.images, []));
+            return {
+                ...p,
+                amenities,
+                images
+            };
+        });
+        
+        res.json(normalized);
     } catch (error) {
         console.error('Get owner properties error:', error);
         res.status(500).json({ error: 'Server error' });

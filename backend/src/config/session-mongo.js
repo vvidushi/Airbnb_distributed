@@ -1,8 +1,14 @@
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
+const MONGO_USER = process.env.MONGO_USER || 'admin';
+const MONGO_PASSWORD = process.env.MONGO_PASSWORD || 'airbnb_mongo_2024';
+const MONGO_HOST = process.env.MONGO_HOST || 'localhost';
+const MONGO_PORT = process.env.MONGO_PORT || '27017';
+const MONGO_DB = process.env.MONGO_DATABASE || 'airbnb_db';
+
 const MONGODB_URI = process.env.MONGODB_URI || 
-    `mongodb://${process.env.MONGO_USER || 'admin'}:${process.env.MONGO_PASSWORD || 'airbnb_mongo_2024'}@${process.env.MONGO_HOST || 'localhost'}:${process.env.MONGO_PORT || '27017'}/${process.env.MONGO_DATABASE || 'airbnb_db'}?authSource=admin`;
+    `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
 
 // Create MongoDB session store with error handling
 let mongoStore;
@@ -43,21 +49,25 @@ const sessionConfig = {
     cookie: {
         maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production', // HTTPS in production
+        // FORCE INSECURE for this specific deployment to allow HTTP
+        secure: false, 
         sameSite: 'lax'
     },
     name: 'airbnb.sid' // Custom session cookie name
 };
 
-// Log session store connection
-const store = sessionConfig.store;
-store.on('error', (error) => {
-    console.error('❌ MongoDB Session Store Error:', error);
-});
+// Log session store connection (only if MongoDB store is used)
+if (mongoStore) {
+    mongoStore.on('error', (error) => {
+        console.error('❌ MongoDB Session Store Error:', error);
+    });
 
-store.on('connected', () => {
-    console.log('✅ MongoDB Session Store Connected');
-});
+    mongoStore.on('connected', () => {
+        console.log('✅ MongoDB Session Store Connected');
+    });
+} else {
+    console.log('⚠️  Using memory session store (MongoDB not available)');
+}
 
 module.exports = sessionConfig;
 

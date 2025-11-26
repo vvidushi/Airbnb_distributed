@@ -4,6 +4,16 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
+# Accept build arguments
+ARG REACT_APP_API_URL
+ARG REACT_APP_AI_URL
+ARG REACT_APP_AI_API_URL
+
+# Set as environment variables for React build
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+ENV REACT_APP_AI_URL=${REACT_APP_AI_URL}
+ENV REACT_APP_AI_API_URL=${REACT_APP_AI_API_URL}
+
 # Copy package files
 COPY package*.json ./
 
@@ -13,7 +23,7 @@ RUN npm ci
 # Copy source code
 COPY . .
 
-# Build the app
+# Build the app (environment variables are baked into the build)
 RUN npm run build
 
 # Stage 2: Serve with Nginx

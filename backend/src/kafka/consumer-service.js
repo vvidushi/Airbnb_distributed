@@ -85,8 +85,8 @@ async function processStatusUpdate(event) {
         // Send notification to traveler
         console.log(`✉️  [NOTIFICATION] Sending email to traveler (${event.travelerEmail})`);
         
-        if (event.newStatus === 'accepted') {
-            console.log(`    Subject: Your booking for ${event.propertyName} has been accepted! 🎉`);
+        if (event.newStatus === 'confirmed') {
+            console.log(`    Subject: Your booking for ${event.propertyName} has been confirmed! 🎉`);
             console.log(`    Message: Great news! Your booking from ${event.startDate} to ${event.endDate} has been confirmed.`);
             console.log(`    Next Steps: Payment processing, confirmation details, check-in instructions...`);
         } else if (event.newStatus === 'cancelled') {

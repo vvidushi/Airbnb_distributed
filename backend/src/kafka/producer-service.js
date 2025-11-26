@@ -159,11 +159,11 @@ app.put('/api/bookings/:id/status', isAuthenticated, async (req, res) => {
     
     try {
         const bookingId = req.params.id;
-        const { status } = req.body; // 'accepted' or 'cancelled'
+        const { status } = req.body; // 'confirmed' or 'cancelled'
         const ownerId = req.session.userId;
 
         // Validate status
-        if (!['accepted', 'cancelled'].includes(status)) {
+        if (!['confirmed', 'cancelled'].includes(status)) {
             return res.status(400).json({ message: 'Invalid status' });
         }
 

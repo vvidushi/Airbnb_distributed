@@ -21,11 +21,20 @@ export const login = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials, {
-                withCredentials: true
+                withCredentials: true,
+                timeout: 10000 // 10 second timeout
             });
             return response.data.user;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Login failed');
+            // Handle network errors
+            if (error.code === 'ECONNABORTED') {
+                return rejectWithValue('Request timeout. Please check your connection and try again.');
+            }
+            if (!error.response) {
+                return rejectWithValue('Network error. Please check if the server is running.');
+            }
+            // Backend returns 'error' field, not 'message'
+            return rejectWithValue(error.response?.data?.error || error.response?.data?.message || 'Login failed');
         }
     }
 );
@@ -36,11 +45,20 @@ export const signup = createAsyncThunk(
     async (userData, { rejectWithValue }) => {
         try {
             const response = await axios.post(`${API_BASE_URL}/auth/signup`, userData, {
-                withCredentials: true
+                withCredentials: true,
+                timeout: 10000 // 10 second timeout
             });
             return response.data.user;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Signup failed');
+            // Handle network errors
+            if (error.code === 'ECONNABORTED') {
+                return rejectWithValue('Request timeout. Please check your connection and try again.');
+            }
+            if (!error.response) {
+                return rejectWithValue('Network error. Please check if the server is running.');
+            }
+            // Backend returns 'error' field, not 'message'
+            return rejectWithValue(error.response?.data?.error || error.response?.data?.message || 'Signup failed');
         }
     }
 );
@@ -51,10 +69,15 @@ export const checkAuth = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/auth/check`, {
-                withCredentials: true
+                withCredentials: true,
+                timeout: 5000 // 5 second timeout for auth check
             });
             return response.data.user;
         } catch (error) {
+            // Don't treat network errors as "not authenticated" - just return null
+            if (!error.response) {
+                return null;
+            }
             return rejectWithValue('Not authenticated');
         }
     }
@@ -66,11 +89,13 @@ export const logout = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             await axios.post(`${API_BASE_URL}/auth/logout`, {}, {
-                withCredentials: true
+                withCredentials: true,
+                timeout: 5000 // 5 second timeout
             });
             return null;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Logout failed');
+            // Even if logout fails on server, clear local state
+            return null;
         }
     }
 );
@@ -111,7 +136,7 @@ const authSlice = createSlice({
     initialState: {
         user: null,
         isAuthenticated: false,
-        loading: false,
+        loading: true, // Start as true to wait for initial auth check
         error: null,
         jwtToken: null, // JWT token for API authentication
         profile: null,
@@ -174,7 +199,7 @@ const authSlice = createSlice({
             })
             .addCase(checkAuth.fulfilled, (state, action) => {
                 state.user = action.payload;
-                state.isAuthenticated = true;
+                state.isAuthenticated = !!action.payload; // Only authenticated if user exists
                 state.loading = false;
             })
             .addCase(checkAuth.rejected, (state) => {

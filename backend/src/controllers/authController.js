@@ -91,7 +91,7 @@ exports.logout = (req, res) => {
         if (err) {
             return res.status(500).json({ error: 'Logout failed' });
         }
-        res.clearCookie('airbnb_session');
+        res.clearCookie('airbnb.sid');
         res.json({ message: 'Logout successful' });
     });
 };
@@ -106,12 +106,12 @@ exports.checkAuth = async (req, res) => {
             );
             
             if (users.length > 0) {
-                return res.json({ authenticated: true, user: users[0] });
+                return res.json({ user: users[0] });
             }
         } catch (error) {
             console.error('Auth check error:', error);
         }
     }
-    res.json({ authenticated: false });
+    res.json({ user: null });
 };
 

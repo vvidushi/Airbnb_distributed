@@ -28,7 +28,11 @@ const AIAssistant = () => {
             
             console.log('Sending AI request:', requestData);
             
-            const response = await axios.post('http://localhost:8000/api/ai/plan', requestData, {
+            // Use environment variable for AI agent URL, fallback to relative path
+            const AI_API_URL = process.env.REACT_APP_AI_URL || process.env.REACT_APP_AI_API_URL || 'http://localhost:8000';
+            const aiEndpoint = `${AI_API_URL}/api/ai/plan`;
+            
+            const response = await axios.post(aiEndpoint, requestData, {
                 withCredentials: true,
                 headers: {
                     'Content-Type': 'application/json'

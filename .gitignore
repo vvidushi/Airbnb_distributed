@@ -39,6 +39,8 @@ ENV/
 .env
 .env.*
 *.env
+!frontend/.env
+!backend/.env
 *.key
 *.pem
 
@@ -78,3 +80,5 @@ output/
 # --- Presentation files ---
 ./PRESENTATION_GUIDE.md
 
+.backup_docs/
+cleanup-files.sh

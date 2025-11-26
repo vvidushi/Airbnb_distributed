@@ -69,10 +69,20 @@ router.post('/upload-images', isAuthenticated, isOwner, upload.array('propertyIm
             return res.status(400).json({ error: 'No files uploaded' });
         }
         
-        const filenames = req.files.map(file => file.filename);
+        // Get base URL from environment or request
+        const baseUrl = process.env.BACKEND_URL || 
+                       `${req.protocol}://${req.get('host')}`;
+        
+        // Return full URLs for images stored on EC2
+        const imageUrls = req.files.map(file => {
+            // Return full URL: http://EC2_IP:5001/uploads/filename.jpg
+            return `${baseUrl}/uploads/${file.filename}`;
+        });
+        
         res.json({ 
             message: 'Images uploaded successfully',
-            filenames: filenames 
+            filenames: req.files.map(file => file.filename), // Keep filenames for backward compatibility
+            imageUrls: imageUrls // Full URLs for frontend
         });
     } catch (error) {
         console.error('Upload error:', error);
