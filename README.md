@@ -20,7 +20,6 @@ A full-stack Airbnb clone with AI-powered travel planning.
 
 ## Tech Design
 
-![Architecture Diagram](design/Tech_design.png)
 
 The system follows a three-tier architecture:
 - **Frontend & Browser**: React-based user interface
@@ -30,8 +29,6 @@ The system follows a three-tier architecture:
 
 ## Workflow
 Please note, we have built a three tier structure in an addition to the Agentic AI. Our project encompasses Frontend, Backend, Database and Smart Agent also been depicted by the workflow diagram as given below:
-
-![Workflow Diagram](design/airbnb-workflowdrawio.png) 
 
 ### End-to-End Request Flow
 
